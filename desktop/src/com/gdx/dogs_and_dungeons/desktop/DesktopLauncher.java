@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 
-
+//Prueba
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 
