@@ -16,7 +16,7 @@ public class DesktopLauncher {
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.title = "Dongs And Dungeons";
+		config.title = "Dogs And Dungeons";
 
 		config.width = 800;
 
