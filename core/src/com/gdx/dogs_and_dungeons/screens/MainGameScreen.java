@@ -1,22 +1,27 @@
 package com.gdx.dogs_and_dungeons.screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.FPSLogger;
+
 
 // Pantalla de juego
 
 public class MainGameScreen implements Screen {
 
-    public MainGameScreen () {
+    FPSLogger fps;
 
-
-    }
     @Override
     public void show() {
+
+        fps = new FPSLogger();
+
 
     }
 
     @Override
     public void render(float delta) {
+
+        fps.log();
 
     }
 
