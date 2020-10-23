@@ -8,15 +8,22 @@ import com.gdx.dogs_and_dungeons.screens.OptionsScreen;
 
 public class DogsAndDungeons extends Game {
 
+	// Pantalla como atributos estáticos
 
 	public static final MainGameScreen mainGameScreen = new MainGameScreen();
 
 	public static final OptionsScreen optionsScreen = new OptionsScreen();
 
+	// Pantalla Alex
+
+	// Pantalla Asier
+
 	@Override
 	public void create() {
 
-		setScreen(optionsScreen);
+		// Por defecto se inicia la pantalla del juego como primera
+
+		setScreen(mainGameScreen);
 
 	}
 
