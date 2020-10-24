@@ -1,5 +1,8 @@
 package com.gdx.dogs_and_dungeons;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.gdx.dogs_and_dungeons.screens.MainGameScreen;
 import com.gdx.dogs_and_dungeons.screens.OptionsScreen;
 
@@ -10,9 +13,10 @@ public class DogsAndDungeons extends Game {
 
 	// Pantalla como atributos estáticos
 
-	public static final MainGameScreen mainGameScreen = new MainGameScreen();
+	public static MainGameScreen mainGameScreen;
 
-	public static final OptionsScreen optionsScreen = new OptionsScreen();
+	public static OptionsScreen optionsScreen;
+
 
 	// Pantalla Alex
 
@@ -20,6 +24,11 @@ public class DogsAndDungeons extends Game {
 
 	@Override
 	public void create() {
+
+
+		optionsScreen = new OptionsScreen();
+
+		mainGameScreen = new MainGameScreen();
 
 		// Por defecto se inicia la pantalla del juego como primera
 

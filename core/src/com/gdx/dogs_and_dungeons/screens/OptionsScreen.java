@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.gdx.dogs_and_dungeons.Utility;
 
 public class OptionsScreen implements Screen {
 
@@ -30,8 +31,7 @@ public class OptionsScreen implements Screen {
 
     TextButton applyButton;
 
-    @Override
-    public void show() {
+    public OptionsScreen() {
 
         stage = new Stage();
 
@@ -45,21 +45,9 @@ public class OptionsScreen implements Screen {
 
         table.setFillParent(true);
 
-        // Utilizamos un generador que toma una fuente TTF y la convierte en bitmap
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Pixelade.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        param.size = 40;
-
-        BitmapFont font = generator.generateFont(param);
-
-        generator.dispose();
-
         Label.LabelStyle labelStyle = new Label.LabelStyle();
 
-        labelStyle.font = font;
+        labelStyle.font = Utility.mainFont;
 
         label = new Label("Opciones",labelStyle);
 
@@ -69,21 +57,19 @@ public class OptionsScreen implements Screen {
 
         // Cargamos la skin, que contine texturas para todos los widgets (elementos UI)
 
-        Skin skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
+        Slider slider = new Slider(0,10,1,false, Utility.DEFAULT_SKIN);
 
-        Slider slider = new Slider(0,10,1,false,skin);
-
-        musicBox = new CheckBox("",skin);
+        musicBox = new CheckBox("",Utility.DEFAULT_SKIN);
 
         fpsLabel = new Label("FPS",labelStyle);
 
-        fpsLimiter = new SelectBox<Integer>(skin);
+        fpsLimiter = new SelectBox<Integer>(Utility.DEFAULT_SKIN);
 
         fpsLimiter.setItems(60,45,30);
 
-        backButton = new TextButton("Volver",skin);
+        backButton = new TextButton("Volver",Utility.DEFAULT_SKIN);
 
-        applyButton = new TextButton("Aplicar cambios",skin);
+        applyButton = new TextButton("Aplicar cambios",Utility.DEFAULT_SKIN);
 
         table.top();
 
@@ -114,6 +100,13 @@ public class OptionsScreen implements Screen {
         table.add(applyButton);
 
         stage.addActor(table);
+
+
+
+    }
+
+    @Override
+    public void show() {
 
         // La clase stage se encarga de gestionar los input que tinen lugar sobre todos sus hijos
 
