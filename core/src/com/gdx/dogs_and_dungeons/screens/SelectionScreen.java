@@ -5,12 +5,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
 
@@ -31,7 +33,7 @@ public class SelectionScreen implements Screen {
 	
 	DogsAndDungeons game;
 	
-	public SelectionScreen(DogsAndDungeons game) {
+	public SelectionScreen(final DogsAndDungeons game) {
 		this.game = game; 
 		
 		stage = new Stage();
@@ -48,7 +50,18 @@ public class SelectionScreen implements Screen {
 		optionsButton = new TextButton("Opciones", Utility.DEFAULT_SKIN);
 		
 		backButton = new TextButton("Atras", Utility.DEFAULT_SKIN);
-		
+
+		backButton.addListener(new ClickListener() {
+
+			@Override
+
+			public void clicked(InputEvent event, float x, float y) {
+
+				game.setScreen(DogsAndDungeons.mainScreen);
+
+			}
+
+		});
 		
 		
 		int espacio = 200;
