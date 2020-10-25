@@ -25,6 +25,8 @@ public final class Utility {
 
     public static final BitmapFont mainFont = new BitmapFont(Gdx.files.internal("fonts/pixelade.fnt"));
 
+    public static final BitmapFont titleFont = new BitmapFont(Gdx.files.internal("fonts/pixelade_title.fnt"));
+
     private final static InternalFileHandleResolver pathResolver = new InternalFileHandleResolver();
 
     // Eliminar recurso
