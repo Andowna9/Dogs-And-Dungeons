@@ -1,19 +1,79 @@
 package com.gdx.dogs_and_dungeons.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.gdx.dogs_and_dungeons.Utility;
 
 public class MainScreen implements Screen {
 
+    Stage stage;
+    VerticalGroup vg;
+    TextButton buttonPlay;
+    TextButton buttonOptions;
+    TextButton buttonExit;
+    Label labelTitle;
+    SpriteBatch batch;
+    Texture backgroundTexture;
 
-    // Código de pantalla de Alex
+
+    public MainScreen(){
+        stage = new Stage();
+        vg = new VerticalGroup();
+        vg.setFillParent(true);
+       // vg.setDebug(true);  // Para ver las líneas del layout
+        batch = new SpriteBatch();
+        backgroundTexture = new Texture(Gdx.files.internal("Background/mainScreenBackground.jpg"), 0, 0, 800, 500);
+
+        // Buttons
+        buttonPlay = new TextButton("Jugar", Utility.DEFAULT_SKIN);
+        buttonOptions = new TextButton("Opciones", Utility.DEFAULT_SKIN);
+        buttonExit = new TextButton("Salir", Utility.DEFAULT_SKIN);
+
+        // Set layout font
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = Utility.mainFont;
+
+        labelTitle = new Label("Dogs and Dungeons", labelStyle);
+
+        // Adding elements to layout
+        vg.addActor(labelTitle);
+        vg.addActor(buttonPlay);
+        vg.addActor(buttonOptions);
+        vg.addActor(buttonExit);
+        vg.center();
+        vg.space(50);
+        stage.addActor(vg);
+
+
+    }
 
     @Override
     public void show() {
+
+        Gdx.input.setInputProcessor(stage);
 
     }
 
     @Override
     public void render(float delta) {
+
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(delta);
+        stage.draw();
+
+        // Background
+        batch.begin();
+        batch.draw(backgroundTexture, 0, Gdx.graphics.getHeight());
+        batch.end();
 
     }
 
@@ -40,6 +100,7 @@ public class MainScreen implements Screen {
     @Override
     public void dispose() {
 
+        stage.dispose();
     }
 
 }

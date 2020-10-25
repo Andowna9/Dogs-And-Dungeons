@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.gdx.dogs_and_dungeons.screens.MainGameScreen;
+import com.gdx.dogs_and_dungeons.screens.MainScreen;
 import com.gdx.dogs_and_dungeons.screens.OptionsScreen;
 
 
@@ -14,8 +15,9 @@ public class DogsAndDungeons extends Game {
 	// Pantalla como atributos estáticos
 
 	public static MainGameScreen mainGameScreen;
-
 	public static OptionsScreen optionsScreen;
+	public static MainScreen mainScreen;
+
 
 
 	// Pantalla Alex
@@ -27,12 +29,12 @@ public class DogsAndDungeons extends Game {
 
 
 		optionsScreen = new OptionsScreen();
-
 		mainGameScreen = new MainGameScreen();
+		mainScreen = new MainScreen();
 
 		// Por defecto se inicia la pantalla del juego como primera
 
-		setScreen(mainGameScreen);
+		setScreen(mainScreen);
 
 	}
 
