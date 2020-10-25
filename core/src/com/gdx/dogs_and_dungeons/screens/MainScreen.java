@@ -55,11 +55,24 @@ public class MainScreen implements Screen {
 
         });
         buttonOptions = new TextButton("Opciones", Utility.DEFAULT_SKIN);
-        buttonExit = new TextButton("Salir", Utility.DEFAULT_SKIN);
+
+        buttonOptions.addListener(new ClickListener() {
+
+            @Override
+
+            public void clicked(InputEvent event, float x, float y) {
+
+                game.setScreen(DogsAndDungeons.optionsScreen);
+
+            }
+
+        });
+
+    buttonExit = new TextButton("Salir", Utility.DEFAULT_SKIN);
 
         // Set layout font
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = Utility.mainFont;
+        labelStyle.font = Utility.titleFont;
 
         labelTitle = new Label("Dogs and Dungeons", labelStyle);
 
