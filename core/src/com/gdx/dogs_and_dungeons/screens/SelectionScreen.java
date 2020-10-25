@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
 
 public class SelectionScreen implements Screen {
@@ -28,7 +29,11 @@ public class SelectionScreen implements Screen {
 	
 	TextButton backButton;
 	
-	public SelectionScreen() {
+	DogsAndDungeons game;
+	
+	public SelectionScreen(DogsAndDungeons game) {
+		this.game = game; 
+		
 		stage = new Stage();
 		
 		table = new Table();

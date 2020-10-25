@@ -30,7 +30,7 @@ public class DogsAndDungeons extends Game {
 		optionsScreen = new OptionsScreen(this);
 		mainGameScreen = new MainGameScreen(this);
 		mainScreen = new MainScreen(this);
-		selectionScreen = new SelectionScreen();
+		selectionScreen = new SelectionScreen(this);
 
 		// Por defecto se inicia la pantalla del juego como primera
 
