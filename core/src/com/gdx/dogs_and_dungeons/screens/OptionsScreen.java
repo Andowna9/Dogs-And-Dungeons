@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
 
 public class OptionsScreen implements Screen {
@@ -31,7 +32,11 @@ public class OptionsScreen implements Screen {
 
     TextButton applyButton;
 
-    public OptionsScreen() {
+    DogsAndDungeons game;
+
+    public OptionsScreen(DogsAndDungeons game) {
+
+        this.game = game;
 
         stage = new Stage();
 

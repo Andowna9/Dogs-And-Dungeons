@@ -19,7 +19,6 @@ public class DogsAndDungeons extends Game {
 	public static MainScreen mainScreen;
 
 
-
 	// Pantalla Alex
 
 	// Pantalla Asier
@@ -28,9 +27,9 @@ public class DogsAndDungeons extends Game {
 	public void create() {
 
 
-		optionsScreen = new OptionsScreen();
-		mainGameScreen = new MainGameScreen();
-		mainScreen = new MainScreen();
+		optionsScreen = new OptionsScreen(this);
+		mainGameScreen = new MainGameScreen(this);
+		mainScreen = new MainScreen(this);
 
 		// Por defecto se inicia la pantalla del juego como primera
 

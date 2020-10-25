@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
 
 public class MainScreen implements Screen {
@@ -23,10 +24,14 @@ public class MainScreen implements Screen {
     Label labelTitle;
     SpriteBatch batch;
     Texture backgroundTexture;
+    DogsAndDungeons game;
 
 
-    public MainScreen(){
-        stage = new Stage();
+    public MainScreen(DogsAndDungeons game){
+
+        this.game = game;
+
+    stage = new Stage();
         vg = new VerticalGroup();
         vg.setFillParent(true);
        // vg.setDebug(true);  // Para ver las líneas del layout

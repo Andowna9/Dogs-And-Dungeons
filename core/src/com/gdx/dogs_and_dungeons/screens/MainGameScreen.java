@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Entity;
 import com.gdx.dogs_and_dungeons.PlayerController;
 
@@ -35,7 +36,14 @@ public class MainGameScreen implements Screen {
 
     PlayerController playerController;
 
-    public MainGameScreen() {
+    // Referencia a la clase que extiende de game
+
+    DogsAndDungeons game;
+
+
+    public MainGameScreen(DogsAndDungeons game) {
+
+        this.game = game;
 
         player = new Entity(48,48);
 
