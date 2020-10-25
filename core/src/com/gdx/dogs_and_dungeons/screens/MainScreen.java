@@ -70,6 +70,18 @@ public class MainScreen implements Screen {
 
     buttonExit = new TextButton("Salir", Utility.DEFAULT_SKIN);
 
+        buttonExit.addListener(new ClickListener() {
+
+            @Override
+
+            public void clicked(InputEvent event, float x, float y) {
+
+                Gdx.app.exit();
+
+            }
+
+        });
+
         // Set layout font
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = Utility.titleFont;
