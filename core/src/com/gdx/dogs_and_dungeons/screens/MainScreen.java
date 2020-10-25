@@ -31,7 +31,7 @@ public class MainScreen implements Screen {
         vg.setFillParent(true);
        // vg.setDebug(true);  // Para ver las líneas del layout
         batch = new SpriteBatch();
-        backgroundTexture = new Texture(Gdx.files.internal("Background/mainScreenBackground.jpg"), 0, 0, 800, 500);
+        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/grassBackground.jpg"));
 
         // Buttons
         buttonPlay = new TextButton("Jugar", Utility.DEFAULT_SKIN);
@@ -67,13 +67,17 @@ public class MainScreen implements Screen {
     public void render(float delta) {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(delta);
-        stage.draw();
 
         // Background
         batch.begin();
-        batch.draw(backgroundTexture, 0, Gdx.graphics.getHeight());
+        batch.draw(backgroundTexture, 0, 0);
         batch.end();
+
+        // Scene2d UI
+        stage.act(delta);
+        stage.draw();
+
+
 
     }
 
