@@ -116,7 +116,7 @@ public final class Utility {
         }
     }
 
-    public Texture getTextureAsset(String texturePath) {
+    public static Texture getTextureAsset(String texturePath) {
 
         Texture texture = null;
 
