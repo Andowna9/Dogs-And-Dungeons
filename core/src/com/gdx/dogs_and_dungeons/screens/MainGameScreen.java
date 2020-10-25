@@ -10,12 +10,16 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.gdx.dogs_and_dungeons.Entity;
+import com.gdx.dogs_and_dungeons.PlayerController;
 
 // Pantalla de juego
 
 public class MainGameScreen implements Screen {
 
     SpriteBatch batch;
+
+    // Fuente para mostrar fps
 
     BitmapFont font;
 
@@ -25,8 +29,19 @@ public class MainGameScreen implements Screen {
 
     TiledMapRenderer mapRenderer;
 
-    @Override
-    public void show() {
+    // Jugador
+
+    Entity player;
+
+    PlayerController playerController;
+
+    public MainGameScreen() {
+
+        player = new Entity(48,48);
+
+        player.setPosition(100,100);
+
+        playerController = new PlayerController(player);
 
         float h = Gdx.graphics.getHeight();
 
@@ -50,16 +65,30 @@ public class MainGameScreen implements Screen {
 
         mapRenderer.setView(camera);
 
+
+    }
+
+    @Override
+    public void show() {
+
+        Gdx.input.setInputProcessor(playerController);
+
     }
 
     @Override
     public void render(float delta) {
+
+        playerController.processInput(delta);
+
+        player.update(delta);
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         mapRenderer.render();
 
         batch.begin();
+
+        batch.draw(player.getCurrentTexture(),player.getCurrentPosition().x,player.getCurrentPosition().y);
 
         font.draw(batch,String.valueOf(Gdx.graphics.getFramesPerSecond()),20,20);
 
