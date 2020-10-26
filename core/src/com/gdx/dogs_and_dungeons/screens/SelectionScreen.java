@@ -3,15 +3,10 @@ package com.gdx.dogs_and_dungeons.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
@@ -34,14 +29,16 @@ public class SelectionScreen implements Screen {
 	DogsAndDungeons game;
 	
 	public SelectionScreen(final DogsAndDungeons game) {
-		this.game = game; 
+
+		this.game = game;
 		
 		stage = new Stage();
 		
 		table = new Table();
 		
 		table.setFillParent(true);
-		table.setDebug(true);
+
+		//table.setDebug(true);
 		
 		newGameButton = new TextButton("Nueva Partida", Utility.DEFAULT_SKIN);
 		
