@@ -15,15 +15,15 @@ import com.gdx.dogs_and_dungeons.Utility;
 
 public class MainScreen implements Screen {
 
-    Stage stage;
-    VerticalGroup vg;
-    TextButton buttonPlay;
-    TextButton buttonOptions;
-    TextButton buttonExit;
-    Label labelTitle;
-    SpriteBatch batch;
-    Texture backgroundTexture;
-    DogsAndDungeons game_ref;
+    private Stage stage;
+    private VerticalGroup vg;
+    private TextButton buttonPlay;
+    private TextButton buttonOptions;
+    private TextButton buttonExit;
+    private Label labelTitle;
+    private SpriteBatch batch;
+    private Texture backgroundTexture;
+    private DogsAndDungeons game_ref;
 
 
     public MainScreen(DogsAndDungeons game){

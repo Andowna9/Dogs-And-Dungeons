@@ -12,27 +12,27 @@ import com.gdx.dogs_and_dungeons.Utility;
 
 public class OptionsScreen implements Screen {
 
-    Stage stage;
+    private Stage stage;
 
-    Table table;
+    private Table table;
 
-    Label label;
+    private Label label;
 
-    Label volumeLabel;
+    private Label volumeLabel;
 
-    Label musicLabel;
+    private Label musicLabel;
 
-    CheckBox musicBox;
+    private CheckBox musicBox;
 
-    Label fpsLabel;
+    private Label fpsLabel;
 
-    SelectBox<Integer> fpsLimiter;
+    private SelectBox<Integer> fpsLimiter;
 
-    TextButton backButton;
+    private TextButton backButton;
 
-    TextButton applyButton;
+    private TextButton applyButton;
 
-    DogsAndDungeons game_ref;
+    private DogsAndDungeons game_ref;
 
     public OptionsScreen(DogsAndDungeons game) {
 

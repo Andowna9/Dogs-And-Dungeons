@@ -18,27 +18,27 @@ import com.gdx.dogs_and_dungeons.PlayerController;
 
 public class MainGameScreen implements Screen {
 
-    SpriteBatch batch;
+    private SpriteBatch batch;
 
     // Fuente para mostrar fps
 
-    BitmapFont font;
+    private BitmapFont font;
 
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
 
-    TiledMap tiledMap;
+    private TiledMap tiledMap;
 
-    TiledMapRenderer mapRenderer;
+    private TiledMapRenderer mapRenderer;
 
     // Jugador
 
-    Entity player;
+    private Entity player;
 
-    PlayerController playerController;
+    private PlayerController playerController;
 
     // Referencia a la clase que extiende de game
 
-    DogsAndDungeons game_ref;
+    private DogsAndDungeons game_ref;
 
 
     public MainGameScreen(DogsAndDungeons game) {

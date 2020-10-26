@@ -14,19 +14,19 @@ import com.gdx.dogs_and_dungeons.Utility;
 public class SelectionScreen implements Screen {
 
     // Código de pantalla de Asier
-	Stage stage;
+	private Stage stage;
 	
-	Table table;
+	private Table table;
 	
-	TextButton newGameButton;
+	private TextButton newGameButton;
 	
-	TextButton continueButton;
+	private TextButton continueButton;
 	
-	TextButton optionsButton;
+	private TextButton optionsButton;
 	
-	TextButton backButton;
+	private TextButton backButton;
 	
-	DogsAndDungeons game_ref;
+	private DogsAndDungeons game_ref;
 	
 	public SelectionScreen(DogsAndDungeons game) {
 
