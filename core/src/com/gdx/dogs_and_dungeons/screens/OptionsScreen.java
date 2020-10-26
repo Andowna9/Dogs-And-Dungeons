@@ -50,7 +50,7 @@ public class OptionsScreen implements Screen {
 
         table.setFillParent(true);
 
-        final Label.LabelStyle labelStyle = new Label.LabelStyle();
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
 
         labelStyle.font = Utility.mainFont;
 
