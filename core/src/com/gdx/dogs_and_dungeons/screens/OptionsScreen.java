@@ -32,11 +32,11 @@ public class OptionsScreen implements Screen {
 
     TextButton applyButton;
 
-    DogsAndDungeons game;
+    DogsAndDungeons game_ref;
 
-    public OptionsScreen(final DogsAndDungeons game) {
+    public OptionsScreen(DogsAndDungeons game) {
 
-        this.game = game;
+        game_ref = game;
 
         stage = new Stage();
 
@@ -81,7 +81,7 @@ public class OptionsScreen implements Screen {
 
             public void clicked(InputEvent event, float x, float y) {
 
-                game.setScreen(DogsAndDungeons.mainScreen);
+                game_ref.setScreen(DogsAndDungeons.mainScreen);
 
             }
 

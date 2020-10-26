@@ -26,11 +26,11 @@ public class SelectionScreen implements Screen {
 	
 	TextButton backButton;
 	
-	DogsAndDungeons game;
+	DogsAndDungeons game_ref;
 	
-	public SelectionScreen(final DogsAndDungeons game) {
+	public SelectionScreen(DogsAndDungeons game) {
 
-		this.game = game;
+		this.game_ref = game;
 		
 		stage = new Stage();
 		
@@ -54,7 +54,7 @@ public class SelectionScreen implements Screen {
 
 			public void clicked(InputEvent event, float x, float y) {
 
-				game.setScreen(DogsAndDungeons.mainScreen);
+				game_ref.setScreen(DogsAndDungeons.mainScreen);
 
 			}
 

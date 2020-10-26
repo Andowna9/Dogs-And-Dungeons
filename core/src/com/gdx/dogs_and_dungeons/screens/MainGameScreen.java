@@ -38,12 +38,12 @@ public class MainGameScreen implements Screen {
 
     // Referencia a la clase que extiende de game
 
-    DogsAndDungeons game;
+    DogsAndDungeons game_ref;
 
 
     public MainGameScreen(DogsAndDungeons game) {
 
-        this.game = game;
+        game_ref = game;
 
         player = new Entity(48,48);
 

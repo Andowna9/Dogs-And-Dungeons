@@ -23,12 +23,12 @@ public class MainScreen implements Screen {
     Label labelTitle;
     SpriteBatch batch;
     Texture backgroundTexture;
-    DogsAndDungeons game;
+    DogsAndDungeons game_ref;
 
 
-    public MainScreen(final DogsAndDungeons game){
+    public MainScreen(DogsAndDungeons game){
 
-        this.game = game;
+        game_ref = game;
 
         stage = new Stage();
         vg = new VerticalGroup();
@@ -46,7 +46,7 @@ public class MainScreen implements Screen {
 
             public void clicked(InputEvent event, float x, float y) {
 
-                game.setScreen(DogsAndDungeons.selectionScreen);
+                game_ref.setScreen(DogsAndDungeons.selectionScreen);
 
             }
 
@@ -60,7 +60,7 @@ public class MainScreen implements Screen {
 
             public void clicked(InputEvent event, float x, float y) {
 
-                game.setScreen(DogsAndDungeons.optionsScreen);
+                game_ref.setScreen(DogsAndDungeons.optionsScreen);
 
             }
 
