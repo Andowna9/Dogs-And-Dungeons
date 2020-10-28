@@ -21,6 +21,7 @@ public class PlayerController extends InputAdapter {
 
     private boolean movingRight = false;
 
+
     public PlayerController(Entity player) {
 
         this.player = player;
@@ -128,6 +129,7 @@ public class PlayerController extends InputAdapter {
         else {
 
             player.setState(Entity.State.IDLE);
+
         }
 
 

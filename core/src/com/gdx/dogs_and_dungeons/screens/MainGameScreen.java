@@ -6,17 +6,23 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Entity;
+import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.PlayerController;
+import com.badlogic.gdx.math.Rectangle;
 
 // Pantalla de juego
 
 public class MainGameScreen implements Screen {
+
+    private static final String TAG = MainGameScreen.class.getSimpleName();
 
     private SpriteBatch batch;
 
@@ -26,15 +32,21 @@ public class MainGameScreen implements Screen {
 
     private OrthographicCamera camera;
 
+    private MapManager mapManager;
+
     private TiledMap tiledMap;
 
-    private TiledMapRenderer mapRenderer;
+    private OrthogonalTiledMapRenderer mapRenderer;
+
+    private ShapeRenderer shapeRenderer;
 
     // Jugador
 
     private Entity player;
 
     private PlayerController playerController;
+
+    private Rectangle playerCollisionBox;
 
     // Referencia a la clase que extiende de game
 
@@ -43,13 +55,18 @@ public class MainGameScreen implements Screen {
 
     public MainGameScreen(DogsAndDungeons game) {
 
+
         game_ref = game;
 
         player = new Entity(48,48);
 
-        player.setPosition(100,100);
+        player.setPosition(20,20);
+
+        playerCollisionBox = player.getCollisionBox();
 
         playerController = new PlayerController(player);
+
+        shapeRenderer = new ShapeRenderer();
 
         float h = Gdx.graphics.getHeight();
 
@@ -61,18 +78,19 @@ public class MainGameScreen implements Screen {
 
         camera = new OrthographicCamera();
 
-        camera.setToOrtho(false,w,h);
+        camera.setToOrtho(false,w/32,h/32);
 
-        camera.position.set(800,750,0); // Centramos la posición de la ventana de acuerdo con el tamaño del tilemap (1600 x 1600 px)
+        camera.position.set(25,23,0); // Centramos la posición de la ventana de acuerdo con el tamaño del tilemap (1600 x 1600 px)
 
         camera.update(); // Cada vez que la cámara es manipulada, hay que actualizarla manualmente
 
-        tiledMap = new TmxMapLoader().load("tilemaps/test.tmx");
+        mapManager = new MapManager();
 
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        tiledMap = mapManager.getMap();
+
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap,MapManager.UNIT_SCALE);
 
         mapRenderer.setView(camera);
-
 
     }
 
@@ -86,22 +104,54 @@ public class MainGameScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        playerController.processInput(delta);
+
 
         player.update(delta);
+
+        if (!isCollidingWithMap(playerCollisionBox)) {
+            
+            player.updatePosition();
+        }
+
+        playerController.processInput(delta);
+
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         mapRenderer.render();
 
-        batch.begin();
+        mapRenderer.getBatch().begin();
 
-        batch.draw(player.getCurrentTexture(),player.getCurrentPosition().x,player.getCurrentPosition().y);
+        mapRenderer.getBatch().draw(player.getCurrentTexture(),player.getCurrentPosition().x,player.getCurrentPosition().y,1.5f,1.5f);
+
+        mapRenderer.getBatch().end();
+
+        batch.begin();
 
         font.draw(batch,String.valueOf(Gdx.graphics.getFramesPerSecond()),20,20);
 
         batch.end();
 
+
+    }
+
+    private boolean isCollidingWithMap(Rectangle collisionBox) {
+
+        MapLayer collisionLayer = mapManager.getCollisionLayer();
+
+        Rectangle rectangle;
+
+        for (RectangleMapObject object: collisionLayer.getObjects().getByType(RectangleMapObject.class)) {
+
+                rectangle = object.getRectangle();
+
+                if (collisionBox.overlaps(rectangle)) {
+
+                    return true;
+                }
+        }
+
+        return false;
     }
 
     @Override

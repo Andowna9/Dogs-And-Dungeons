@@ -1,9 +1,11 @@
 package com.gdx.dogs_and_dungeons;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -29,9 +31,7 @@ public class Entity {
 
     private Vector2 currentPosition;
 
-    // Contenedor de la posición en cada momento, al igual que textura
-
-    private Sprite sprite;
+    // Contenedor de textura en cada momento
 
     private TextureRegion currentTexture;
 
@@ -60,6 +60,13 @@ public class Entity {
 
     private int tileHeight;
 
+    // Caja de colisión
+
+    private Rectangle collisionBox;
+
+    private boolean movementBlocked = false;
+
+
     public Entity(int width,int height) { // Probamos con 48 px X 48 px
 
         tileWidth = width;
@@ -72,13 +79,13 @@ public class Entity {
 
     private void init() {
 
-        sprite = new Sprite();
-
         currentPosition = new Vector2();
 
         nextPosition = new Vector2();
 
-        velocity = new Vector2(50f,50f);
+        velocity = new Vector2(2.5f,2.5f);
+
+        collisionBox = new Rectangle(0,0,tileWidth/2,tileHeight/4);
 
         // Cargamos la textura (imagen que contiene las animacions por filas)
 
@@ -96,6 +103,10 @@ public class Entity {
 
         animationTime = (animationTime + deltaTime) % 5;
 
+        collisionBox.x = nextPosition.x / MapManager.UNIT_SCALE + tileWidth/4;
+
+        collisionBox.y = nextPosition.y / MapManager.UNIT_SCALE;
+
     }
 
     // Sitúa a la entidad en una posición dada
@@ -105,6 +116,10 @@ public class Entity {
         currentPosition.x = x;
 
         currentPosition.y = y;
+
+        nextPosition.x = x;
+
+        nextPosition.y = y;
 
     }
 
@@ -180,7 +195,9 @@ public class Entity {
 
     }
 
+
     public void setState(State s) {
+
 
         currentState = s;
 
@@ -228,7 +245,7 @@ public class Entity {
     public void calculateNextPosition (float deltaTime) {
 
 
-        nextPosition = currentPosition;
+        nextPosition = currentPosition.cpy();
 
         velocity.scl(deltaTime);
 
@@ -265,14 +282,6 @@ public class Entity {
 
         }
 
-
-
-        // Comprobar si hay colisón y en tal caso no actualizar la posición actual
-
-        // En caso contrario
-
-        currentPosition = nextPosition;
-
         // Volvemos a escalar la velocidad para que mantenga el valor que tenía
 
         velocity.scl(1 / deltaTime);
@@ -288,6 +297,21 @@ public class Entity {
 
         return currentPosition;
     }
+
+    public Rectangle getCollisionBox() {
+
+        return collisionBox;
+    }
+
+
+    public void updatePosition() {
+
+        currentPosition.x = nextPosition.x;
+
+        currentPosition.y = nextPosition.y;
+
+    }
+
 
 
 
