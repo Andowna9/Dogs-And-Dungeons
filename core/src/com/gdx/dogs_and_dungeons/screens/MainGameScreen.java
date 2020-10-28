@@ -104,7 +104,13 @@ public class MainGameScreen implements Screen {
     @Override
     public void render(float delta) {
 
+        Gdx.gl.glClearColor(0, 0, 0, 1);
 
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.position.set(player.getCurrentPosition(),0);
+
+        camera.update();
 
         player.update(delta);
 
@@ -115,8 +121,7 @@ public class MainGameScreen implements Screen {
 
         playerController.processInput(delta);
 
-
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        mapRenderer.setView(camera);
 
         mapRenderer.render();
 
