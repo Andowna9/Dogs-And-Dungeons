@@ -42,6 +42,12 @@ public class MapManager {
 
     private static final String TEST_MAP = "DEFAULT_MAP";
 
+    // Dimensiones del mapa
+
+    private int currentMapWidth;
+
+    private int currentMapHeight;
+
     public static final float UNIT_SCALE = 1/32f;
 
     public MapManager() {
@@ -68,6 +74,10 @@ public class MapManager {
         }
 
         currentMap = Utility.getMapAsset(mapPath);
+
+        currentMapWidth = currentMap.getProperties().get("width",Integer.class);
+
+        currentMapHeight = currentMap.getProperties().get("height",Integer.class);
 
         collisionLayer = currentMap.getLayers().get(COLLISION_LAYER);
 
@@ -115,5 +125,16 @@ public class MapManager {
     public MapLayer getCollisionLayer() {
 
         return  collisionLayer;
+    }
+
+    public int getCurrentMapWidth() {
+
+        return currentMapWidth;
+    }
+
+    public int getCurrentMapHeight() {
+
+        return currentMapHeight;
+
     }
 }

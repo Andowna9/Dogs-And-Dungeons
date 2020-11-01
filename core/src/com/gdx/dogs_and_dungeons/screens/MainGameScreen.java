@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Entity;
 import com.gdx.dogs_and_dungeons.MapManager;
@@ -108,14 +108,23 @@ public class MainGameScreen implements Screen {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.position.set(player.getCurrentPosition(),0);
+
+        // Actualizamos la posición de la cámara, evitando que se salga de los límites establecidos
+
+        camera.position.x = MathUtils.clamp(player.getCurrentPosition().x,
+                camera.viewportWidth/2,
+                mapManager.getCurrentMapWidth() - camera.viewportWidth/2);
+
+        camera.position.y = MathUtils.clamp(player.getCurrentPosition().y,
+                camera.viewportWidth/2,
+                mapManager.getCurrentMapHeight() - camera.viewportHeight/2);
 
         camera.update();
 
         player.update(delta);
 
         if (!isCollidingWithMap(playerCollisionBox)) {
-            
+
             player.updatePosition();
         }
 
