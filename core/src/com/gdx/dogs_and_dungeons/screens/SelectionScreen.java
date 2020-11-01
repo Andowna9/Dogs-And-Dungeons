@@ -2,12 +2,21 @@ package com.gdx.dogs_and_dungeons.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
 
@@ -16,7 +25,11 @@ public class SelectionScreen implements Screen {
     // Código de pantalla de Asier
 	private Stage stage;
 	
-	private Table table;
+	private HorizontalGroup horizontalGroup;
+	
+	private Table tableImage;
+	
+	private VerticalGroup verticalGroup;
 	
 	private TextButton newGameButton;
 	
@@ -26,7 +39,15 @@ public class SelectionScreen implements Screen {
 	
 	private TextButton backButton;
 	
+	private TextButton chooseButton;
+	
 	private DogsAndDungeons game_ref;
+	
+	private ShapeRenderer gradient;
+	
+	private Image boyImage;
+	
+	private Image girlImage;
 	
 	public SelectionScreen(DogsAndDungeons game) {
 
@@ -34,11 +55,17 @@ public class SelectionScreen implements Screen {
 		
 		stage = new Stage();
 		
-		table = new Table();
+		horizontalGroup = new HorizontalGroup();
+		//horizontalGroup.setDebug(true);
 		
-		table.setFillParent(true);
+		verticalGroup = new VerticalGroup();
+		
+		tableImage = new Table();
+		//tableImage.setDebug(true);
+		
+		horizontalGroup.setFillParent(true);
 
-		//table.setDebug(true);
+		//verticalGroup.setDebug(true);
 		
 		newGameButton = new TextButton("Nueva Partida", Utility.DEFAULT_SKIN);
 		
@@ -47,7 +74,17 @@ public class SelectionScreen implements Screen {
 		optionsButton = new TextButton("Opciones", Utility.DEFAULT_SKIN);
 		
 		backButton = new TextButton("Atras", Utility.DEFAULT_SKIN);
-
+		
+		chooseButton = new TextButton("Choose", Utility.DEFAULT_SKIN);
+		
+		gradient = new ShapeRenderer();
+		
+		boyImage = new Image(new Texture(Gdx.files.internal("player/boy.png")));
+		boyImage.setFillParent(false);
+		
+		girlImage = new Image(new Texture(Gdx.files.internal("player/girl.png"))); 
+		boyImage.setFillParent(false);
+		
 		backButton.addListener(new ClickListener() {
 
 			@Override
@@ -60,30 +97,50 @@ public class SelectionScreen implements Screen {
 
 		});
 		
+		chooseButton.addListener(new ClickListener() {
+
+			@Override
+
+			public void clicked(InputEvent event, float x, float y) {
+				if(tableImage.isAscendantOf(boyImage)) {
+					tableImage.clearChildren();
+					tableImage.add(girlImage).expandY();
+					tableImage.row();
+					tableImage.add(chooseButton).expandY();
+					
+				}else if(tableImage.isAscendantOf(girlImage)) {
+					tableImage.clearChildren();
+					tableImage.add(boyImage).expandY();
+					tableImage.row();
+					tableImage.add(chooseButton).expandY();
+					
+				}
+				
+			}
+
+		});
 		
-		int espacio = 200;
-		table.top();
+		verticalGroup.addActor(newGameButton);
 		
-		table.row().padTop(20);
-		table.add(newGameButton).expandX().left().padLeft(espacio);
-		table.add();
+		verticalGroup.addActor(continueButton);
 		
-		table.row().padTop(20);
+		verticalGroup.addActor(optionsButton);
 		
-		table.add(continueButton).left().padLeft(espacio + 14);
-		
-		table.row().padTop(20);
-		
-		table.add(optionsButton).left().padLeft(espacio + 17);
-		
-		table.row().padTop(20);
-		
-		table.add(backButton).left().padLeft(espacio + 32);
+		verticalGroup.addActor(backButton);
+		verticalGroup.space(10);
 		
 		
-		table.center();
+		tableImage.add(boyImage).expandY();
+		tableImage.row();
+		tableImage.add(chooseButton).expandY();
 		
-		stage.addActor(table);
+		
+		horizontalGroup.addActor(verticalGroup);	
+		horizontalGroup.addActor(tableImage);
+		horizontalGroup.expand(true);
+		horizontalGroup.space(100);
+		horizontalGroup.center();
+		stage.addActor(horizontalGroup);
 	}
 	
     @Override
@@ -94,7 +151,13 @@ public class SelectionScreen implements Screen {
     @Override
     public void render(float delta) {
     	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act(delta); 
+		
+        
+        gradient.begin(ShapeRenderer.ShapeType.Filled);
+        gradient.rect(0, 0, 800, 600, Color.DARK_GRAY, Color.DARK_GRAY, Color.GOLD, Color.GOLD);
+        gradient.end();
+        
+        stage.act(delta); 
         stage.draw(); 
     }
 
