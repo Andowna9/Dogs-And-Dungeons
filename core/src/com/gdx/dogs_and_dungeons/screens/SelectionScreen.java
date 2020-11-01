@@ -5,17 +5,22 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
@@ -45,9 +50,13 @@ public class SelectionScreen implements Screen {
 	
 	private ShapeRenderer gradient;
 	
-	private Image boyImage;
+	private Image image;
 	
-	private Image girlImage;
+	private Label titleLabel;
+	
+	private SpriteDrawable boy;
+	
+	private SpriteDrawable girl;
 	
 	public SelectionScreen(DogsAndDungeons game) {
 
@@ -79,11 +88,16 @@ public class SelectionScreen implements Screen {
 		
 		gradient = new ShapeRenderer();
 		
-		boyImage = new Image(new Texture(Gdx.files.internal("player/boy.png")));
-		boyImage.setFillParent(false);
+		boy = new SpriteDrawable((new Sprite(new Texture(Gdx.files.internal("player/boy.png")))));
 		
-		girlImage = new Image(new Texture(Gdx.files.internal("player/girl.png"))); 
-		boyImage.setFillParent(false);
+		girl =  new SpriteDrawable((new Sprite(new Texture(Gdx.files.internal("player/girl.png")))));
+		
+		image = new Image();
+		image.setDrawable(boy);
+		
+		LabelStyle style = new LabelStyle();
+		style.font = Utility.mainFont;
+		titleLabel = new Label("Selecciona el genero", style);
 		
 		backButton.addListener(new ClickListener() {
 
@@ -102,17 +116,12 @@ public class SelectionScreen implements Screen {
 			@Override
 
 			public void clicked(InputEvent event, float x, float y) {
-				if(tableImage.isAscendantOf(boyImage)) {
-					tableImage.clearChildren();
-					tableImage.add(girlImage).expandY();
-					tableImage.row();
-					tableImage.add(chooseButton).expandY();
-					
-				}else if(tableImage.isAscendantOf(girlImage)) {
-					tableImage.clearChildren();
-					tableImage.add(boyImage).expandY();
-					tableImage.row();
-					tableImage.add(chooseButton).expandY();
+				if(image.getDrawable() == boy) {
+					image.setDrawable(girl);
+				
+				}
+				else	{
+					image.setDrawable(boy);
 					
 				}
 				
@@ -127,12 +136,13 @@ public class SelectionScreen implements Screen {
 		verticalGroup.addActor(optionsButton);
 		
 		verticalGroup.addActor(backButton);
-		verticalGroup.space(10);
-		
-		
-		tableImage.add(boyImage).expandY();
+		verticalGroup.space(40);
+				
+		tableImage.add(titleLabel);
 		tableImage.row();
-		tableImage.add(chooseButton).expandY();
+		tableImage.add(image).expandY().padTop(20);
+		tableImage.row();
+		tableImage.add(chooseButton).expandY().padTop(20);
 		
 		
 		horizontalGroup.addActor(verticalGroup);	
