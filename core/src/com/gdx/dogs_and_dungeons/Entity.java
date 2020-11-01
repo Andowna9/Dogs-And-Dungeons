@@ -25,21 +25,21 @@ public class Entity {
 
     // Propiedades relacionadas con movimiento
 
-    private Vector2 velocity;
+    protected Vector2 velocity;
 
-    private Vector2 nextPosition;
+    protected Vector2 nextPosition;
 
-    private Vector2 currentPosition;
+    protected Vector2 currentPosition;
 
     // Contenedor de textura en cada momento
 
-    private TextureRegion currentTexture;
+    protected TextureRegion currentTexture;
 
     // Dirección y estado por defecto
 
-    private Direction currentDirection = Direction.RIGHT;
+    protected Direction currentDirection = Direction.RIGHT;
 
-    private State currentState = State.IDLE;
+    protected State currentState = State.IDLE;
 
 
     // Animaciones
@@ -62,10 +62,7 @@ public class Entity {
 
     // Caja de colisión
 
-    private Rectangle collisionBox;
-
-    private boolean movementBlocked = false;
-
+    protected Rectangle collisionBox;
 
     public Entity(int width,int height) { // Probamos con 48 px X 48 px
 
@@ -77,7 +74,7 @@ public class Entity {
 
     }
 
-    private void init() {
+    protected void init() {
 
         currentPosition = new Vector2();
 
@@ -242,6 +239,7 @@ public class Entity {
 
     }
 
+    // Detect collisions for optimized
     public void calculateNextPosition (float deltaTime) {
 
 
