@@ -10,12 +10,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.gdx.dogs_and_dungeons.DogsAndDungeons;
+import com.gdx.dogs_and_dungeons.PlayerController;
+import com.gdx.dogs_and_dungeons.CustomOrthogonalTiledMapRenderer;
 import com.gdx.dogs_and_dungeons.Entity;
 import com.gdx.dogs_and_dungeons.MapManager;
-import com.gdx.dogs_and_dungeons.PlayerController;
+import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.badlogic.gdx.math.Rectangle;
 
 // Pantalla de juego
@@ -36,7 +36,7 @@ public class MainGameScreen implements Screen {
 
     private TiledMap tiledMap;
 
-    private OrthogonalTiledMapRenderer mapRenderer;
+    private CustomOrthogonalTiledMapRenderer mapRenderer;
 
     private ShapeRenderer shapeRenderer;
 
@@ -88,7 +88,7 @@ public class MainGameScreen implements Screen {
 
         tiledMap = mapManager.getMap();
 
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap,MapManager.UNIT_SCALE);
+        mapRenderer = new CustomOrthogonalTiledMapRenderer(tiledMap,MapManager.UNIT_SCALE);
 
         mapRenderer.setView(camera);
 
