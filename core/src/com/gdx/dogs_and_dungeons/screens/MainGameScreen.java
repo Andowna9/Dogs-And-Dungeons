@@ -90,6 +90,8 @@ public class MainGameScreen implements Screen {
 
         mapRenderer = new CustomOrthogonalTiledMapRenderer(tiledMap,MapManager.UNIT_SCALE);
 
+        mapRenderer.addEntity(player);
+
         mapRenderer.setView(camera);
 
     }
@@ -134,11 +136,11 @@ public class MainGameScreen implements Screen {
 
         mapRenderer.render();
 
-        mapRenderer.getBatch().begin();
+        //mapRenderer.getBatch().begin();
 
-        mapRenderer.getBatch().draw(player.getCurrentTexture(),player.getCurrentPosition().x,player.getCurrentPosition().y,1.5f,1.5f);
+        //mapRenderer.getBatch().draw(player.getCurrentTexture(),player.getCurrentPosition().x,player.getCurrentPosition().y,1.5f,1.5f);
 
-        mapRenderer.getBatch().end();
+        //mapRenderer.getBatch().end();
 
         batch.begin();
 

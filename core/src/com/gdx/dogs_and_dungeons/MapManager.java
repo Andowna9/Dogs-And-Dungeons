@@ -5,7 +5,6 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
-
 import java.util.Hashtable;
 
 public class MapManager {
@@ -78,6 +77,8 @@ public class MapManager {
         currentMapWidth = currentMap.getProperties().get("width",Integer.class);
 
         currentMapHeight = currentMap.getProperties().get("height",Integer.class);
+
+        Gdx.app.debug(TAG,"Número De Capas: " + currentMap.getLayers().size());
 
         collisionLayer = currentMap.getLayers().get(COLLISION_LAYER);
 
