@@ -13,6 +13,7 @@ public class Entity {
 
     private static final String TAG = Entity.class.getSimpleName();
 
+
     public enum State {
 
         IDLE, WALKING
