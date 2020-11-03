@@ -99,16 +99,21 @@ public class SelectionScreen implements Screen {
 		style.font = Utility.mainFont;
 		titleLabel = new Label("Selecciona el genero", style);
 		
-		backButton.addListener(new ClickListener() {
-
-			@Override
-
+		
+		newGameButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 
-				game_ref.setScreen(DogsAndDungeons.mainScreen);
+				game_ref.setScreen(DogsAndDungeons.mainGameScreen);
 
 			}
+		});
+		
+		optionsButton.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
 
+				game_ref.setScreen(DogsAndDungeons.optionsScreen);
+
+			}
 		});
 		
 		chooseButton.addListener(new ClickListener() {
@@ -125,6 +130,18 @@ public class SelectionScreen implements Screen {
 					
 				}
 				
+			}
+
+		});
+		
+		backButton.addListener(new ClickListener() {
+
+			@Override
+
+			public void clicked(InputEvent event, float x, float y) {
+
+				game_ref.setScreen(DogsAndDungeons.mainScreen);
+
 			}
 
 		});
