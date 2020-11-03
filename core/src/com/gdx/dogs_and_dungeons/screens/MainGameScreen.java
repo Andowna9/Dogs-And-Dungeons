@@ -118,7 +118,7 @@ public class MainGameScreen implements Screen {
                 mapManager.getCurrentMapWidth() - camera.viewportWidth/2);
 
         camera.position.y = MathUtils.clamp(player.getCurrentPosition().y,
-                camera.viewportWidth/2,
+                camera.viewportHeight/2,
                 mapManager.getCurrentMapHeight() - camera.viewportHeight/2);
 
         camera.update();
