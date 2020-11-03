@@ -44,21 +44,21 @@ public class Entity {
 
     // Animaciones
 
-    private float animationTime = 0f;
+    protected float animationTime = 0f;
 
-    private Animation<TextureRegion> walkUpAnimation;
+    protected Animation<TextureRegion> walkUpAnimation;
 
-    private Animation<TextureRegion> walkDownAnimation;
+    protected Animation<TextureRegion> walkDownAnimation;
 
-    private Animation<TextureRegion> walkLeftAnimation;
+    protected Animation<TextureRegion> walkLeftAnimation;
 
-    private Animation<TextureRegion> walkRightAnimation;
+    protected Animation<TextureRegion> walkRightAnimation;
 
     // Tamaño de cada región de la textura (en píxeles)
 
-    private int tileWidth;
+    protected int tileWidth;
 
-    private int tileHeight;
+    protected int tileHeight;
 
     // Caja de colisión
 

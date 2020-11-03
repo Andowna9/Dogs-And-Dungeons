@@ -1,10 +1,16 @@
 package com.gdx.dogs_and_dungeons;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Enemy extends Entity{
+
+    public enum Type {
+
+        ENEMY1, ENEMY2, ENEMY3, ENEMY4
+    }
 
     public enum Movement {
 
@@ -20,6 +26,11 @@ public class Enemy extends Entity{
 
         IDLE, WALKING
     }
+
+    public void loadEnemyAnimations(){
+        //Texture tileSheet = Utility.getTextureAsset();
+    }
+
 
     // mostly inherited Attributes
 
