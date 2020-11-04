@@ -55,7 +55,7 @@ public class MapManager {
 
         maps = new Hashtable<>();
 
-        maps.put(TEST_MAP,"tilemaps/test.tmx");
+        maps.put(TEST_MAP,"tiledmaps/test/test.tmx");
 
     }
 

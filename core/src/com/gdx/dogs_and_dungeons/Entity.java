@@ -87,7 +87,7 @@ public class Entity {
 
         // Cargamos la textura (imagen que contiene las animacions por filas)
 
-        Utility.loadTextureAsset("player/george.png");
+        Utility.loadTextureAsset("player/boy_spritesheet.png");
 
         loadAnimations();
 
@@ -123,21 +123,23 @@ public class Entity {
 
     public void loadAnimations() {
 
-        Texture tileSheet = Utility.getTextureAsset("player/george.png");
+        Texture tileSheet = Utility.getTextureAsset("player/boy_spritesheet.png");
 
         TextureRegion[][] textures = TextureRegion.split(tileSheet,tileWidth,tileHeight);
 
         // Leemos por columnas, en otro caso podría ser por filas
 
-        Array <TextureRegion> walkDownSheet = new Array<>(false,4);
+        Array <TextureRegion> walkDownSheet = new Array<>(false,9);
 
-        Array <TextureRegion> walkLeftSheet = new Array<>(false,4);
+        Array <TextureRegion> walkLeftSheet = new Array<>(false,9);
 
-        Array <TextureRegion> walkUpSheet = new Array<>(false,4);
+        Array <TextureRegion> walkUpSheet = new Array<>(false,9);
 
-        Array <TextureRegion> walkRightSheet = new Array<>(false,4);
+        Array <TextureRegion> walkRightSheet = new Array<>(false,9);
 
         // Guardamos los tiles en sus respectivos arrays
+
+        /* Antigua manera
 
         for (int j = 0; j < 4; j++) {
 
@@ -176,19 +178,57 @@ public class Entity {
             }
 
 
+        } */
+
+        for(int i = 0; i < 4;i++) {
+
+            for(int j = 0; j < 9;j++) {
+
+                TextureRegion texture = textures[i][j];
+
+                switch (i) {
+
+                    case 0:
+
+                        walkUpSheet.add(texture);
+
+                        break;
+
+                    case 1:
+
+                        walkLeftSheet.add(texture);
+
+                        break;
+
+                    case 2:
+
+                        walkDownSheet.add(texture);
+
+                        break;
+
+                    case 3:
+
+                        walkRightSheet.add(texture);
+
+                        break;
+
+                }
+
+
+            }
         }
 
         currentTexture = walkDownSheet.get(0);
 
         // Creación de las animaciones correspondientes
 
-        walkDownAnimation = new Animation<>(0.25f, walkDownSheet, Animation.PlayMode.LOOP);
+        walkDownAnimation = new Animation<>(0.1f, walkDownSheet, Animation.PlayMode.LOOP);
 
-        walkLeftAnimation = new Animation<>(0.25f, walkLeftSheet, Animation.PlayMode.LOOP);
+        walkLeftAnimation = new Animation<>(0.1f, walkLeftSheet, Animation.PlayMode.LOOP);
 
-        walkUpAnimation = new Animation<>(0.25f, walkUpSheet, Animation.PlayMode.LOOP);
+        walkUpAnimation = new Animation<>(0.1f, walkUpSheet, Animation.PlayMode.LOOP);
 
-        walkRightAnimation = new Animation<>(0.25f, walkRightSheet, Animation.PlayMode.LOOP);
+        walkRightAnimation = new Animation<>(0.1f, walkRightSheet, Animation.PlayMode.LOOP);
 
 
     }
