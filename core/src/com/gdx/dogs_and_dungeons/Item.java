@@ -4,7 +4,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
 
-//Clase Item para gestionar los objetos que el jugador podra conseguir (trozos de madera, pociones de regeneración, etc.)
+//Clase Item para gestionar los objetos que el jugador podra conseguir (trozos de madera, pociones de regeneraciÃ³n, etc.)
 public class Item extends MapObject{
 	
 	private String name;	//Nombre del objeto
