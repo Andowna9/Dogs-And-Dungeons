@@ -9,9 +9,7 @@ public class PlayerController extends InputAdapter {
 
     private static final String TAG = PlayerController.class.getSimpleName();
 
-    private Entity player;
-
-    private float deltaTime;
+    private Player player;
 
     private boolean movingUp = false;
 
@@ -22,7 +20,7 @@ public class PlayerController extends InputAdapter {
     private boolean movingRight = false;
 
 
-    public PlayerController(Entity player) {
+    public PlayerController(Player player) {
 
         this.player = player;
 

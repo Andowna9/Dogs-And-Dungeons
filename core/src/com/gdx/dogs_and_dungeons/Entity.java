@@ -1,9 +1,7 @@
 package com.gdx.dogs_and_dungeons;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -12,7 +10,6 @@ import com.badlogic.gdx.utils.Array;
 public class Entity {
 
     private static final String TAG = Entity.class.getSimpleName();
-
 
     public enum State {
 
@@ -65,14 +62,38 @@ public class Entity {
 
     protected Rectangle collisionBox;
 
-    public Entity(int width,int height) { // Probamos con 48 px X 48 px
+    // Factor de escalado, que se utiliza si un sprite es reescalado al ser dibujado
+
+    protected float scaleFactor = 1;
+
+    // Ruta donde se encuentra la hoja de sprites
+
+    private String spritesPath;
+
+
+    public Entity(int width,int height,String spritesPath) { // Probamos con 48 px X 48 px
 
         tileWidth = width;
 
         tileHeight = height;
 
+        this.spritesPath = spritesPath;
+
         init();
 
+    }
+
+    public Entity(int width, int height, float scaleFactor,String spritesPath) {
+
+        tileWidth = width;
+
+        tileHeight = height;
+
+        this.scaleFactor = scaleFactor;
+
+        this.spritesPath = spritesPath;
+
+        init();
     }
 
     protected void init() {
@@ -83,13 +104,15 @@ public class Entity {
 
         velocity = new Vector2(2.5f,2.5f);
 
-        collisionBox = new Rectangle(0,0,tileWidth/2,tileHeight/4);
+        // El tamaño de la caja de colisiones es la mitad de la anchura X la mitad de la altura para que sea más difícil recibir daño
+
+        collisionBox = new Rectangle(0,0,(tileWidth * scaleFactor)/2,(tileHeight * scaleFactor)/2);
 
         // Cargamos la textura (imagen que contiene las animacions por filas)
 
-        Utility.loadTextureAsset("player/boy_spritesheet.png");
+        Utility.loadTextureAsset(spritesPath);
 
-        loadAnimations();
+        loadAnimations(spritesPath);
 
     }
 
@@ -101,7 +124,9 @@ public class Entity {
 
         animationTime = (animationTime + deltaTime) % 5;
 
-        collisionBox.x = nextPosition.x / MapManager.UNIT_SCALE + tileWidth/4;
+        // Sumamos un cuarto del sprite a la caja de colisiones para compensar espacio vacío que pueda haber desde la izquierda
+
+        collisionBox.x = nextPosition.x / MapManager.UNIT_SCALE + (tileWidth * scaleFactor)/4;
 
         collisionBox.y = nextPosition.y / MapManager.UNIT_SCALE;
 
@@ -121,68 +146,40 @@ public class Entity {
 
     }
 
-    public void loadAnimations() {
+    // Carga las animaciones de la entidad
 
-        Texture tileSheet = Utility.getTextureAsset("player/boy_spritesheet.png");
+    private void loadAnimations(String animationsPath) {
+
+
+        Texture tileSheet = Utility.getTextureAsset(animationsPath);
+
+        // Obtenemos el número de filas y columnas
+
+        int num_rows = tileSheet.getHeight() / tileHeight;
+
+        int num_cols = tileSheet.getWidth() / tileWidth ;
+
+        Gdx.app.debug(TAG,"Filas: " + num_rows);
+
+        Gdx.app.debug(TAG,"Columnas: " + num_cols);
 
         TextureRegion[][] textures = TextureRegion.split(tileSheet,tileWidth,tileHeight);
 
         // Leemos por columnas, en otro caso podría ser por filas
 
-        Array <TextureRegion> walkDownSheet = new Array<>(false,9);
+        Array <TextureRegion> walkDownSheet = new Array<>(false,num_cols);
 
-        Array <TextureRegion> walkLeftSheet = new Array<>(false,9);
+        Array <TextureRegion> walkLeftSheet = new Array<>(false,num_cols);
 
-        Array <TextureRegion> walkUpSheet = new Array<>(false,9);
+        Array <TextureRegion> walkUpSheet = new Array<>(false,num_cols);
 
-        Array <TextureRegion> walkRightSheet = new Array<>(false,9);
+        Array <TextureRegion> walkRightSheet = new Array<>(false,num_cols);
 
         // Guardamos los tiles en sus respectivos arrays
 
-        /* Antigua manera
+        for(int i = 0; i < num_rows;i++) {
 
-        for (int j = 0; j < 4; j++) {
-
-            for (int i = 0; i < 4;i++) {
-
-                TextureRegion texture = textures[i][j];
-
-
-                switch (j) {
-
-                    case 0:
-
-                        walkDownSheet.add(texture);
-
-                        break;
-
-                    case 1:
-
-                        walkLeftSheet.add(texture);
-
-                        break;
-
-                    case 2:
-
-                        walkUpSheet.add(texture);
-
-                        break;
-
-                    case 3:
-
-                        walkRightSheet.add(texture);
-
-                        break;
-                }
-
-            }
-
-
-        } */
-
-        for(int i = 0; i < 4;i++) {
-
-            for(int j = 0; j < 9;j++) {
+            for(int j = 0; j < num_cols;j++) {
 
                 TextureRegion texture = textures[i][j];
 
@@ -222,13 +219,17 @@ public class Entity {
 
         // Creación de las animaciones correspondientes
 
-        walkDownAnimation = new Animation<>(0.1f, walkDownSheet, Animation.PlayMode.LOOP);
+        // El tiempo de cada textura cada segundo dependerá del número de columnas
 
-        walkLeftAnimation = new Animation<>(0.1f, walkLeftSheet, Animation.PlayMode.LOOP);
+        float frameTime = 1f / num_cols;
 
-        walkUpAnimation = new Animation<>(0.1f, walkUpSheet, Animation.PlayMode.LOOP);
+        walkDownAnimation = new Animation<>(frameTime, walkDownSheet, Animation.PlayMode.LOOP);
 
-        walkRightAnimation = new Animation<>(0.1f, walkRightSheet, Animation.PlayMode.LOOP);
+        walkLeftAnimation = new Animation<>(frameTime, walkLeftSheet, Animation.PlayMode.LOOP);
+
+        walkUpAnimation = new Animation<>(frameTime, walkUpSheet, Animation.PlayMode.LOOP);
+
+        walkRightAnimation = new Animation<>(frameTime, walkRightSheet, Animation.PlayMode.LOOP);
 
 
     }

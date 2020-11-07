@@ -13,7 +13,7 @@ class EntityTest {
     @Before
     public void setUp(){
         // Se crea un objeto global para cada test
-        e = new Entity(200,200);
+        //e = new Entity(200,200);
     }
 
     @Test
@@ -29,7 +29,7 @@ class EntityTest {
 
     @Test
     void loadAnimations() {
-        e.loadAnimations();
+
     }
 
     @Test

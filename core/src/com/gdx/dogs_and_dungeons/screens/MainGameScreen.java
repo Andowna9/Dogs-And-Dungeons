@@ -12,10 +12,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.gdx.dogs_and_dungeons.PlayerController;
-import com.gdx.dogs_and_dungeons.Entity;
-import com.gdx.dogs_and_dungeons.MapManager;
-import com.gdx.dogs_and_dungeons.DogsAndDungeons;
+import com.gdx.dogs_and_dungeons.*;
 import com.badlogic.gdx.math.Rectangle;
 
 // Pantalla de juego
@@ -42,7 +39,7 @@ public class MainGameScreen implements Screen {
 
     // Jugador
 
-    private Entity player;
+    private Player player;
 
     private PlayerController playerController;
 
@@ -54,9 +51,9 @@ public class MainGameScreen implements Screen {
 
     // Posiciones de las capas del mapa
 
-    private final int [] backgroundLayers = {1,2};
+    private final int [] backgroundLayers = {0,1,2};
 
-    private final int [] foregroundLayers = {4};
+    private final int [] foregroundLayers = {3};
 
     private static class VIEWPORT {
 
@@ -109,9 +106,9 @@ public class MainGameScreen implements Screen {
 
         game_ref = game;
 
-        player = new Entity(64,64);
+        player = new Player(64,64,0.65f);
 
-        player.setPosition(20,20);
+        player.setPosition(22.5f,0);
 
         playerCollisionBox = player.getCollisionBox();
 
@@ -127,9 +124,9 @@ public class MainGameScreen implements Screen {
 
         setViewport(15,12);
 
-        // camera.setToOrtho(false,VIEWPORT.viewportWidth,VIEWPORT.viewportHeight);
+        camera.setToOrtho(false,VIEWPORT.viewportWidth,VIEWPORT.viewportHeight);
 
-        camera.setToOrtho(false,VIEWPORT.physicalWidth/32,VIEWPORT.physicalHeight/32);
+        // camera.setToOrtho(false,VIEWPORT.physicalWidth/32,VIEWPORT.physicalHeight/32);
 
         camera.position.set(25,23,0); // Centramos la posición de la ventana de acuerdo con el tamaño del tilemap (1600 x 1600 px)
 
@@ -204,7 +201,7 @@ public class MainGameScreen implements Screen {
 
         mapRenderer.getBatch().begin();
 
-        mapRenderer.getBatch().draw(player.getCurrentTexture(),player.getCurrentPosition().x,player.getCurrentPosition().y,1.5f,1.5f);
+        mapRenderer.getBatch().draw(player.getCurrentTexture(),player.getCurrentPosition().x,player.getCurrentPosition().y,1.3f,1.3f);
 
         mapRenderer.getBatch().end();
 
@@ -219,6 +216,8 @@ public class MainGameScreen implements Screen {
         font.draw(batch,String.valueOf(Gdx.graphics.getFramesPerSecond()),20,20);
 
         batch.end();
+
+
 
 
     }

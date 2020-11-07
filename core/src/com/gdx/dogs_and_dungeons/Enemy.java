@@ -31,6 +31,8 @@ public class Enemy extends Entity{
         //Texture tileSheet = Utility.getTextureAsset();
     }
 
+    private static final String generalPath = "enemy/";
+
 
     // mostly inherited Attributes
 
@@ -48,11 +50,13 @@ public class Enemy extends Entity{
     // calculateNextPosition() inherited
 
 
-
-
-
     // Constructors
-    public Enemy(int width, int height) {
-        super(width, height);
+
+    // Cuando llamemos desde una clase hija de enemigo, sus rutas se concatenarán
+
+    public Enemy(int width, int height, String specificPath) {
+
+        super(width, height,generalPath + specificPath);
+
     }
 }
