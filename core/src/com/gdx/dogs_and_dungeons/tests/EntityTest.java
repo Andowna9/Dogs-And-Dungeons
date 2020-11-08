@@ -1,10 +1,8 @@
 package com.gdx.dogs_and_dungeons.tests;
 
-import com.gdx.dogs_and_dungeons.Entity;
+import com.gdx.dogs_and_dungeons.entities.Entity;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class EntityTest {
 

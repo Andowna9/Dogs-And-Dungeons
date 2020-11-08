@@ -1,11 +1,10 @@
-package com.gdx.dogs_and_dungeons;
+package com.gdx.dogs_and_dungeons.entities.enemies;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
+import com.gdx.dogs_and_dungeons.entities.Entity;
 
-public class Enemy extends Entity{
+// Clase abstracta, no queremos que sea instanciada
+
+public abstract class Enemy extends Entity {
 
     public enum Type {
 
@@ -17,19 +16,6 @@ public class Enemy extends Entity{
         MOVEMENT1, MOVEMENT2, MOVEMENT3
     }
 
-    public enum Direction {
-
-        UP,DOWN,LEFT,RIGHT
-    }
-
-    public enum State {
-
-        IDLE, WALKING
-    }
-
-    public void loadEnemyAnimations(){
-        //Texture tileSheet = Utility.getTextureAsset();
-    }
 
     private static final String generalPath = "enemy/";
 
@@ -54,9 +40,9 @@ public class Enemy extends Entity{
 
     // Cuando llamemos desde una clase hija de enemigo, sus rutas se concatenarán
 
-    public Enemy(int width, int height, String specificPath) {
+    public Enemy(int width, int height, float drawWidth, float drawHeight, String specificPath) {
 
-        super(width, height,generalPath + specificPath);
+        super(width, height, drawWidth, drawHeight,generalPath + specificPath);
 
     }
 }

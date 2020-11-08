@@ -12,12 +12,19 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.gdx.dogs_and_dungeons.*;
 import com.badlogic.gdx.math.Rectangle;
+import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
+import com.gdx.dogs_and_dungeons.entities.enemies.SimpleEnemy;
+import com.gdx.dogs_and_dungeons.entities.player.Player;
+import com.gdx.dogs_and_dungeons.entities.player.PlayerController;
 
 // Pantalla de juego
 
 public class MainGameScreen implements Screen {
+
+    private SimpleEnemy e;
 
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
@@ -44,6 +51,10 @@ public class MainGameScreen implements Screen {
     private PlayerController playerController;
 
     private Rectangle playerCollisionBox;
+
+    // Enemigos
+
+    private Array<Enemy> enemies;
 
     // Referencia a la clase que extiende de game
 
@@ -106,7 +117,7 @@ public class MainGameScreen implements Screen {
 
         game_ref = game;
 
-        player = new Player(64,64,0.65f);
+        player = new Player(64,64,1.3f,1.3f);
 
         player.setPosition(22.5f,0);
 
@@ -139,6 +150,16 @@ public class MainGameScreen implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap,MapManager.UNIT_SCALE);
 
         mapRenderer.setView(camera);
+
+        // Prueba enemigos
+
+        enemies = new Array<>();
+
+        e = new SimpleEnemy(32,32,1f,1f);
+
+        e.setPosition(15,5);
+
+        enemies.add(e);
 
     }
 
@@ -173,7 +194,14 @@ public class MainGameScreen implements Screen {
 
         camera.update();
 
+        // Actulización de animaciones y cajas de colisión
+
         player.update(delta);
+
+        for (Enemy enemy: enemies) {
+
+            enemy.update(delta);
+        }
 
         // Actualizamos la posición del jugador solo si no detectamos colisión en su próxima posición
 
@@ -182,10 +210,11 @@ public class MainGameScreen implements Screen {
             player.updatePosition();
         }
 
-        // *PROCESADO DE INPUT DEL JUGADOR*
+        // *PROCESADO DE INPUT DEL JUGADOR - COMPORTAMIENTO ENEMIGOS*
 
         playerController.processInput(delta);
 
+        e.behave(delta);
 
         // *RENDERIZADO DE TEXTURAS (GRÁFICOS)*
 
@@ -201,7 +230,16 @@ public class MainGameScreen implements Screen {
 
         mapRenderer.getBatch().begin();
 
-        mapRenderer.getBatch().draw(player.getCurrentTexture(),player.getCurrentPosition().x,player.getCurrentPosition().y,1.3f,1.3f);
+        // Dibujamos al jugador
+
+        player.draw(mapRenderer);
+
+        // Dibujamos a todos los enemigos  aunque no estén en el campo de visión (de momento)
+
+        for (Enemy enemy: enemies) {
+
+            enemy.draw(mapRenderer);
+        }
 
         mapRenderer.getBatch().end();
 

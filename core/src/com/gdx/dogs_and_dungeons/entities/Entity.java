@@ -1,11 +1,16 @@
-package com.gdx.dogs_and_dungeons;
+package com.gdx.dogs_and_dungeons.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.gdx.dogs_and_dungeons.MapManager;
+import com.gdx.dogs_and_dungeons.Utility;
 
 public class Entity {
 
@@ -31,7 +36,7 @@ public class Entity {
 
     // Contenedor de textura en cada momento
 
-    protected TextureRegion currentTexture;
+    private TextureRegion currentTexture;
 
     // Dirección y estado por defecto
 
@@ -58,38 +63,42 @@ public class Entity {
 
     protected int tileHeight;
 
+    // Tamaño con el que se dibuja la textura en unidades de mapa (1 unidad = 32 píxeles)
+
+    private float drawWidth;
+
+    private float drawHeight;
+
     // Caja de colisión
 
     protected Rectangle collisionBox;
 
+    // Vida
+
+    protected int health = 1;
+
     // Factor de escalado, que se utiliza si un sprite es reescalado al ser dibujado
 
-    protected float scaleFactor = 1;
+    private float scaleFactor;
 
     // Ruta donde se encuentra la hoja de sprites
 
     private String spritesPath;
 
 
-    public Entity(int width,int height,String spritesPath) { // Probamos con 48 px X 48 px
+    public Entity(int width, int height, float drawWidth, float drawHeight,String spritesPath) {
 
         tileWidth = width;
 
         tileHeight = height;
 
-        this.spritesPath = spritesPath;
+        this.drawWidth = drawWidth;
 
-        init();
+        this.drawHeight = drawHeight;
 
-    }
+        // De momento, el factor de escala para la caja de colisiones solo tiene en cuenta la anchura de dibujado
 
-    public Entity(int width, int height, float scaleFactor,String spritesPath) {
-
-        tileWidth = width;
-
-        tileHeight = height;
-
-        this.scaleFactor = scaleFactor;
+        scaleFactor = drawWidth / (tileWidth * MapManager.UNIT_SCALE);
 
         this.spritesPath = spritesPath;
 
@@ -102,7 +111,7 @@ public class Entity {
 
         nextPosition = new Vector2();
 
-        velocity = new Vector2(2.5f,2.5f);
+        velocity = new Vector2(0f,0f);
 
         // El tamaño de la caja de colisiones es la mitad de la anchura X la mitad de la altura para que sea más difícil recibir daño
 
@@ -123,6 +132,11 @@ public class Entity {
         // Se resetea el valor cada 5s para no sumar indefinidamente
 
         animationTime = (animationTime + deltaTime) % 5;
+
+        if (currentState != State.IDLE) {
+
+            updateAnimations();
+        }
 
         // Sumamos un cuarto del sprite a la caja de colisiones para compensar espacio vacío que pueda haber desde la izquierda
 
@@ -242,9 +256,7 @@ public class Entity {
 
     }
 
-    public void setDirection(Direction d) {
-
-        currentDirection = d;
+    private void updateAnimations() {
 
         switch (currentDirection) {
 
@@ -278,6 +290,13 @@ public class Entity {
 
 
         }
+
+    }
+
+    public void setDirection(Direction d) {
+
+        currentDirection = d;
+
 
     }
 
@@ -352,11 +371,50 @@ public class Entity {
 
     }
 
+    public Direction getOppositeDirection() {
 
+        Direction opposite = null;
 
+        switch (currentDirection) {
 
+            case UP:
+                opposite = Direction.DOWN;
+                break;
+            case DOWN:
 
+                opposite = Direction.UP;
+                break;
 
+            case LEFT:
+
+                opposite = Direction.RIGHT;
+                break;
+
+            case RIGHT:
+
+                opposite = Direction.LEFT;
+                break;
+        }
+
+        return opposite;
+
+    }
+
+    public void setVelocity(float vx,float vy) {
+
+        velocity.x = vx;
+
+        velocity.y =  vy;
+
+    }
+
+    // Método para dibujar las entidadades a partir del batch del mapa
+
+    public void draw(OrthogonalTiledMapRenderer renderer) {
+
+        renderer.getBatch().draw(currentTexture, currentPosition.x, currentPosition.y, drawWidth, drawHeight);
+
+    }
 
 
 

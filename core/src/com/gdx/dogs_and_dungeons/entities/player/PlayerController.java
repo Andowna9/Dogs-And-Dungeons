@@ -1,6 +1,5 @@
-package com.gdx.dogs_and_dungeons;
+package com.gdx.dogs_and_dungeons.entities.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
@@ -89,18 +88,18 @@ public class PlayerController extends InputAdapter {
 
             player.calculateNextPosition(deltaTime);
 
-            player.setState(Entity.State.WALKING);
+            player.setState(Player.State.WALKING);
 
-            player.setDirection(Entity.Direction.UP);
+            player.setDirection(Player.Direction.UP);
         }
 
         else if (movingDown) {
 
             player.calculateNextPosition(deltaTime);
 
-            player.setState(Entity.State.WALKING);
+            player.setState(Player.State.WALKING);
 
-            player.setDirection(Entity.Direction.DOWN);
+            player.setDirection(Player.Direction.DOWN);
 
         }
 
@@ -108,9 +107,9 @@ public class PlayerController extends InputAdapter {
 
             player.calculateNextPosition(deltaTime);
 
-            player.setState(Entity.State.WALKING);
+            player.setState(Player.State.WALKING);
 
-            player.setDirection(Entity.Direction.LEFT);
+            player.setDirection(Player.Direction.LEFT);
 
         }
 
@@ -118,15 +117,15 @@ public class PlayerController extends InputAdapter {
 
             player.calculateNextPosition(deltaTime);
 
-            player.setState(Entity.State.WALKING);
+            player.setState(Player.State.WALKING);
 
-            player.setDirection(Entity.Direction.RIGHT);
+            player.setDirection(Player.Direction.RIGHT);
 
         }
 
         else {
 
-            player.setState(Entity.State.IDLE);
+            player.setState(Player.State.IDLE);
 
         }
 
