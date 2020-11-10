@@ -42,7 +42,11 @@ public abstract class Enemy extends Entity {
 
     public Enemy(int width, int height, float drawWidth, float drawHeight, String specificPath) {
 
-        super(width, height, drawWidth, drawHeight,generalPath + specificPath);
+        super(width, height, drawWidth, drawHeight);
+
+        loadAnimations(generalPath + specificPath,State.WALKING);
+
+        setDefaultTexture(State.WALKING, Direction.RIGHT);
 
     }
 }

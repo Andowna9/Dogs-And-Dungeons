@@ -2,15 +2,14 @@ package com.gdx.dogs_and_dungeons.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.Utility;
+import java.util.HashMap;
 
 public class Entity {
 
@@ -18,12 +17,12 @@ public class Entity {
 
     public enum State {
 
-        IDLE, WALKING
+        WALKING, ATTACKING, IDLE
     }
 
     public enum Direction {
 
-        UP,DOWN,LEFT,RIGHT
+        UP, LEFT, DOWN, RIGHT
     }
 
     // Propiedades relacionadas con movimiento
@@ -49,13 +48,7 @@ public class Entity {
 
     protected float animationTime = 0f;
 
-    protected Animation<TextureRegion> walkUpAnimation;
-
-    protected Animation<TextureRegion> walkDownAnimation;
-
-    protected Animation<TextureRegion> walkLeftAnimation;
-
-    protected Animation<TextureRegion> walkRightAnimation;
+    protected HashMap<State,HashMap<Direction,Animation<TextureRegion>>> animations;
 
     // Tamaño de cada región de la textura (en píxeles)
 
@@ -81,12 +74,8 @@ public class Entity {
 
     private float scaleFactor;
 
-    // Ruta donde se encuentra la hoja de sprites
 
-    private String spritesPath;
-
-
-    public Entity(int width, int height, float drawWidth, float drawHeight,String spritesPath) {
+    public Entity(int width, int height, float drawWidth, float drawHeight) {
 
         tileWidth = width;
 
@@ -100,7 +89,7 @@ public class Entity {
 
         scaleFactor = drawWidth / (tileWidth * MapManager.UNIT_SCALE);
 
-        this.spritesPath = spritesPath;
+        animations = new HashMap<>();
 
         init();
     }
@@ -117,11 +106,6 @@ public class Entity {
 
         collisionBox = new Rectangle(0,0,(tileWidth * scaleFactor)/2,(tileHeight * scaleFactor)/2);
 
-        // Cargamos la textura (imagen que contiene las animacions por filas)
-
-        Utility.loadTextureAsset(spritesPath);
-
-        loadAnimations(spritesPath);
 
     }
 
@@ -148,6 +132,11 @@ public class Entity {
 
     // Sitúa a la entidad en una posición dada
 
+    protected void setDefaultTexture(State state, Direction direction) {
+
+        currentTexture = animations.get(state).get(direction).getKeyFrame(0);
+    }
+
     public void setPosition(float x, float y) {
 
         currentPosition.x = x;
@@ -160,94 +149,53 @@ public class Entity {
 
     }
 
-    // Carga las animaciones de la entidad
+    // Carga las animaciones de la entidad (único fichero)
 
-    private void loadAnimations(String animationsPath) {
+    protected void loadAnimations(String animationsPath, State state) {
 
+            // Cargamos la textura (imagen que contiene las animacions por filas)
 
-        Texture tileSheet = Utility.getTextureAsset(animationsPath);
+            Utility.loadTextureAsset(animationsPath);
 
-        // Obtenemos el número de filas y columnas
+            Texture tileSheet = Utility.getTextureAsset(animationsPath);
 
-        int num_rows = tileSheet.getHeight() / tileHeight;
+            // Obtenemos el número de filas columnas (el número de filas es igual al número de elementos
+            // de la enumeración Diretion
 
-        int num_cols = tileSheet.getWidth() / tileWidth ;
+            int num_cols = tileSheet.getWidth() / tileWidth;
 
-        Gdx.app.debug(TAG,"Filas: " + num_rows);
+            Gdx.app.debug(TAG, "Columnas de spritesheet: " + num_cols);
 
-        Gdx.app.debug(TAG,"Columnas: " + num_cols);
+            TextureRegion[][] textures = TextureRegion.split(tileSheet, tileWidth, tileHeight);
 
-        TextureRegion[][] textures = TextureRegion.split(tileSheet,tileWidth,tileHeight);
+            // El tiempo de cada textura cada segundo dependerá del número de columnas
 
-        // Leemos por columnas, en otro caso podría ser por filas
+            float frameTime = 1f / num_cols;
 
-        Array <TextureRegion> walkDownSheet = new Array<>(false,num_cols);
+            // Guardamos los tiles en sus respectivos arrays
 
-        Array <TextureRegion> walkLeftSheet = new Array<>(false,num_cols);
+            HashMap<Direction, Animation<TextureRegion>> animationSheets = new HashMap<>();
 
-        Array <TextureRegion> walkUpSheet = new Array<>(false,num_cols);
+            for (Direction direction : Direction.values()) {
 
-        Array <TextureRegion> walkRightSheet = new Array<>(false,num_cols);
+                Array<TextureRegion> sheet = new Array<>(false, num_cols);
 
-        // Guardamos los tiles en sus respectivos arrays
+                for (int j = 0; j < num_cols; j++) {
 
-        for(int i = 0; i < num_rows;i++) {
+                    TextureRegion texture = textures[direction.ordinal()][j];
 
-            for(int j = 0; j < num_cols;j++) {
-
-                TextureRegion texture = textures[i][j];
-
-                switch (i) {
-
-                    case 0:
-
-                        walkUpSheet.add(texture);
-
-                        break;
-
-                    case 1:
-
-                        walkLeftSheet.add(texture);
-
-                        break;
-
-                    case 2:
-
-                        walkDownSheet.add(texture);
-
-                        break;
-
-                    case 3:
-
-                        walkRightSheet.add(texture);
-
-                        break;
+                    sheet.add(texture);
 
                 }
 
+                Animation<TextureRegion> anim = new Animation<>(frameTime, sheet, Animation.PlayMode.LOOP);
 
+                animationSheets.put(direction, anim);
             }
-        }
-
-        currentTexture = walkDownSheet.get(0);
-
-        // Creación de las animaciones correspondientes
-
-        // El tiempo de cada textura cada segundo dependerá del número de columnas
-
-        float frameTime = 1f / num_cols;
-
-        walkDownAnimation = new Animation<>(frameTime, walkDownSheet, Animation.PlayMode.LOOP);
-
-        walkLeftAnimation = new Animation<>(frameTime, walkLeftSheet, Animation.PlayMode.LOOP);
-
-        walkUpAnimation = new Animation<>(frameTime, walkUpSheet, Animation.PlayMode.LOOP);
-
-        walkRightAnimation = new Animation<>(frameTime, walkRightSheet, Animation.PlayMode.LOOP);
 
 
+            animations.put(state, animationSheets);
     }
-
 
     public void setState(State s) {
 
@@ -258,38 +206,7 @@ public class Entity {
 
     private void updateAnimations() {
 
-        switch (currentDirection) {
-
-            case DOWN:
-
-                currentTexture = walkDownAnimation.getKeyFrame(animationTime);
-
-                break;
-
-            case LEFT:
-
-                currentTexture = walkLeftAnimation.getKeyFrame(animationTime);
-
-                break;
-
-            case UP:
-
-                currentTexture = walkUpAnimation.getKeyFrame(animationTime);
-
-                break;
-
-            case RIGHT:
-
-                currentTexture = walkRightAnimation.getKeyFrame(animationTime);
-
-                break;
-
-            default:
-
-                break;
-
-
-        }
+        currentTexture = animations.get(currentState).get(currentDirection).getKeyFrame(animationTime);
 
     }
 
