@@ -11,7 +11,7 @@ public class BalancedEnemy extends Enemy {
 
     private float timer = 0;
     private int ranNum;
-    private ArrayList<Direction> movementArrayList = new ArrayList<Direction>();
+    private ArrayList<Direction> movementArrayList = new ArrayList<>();
 
 
 

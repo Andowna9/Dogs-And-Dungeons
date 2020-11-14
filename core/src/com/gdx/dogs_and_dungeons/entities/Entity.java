@@ -29,6 +29,8 @@ public abstract class Entity {
 
     protected Vector2 velocity;
 
+    protected Vector2 initialPosition;
+
     protected Vector2 nextPosition;
 
     protected Vector2 currentPosition;
@@ -99,6 +101,8 @@ public abstract class Entity {
         currentPosition = new Vector2();
 
         nextPosition = new Vector2();
+
+        initialPosition = new Vector2();
 
         velocity = new Vector2(0f,0f);
 
@@ -361,6 +365,18 @@ public abstract class Entity {
     public void draw(OrthogonalTiledMapRenderer renderer) {
 
         renderer.getBatch().draw(currentTexture, currentPosition.x, currentPosition.y, drawWidth, drawHeight);
+
+    }
+
+    public void setInitialPosition(float x, float y) {
+
+        initialPosition.x = x;
+
+        initialPosition.y = y;
+
+        // Actualizamos la posición actual y la siguiente para que coincidan con la inicial
+
+       setPosition(initialPosition.x,initialPosition.y);
 
     }
 
