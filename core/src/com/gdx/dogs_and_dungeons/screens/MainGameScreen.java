@@ -25,7 +25,7 @@ import com.gdx.dogs_and_dungeons.entities.player.PlayerController;
 
 public class MainGameScreen implements Screen {
 
-    private BalancedEnemy e;
+    private Enemy e;
 
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
@@ -126,7 +126,7 @@ public class MainGameScreen implements Screen {
 
         player = new Player(64,64,1.3f,1.3f);
 
-        player.setPosition(22.5f,0);
+        player.setInitialPosition(22.5f,0);
 
         playerCollisionBox = player.getCollisionBox();
 
@@ -162,10 +162,9 @@ public class MainGameScreen implements Screen {
 
         enemies = new Array<>();
 
-        e = new BalancedEnemy(32,32,1f,1f);
+        e = new SimpleEnemy(32,32,1f,1f);
 
-        e.setPosition(15,5);
-
+        e.setInitialPosition(15,5);
 
         enemies.add(e);
 
