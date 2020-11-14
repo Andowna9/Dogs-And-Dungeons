@@ -197,6 +197,16 @@ public class Entity {
             animations.put(state, animationSheets);
     }
 
+    protected void setFrameTime(State s, float frameTime) {
+
+        for (Animation<TextureRegion> a: animations.get(s).values()) {
+
+            a.setFrameDuration(frameTime);
+        }
+
+    }
+
+
     public void setState(State s) {
 
 
@@ -219,7 +229,6 @@ public class Entity {
 
     // Detect collisions for optimized
     public void calculateNextPosition (float deltaTime) {
-
 
         nextPosition = currentPosition.cpy();
 
@@ -277,6 +286,28 @@ public class Entity {
     public Rectangle getCollisionBox() {
 
         return collisionBox;
+    }
+
+    public boolean isCollidingWithEntity(Entity other) {
+
+        return this.collisionBox.overlaps(other.collisionBox);
+
+    }
+
+    public void resetAnimationTime() {
+
+        animationTime = 0;
+    }
+
+    public  State getCurrentState() {
+
+        return currentState;
+    }
+
+    public boolean animationIsFinished(State s) {
+
+        return animations.get(s).get(currentDirection).isAnimationFinished(animationTime);
+
     }
 
 
