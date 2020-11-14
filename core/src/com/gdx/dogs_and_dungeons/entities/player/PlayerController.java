@@ -1,7 +1,9 @@
 package com.gdx.dogs_and_dungeons.entities.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.gdx.dogs_and_dungeons.entities.Entity;
 
 
 public class PlayerController extends InputAdapter {
@@ -18,6 +20,8 @@ public class PlayerController extends InputAdapter {
 
     private boolean movingRight = false;
 
+    private boolean attacking = false;
+
 
     public PlayerController(Player player) {
 
@@ -32,24 +36,32 @@ public class PlayerController extends InputAdapter {
         if (keycode == Input.Keys.W ) {
 
             movingUp = true;
+            attacking = false;
         }
-
 
 
         if (keycode == Input.Keys.A) {
 
             movingLeft = true;
+            attacking = false;
 
         }
 
         if (keycode == Input.Keys.S) {
 
             movingDown = true;
+            attacking = false;
         }
 
         if (keycode == Input.Keys.D) {
 
             movingRight = true;
+            attacking = false;
+        }
+
+        if (keycode == Input.Keys.F) {
+
+            attacking = true;
         }
 
         return true;
@@ -84,7 +96,30 @@ public class PlayerController extends InputAdapter {
 
     public void processInput(float deltaTime) {
 
-        if (movingUp) {
+
+
+        if (attacking) {
+
+            if (player.getCurrentState() != Entity.State.ATTACKING) {
+
+                player.setState(Entity.State.ATTACKING);
+
+                player.resetAnimationTime();
+            }
+
+            if (player.animationIsFinished(Entity.State.ATTACKING)) {
+
+                attacking = false;
+
+                player.resetAnimationTime();
+
+                player.setState(Entity.State.WALKING);
+            }
+
+
+        }
+
+        else if (movingUp) {
 
             player.calculateNextPosition(deltaTime);
 
