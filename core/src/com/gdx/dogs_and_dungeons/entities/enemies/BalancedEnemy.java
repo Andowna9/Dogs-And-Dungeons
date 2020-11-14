@@ -31,14 +31,15 @@ public class BalancedEnemy extends Enemy {
 
         updatePosition();
 
+        restringeField();
+
         timer += delta;
 
-        if (timer >= 4) {
+        if (timer >= 5) {
 
-            Gdx.app.debug(TAG, "Cambio de direccion despues de: " + String.valueOf(timer) + " s" + ranNum);
+            Gdx.app.debug(TAG, "Cambio de direccion despues de: " + String.valueOf(timer) + " s          " + ranNum +  currentPosition.y + currentPosition.x);
 
             timer = 0;
-
             this.changeRandomDirection();
         }
 
@@ -50,10 +51,35 @@ public class BalancedEnemy extends Enemy {
         movementArrayList.add(Direction.DOWN);
         movementArrayList.add(Direction.RIGHT);
 
-        ranNum = (int) (Math.random()*4+1);
+        ranNum = (int) (Math.random()*4);
 
         this.setDirection(movementArrayList.get(ranNum));
     }
 
+      /*  public void restringeField(float xHor1, float xHor2, float yVert1, float yVert2){ //Línea x de izquierda, línea x de derecha, línea y de arriba, línea y de abajo
+        float currentPositionX = currentPosition.x;
+        float currentPositionY = currentPosition.y;
+
+        if (currentPosition.x == xHor1 || currentPosition.x == xHor2){
+            this.setDirection(this.getOppositeDirection());
+        }
+        if (currentPosition.y == yVert1 || currentPosition.y == yVert2){
+            this.setDirection(this.getOppositeDirection());
+        }
+    } */  // Not gonna use yet
+
+    public void restringeField(){
+        float verticalLine1 = initialPosition.x - 5;
+        float verticalLine2 = initialPosition.x + 5;
+        float horizontalLine1 = initialPosition.y - 5;
+        float horizontalLine2 = initialPosition.y + 5;
+
+        if (currentPosition.x <= verticalLine1 || currentPosition.x >= verticalLine2){
+            this.setDirection(this.getOppositeDirection());
+        }
+        if (currentPosition.y <= horizontalLine1 || currentPosition.y >= horizontalLine2){
+            this.setDirection(this.getOppositeDirection());
+        }
+    }
 
 }

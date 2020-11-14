@@ -162,7 +162,7 @@ public class MainGameScreen implements Screen {
 
         enemies = new Array<>();
 
-        e = new SimpleEnemy(32,32,1f,1f);
+        e = new BalancedEnemy(32,32,1f,1f);
 
         e.setInitialPosition(15,5);
 
