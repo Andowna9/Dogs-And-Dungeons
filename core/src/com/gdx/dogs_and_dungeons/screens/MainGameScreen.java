@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.gdx.dogs_and_dungeons.*;
 import com.badlogic.gdx.math.Rectangle;
+import com.gdx.dogs_and_dungeons.entities.enemies.BalancedEnemy;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
 import com.gdx.dogs_and_dungeons.entities.enemies.SimpleEnemy;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
@@ -24,7 +25,7 @@ import com.gdx.dogs_and_dungeons.entities.player.PlayerController;
 
 public class MainGameScreen implements Screen {
 
-    private SimpleEnemy e;
+    private BalancedEnemy e;
 
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
@@ -161,9 +162,10 @@ public class MainGameScreen implements Screen {
 
         enemies = new Array<>();
 
-        e = new SimpleEnemy(32,32,1f,1f);
+        e = new BalancedEnemy(32,32,1f,1f);
 
         e.setPosition(15,5);
+
 
         enemies.add(e);
 

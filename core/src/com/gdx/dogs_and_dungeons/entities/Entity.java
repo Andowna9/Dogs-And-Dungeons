@@ -11,7 +11,7 @@ import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.Utility;
 import java.util.HashMap;
 
-public class Entity {
+public abstract class Entity {
 
     private static final String TAG = Entity.class.getSimpleName();
 
