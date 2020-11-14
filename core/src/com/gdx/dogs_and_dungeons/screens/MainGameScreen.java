@@ -66,6 +66,12 @@ public class MainGameScreen implements Screen {
 
     private final int [] foregroundLayers = {3};
 
+    // Tiempos de pausa
+
+    private long pauseTime;
+
+    private long pauseStart;
+
     private static class VIEWPORT {
 
         static float viewportWidth;
@@ -173,11 +179,16 @@ public class MainGameScreen implements Screen {
     @Override
     public void render(float delta) {
 
+        delta = delta - pauseTime / 1000f;
+
+        pauseTime = 0;
+
         // *LIMPIANDO PANTALLA*
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 
         // *ACTUALIZACIONES*
 
@@ -208,6 +219,18 @@ public class MainGameScreen implements Screen {
         if (!isCollidingWithMap(playerCollisionBox)) {
 
             player.updatePosition();
+        }
+
+        // Interacción entre enemigos y jugador
+
+        for (Enemy enemy: enemies) {
+
+            player.attack(enemy);
+
+            if (player.isCollidingWithEntity(enemy)) {
+
+                Gdx.app.debug(TAG,"-1 de vida");
+            }
         }
 
         // *PROCESADO DE INPUT DEL JUGADOR - COMPORTAMIENTO ENEMIGOS*
@@ -287,10 +310,20 @@ public class MainGameScreen implements Screen {
     @Override
     public void pause() {
 
+        pauseStart = System.currentTimeMillis();
+
+        Gdx.app.debug(TAG, "Juego Pausado");
+
     }
 
     @Override
     public void resume() {
+
+        Gdx.app.debug(TAG, "Juego Reanudado");
+
+        pauseTime = System.currentTimeMillis() - pauseStart;
+
+        pauseStart = 0;
 
     }
 
