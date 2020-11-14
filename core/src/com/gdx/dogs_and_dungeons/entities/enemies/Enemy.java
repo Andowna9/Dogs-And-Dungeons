@@ -16,6 +16,8 @@ public abstract class Enemy extends Entity {
         MOVEMENT1, MOVEMENT2, MOVEMENT3
     }
 
+    public abstract void behave(float delta);
+
 
     private static final String generalPath = "enemy/";
 

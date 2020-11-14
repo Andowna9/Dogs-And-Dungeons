@@ -8,4 +8,9 @@ public class BalancedEnemy extends Enemy {
 
         super(width, height, drawWidth, drawHeight, specificPath);
     }
+
+    @Override
+    public void behave(float delta) {
+
+    }
 }
