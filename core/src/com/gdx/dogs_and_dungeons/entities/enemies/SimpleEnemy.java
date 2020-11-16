@@ -10,11 +10,17 @@ public class SimpleEnemy extends Enemy {
 
     private static final String specificPath = "pumpkin.png";
 
-    public SimpleEnemy(int width, int height,float drawWidth, float drawHeight) {
+    public SimpleEnemy(int width, int height,float drawWidth, float drawHeight, Direction direction) {
 
         super(width, height, drawWidth, drawHeight, specificPath);
 
+        // Vida
+
+        health = 3;
+
         setState(State.WALKING);
+
+        setDirection(direction);
 
         setVelocity(2f,2f);
 

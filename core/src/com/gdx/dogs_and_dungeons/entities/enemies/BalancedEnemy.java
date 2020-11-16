@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class BalancedEnemy extends Enemy {
 
-    private static final String specificPath = "pumpkin.png";
+    private static final String specificPath = "skeleton.png";
     private static final String TAG = BalancedEnemy.class.getSimpleName();
 
     private float timer = 0;
@@ -35,11 +35,12 @@ public class BalancedEnemy extends Enemy {
 
         timer += delta;
 
-        if (timer >= 5) {
+        if (timer >= 3) {
 
             Gdx.app.debug(TAG, "Cambio de direccion despues de: " + String.valueOf(timer) + " s          " + ranNum +  currentPosition.y + currentPosition.x);
 
             timer = 0;
+
             this.changeRandomDirection();
         }
 
@@ -69,10 +70,10 @@ public class BalancedEnemy extends Enemy {
     } */  // Not gonna use yet
 
     public void restringeField(){
-        float verticalLine1 = initialPosition.x - 5;
-        float verticalLine2 = initialPosition.x + 5;
-        float horizontalLine1 = initialPosition.y - 5;
-        float horizontalLine2 = initialPosition.y + 5;
+        float verticalLine1 = initialPosition.x - 3;
+        float verticalLine2 = initialPosition.x + 3;
+        float horizontalLine1 = initialPosition.y - 3;
+        float horizontalLine2 = initialPosition.y + 3;
 
         if (currentPosition.x <= verticalLine1 || currentPosition.x >= verticalLine2){
             this.setDirection(this.getOppositeDirection());

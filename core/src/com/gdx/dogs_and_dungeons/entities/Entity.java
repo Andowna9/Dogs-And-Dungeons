@@ -276,6 +276,14 @@ public abstract class Entity {
         velocity.scl(1 / deltaTime);
     }
 
+    // Método para restar vida al enemigo (de momento siempre resta 1)
+
+    public void receiveDamage() {
+
+        health--;
+
+    }
+
 
     public TextureRegion getCurrentTexture() {
 
@@ -362,7 +370,7 @@ public abstract class Entity {
 
     // Método para dibujar las entidadades a partir del batch del mapa
 
-    public void draw(OrthogonalTiledMapRenderer renderer) {
+    public void render(OrthogonalTiledMapRenderer renderer) {
 
         renderer.getBatch().draw(currentTexture, currentPosition.x, currentPosition.y, drawWidth, drawHeight);
 

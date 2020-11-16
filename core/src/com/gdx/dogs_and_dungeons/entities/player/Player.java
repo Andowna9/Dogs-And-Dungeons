@@ -17,6 +17,10 @@ public class Player extends Entity {
 
         super(width, height,drawWidth,drawHeight);
 
+        // Vida del jugador
+
+        health = 5;
+
         setVelocity(2.5f,2.5f);
 
         loadAnimations(walkingPath, State.WALKING);
@@ -34,6 +38,8 @@ public class Player extends Entity {
     public void attack(Enemy e) {
 
         if ( currentState == State.ATTACKING && currentPosition.dst(e.getCurrentPosition()) <= 1.5f) {
+
+            e.receiveDamage();
 
             Gdx.app.debug(TAG,"Un enemigo ha recibido un ataque!");
 
