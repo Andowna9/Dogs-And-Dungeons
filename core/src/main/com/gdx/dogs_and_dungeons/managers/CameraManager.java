@@ -2,11 +2,7 @@ package com.gdx.dogs_and_dungeons.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.gdx.dogs_and_dungeons.entities.Entity;
-import com.gdx.dogs_and_dungeons.screens.MainGameScreen;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 public class CameraManager {
 
