@@ -27,7 +27,9 @@ public class MapManager {
 
     private MapLayer spawnLayer;
 
-    private MapLayer portlaLayer;
+    private MapLayer portalLayer;
+
+    private MapLayer objectsLayer;
 
     // Nombre de cada capa
 
@@ -37,9 +39,11 @@ public class MapManager {
 
     private static final String PORTAL_LAYER = "PORTAL_LAYER";
 
+    private static final String OBJECTS_LAYER = "OBJECTS_LAYER";
+
     // Factor de conversión para gestionar tiles sin depender de su tamaño en píxeles (32 px X 32 px)
 
-    private static final String TEST_MAP = "DEFAULT_MAP";
+    private static final String VILLAGE_MAP = "DEFAULT_MAP";
 
     // Dimensiones del mapa
 
@@ -55,7 +59,11 @@ public class MapManager {
 
         maps = new Hashtable<>();
 
-        maps.put(TEST_MAP,"tiledmaps/village/village_map.tmx");
+        maps.put(VILLAGE_MAP,"tiledmaps/village/village_map.tmx");
+
+        // Por defcto carga el mapa del pueblo
+
+        loadMap(VILLAGE_MAP);
 
     }
 
@@ -101,11 +109,19 @@ public class MapManager {
 
         }
 
-        portlaLayer = currentMap.getLayers().get(PORTAL_LAYER);
+        portalLayer = currentMap.getLayers().get(PORTAL_LAYER);
 
-        if (collisionLayer == null) {
+        if (portalLayer == null) {
 
             Gdx.app.log(TAG,"No se ha encontrado la capa: " + PORTAL_LAYER);
+
+        }
+
+        objectsLayer = currentMap.getLayers().get(OBJECTS_LAYER);
+
+        if (objectsLayer == null) {
+
+            Gdx.app.log(TAG,"No se ha encontrado la capa: " + OBJECTS_LAYER);
 
         }
 
@@ -114,18 +130,17 @@ public class MapManager {
 
     public TiledMap getMap() {
 
-        if (currentMap == null) {
-
-            loadMap(TEST_MAP);
-
-        }
-
         return currentMap;
     }
 
     public MapLayer getCollisionLayer() {
 
         return  collisionLayer;
+    }
+
+    public MapLayer getObjectsLayer() {
+
+        return objectsLayer;
     }
 
     public int getCurrentMapWidth() {

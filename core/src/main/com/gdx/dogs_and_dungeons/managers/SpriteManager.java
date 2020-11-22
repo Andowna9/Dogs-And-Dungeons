@@ -28,9 +28,13 @@ public class SpriteManager {
 
     MapManager mapManager;
 
+    ItemManager itemManager;
+
     public SpriteManager() {
 
         mapManager = new MapManager();
+
+        itemManager = new ItemManager(mapManager);
 
         // Inicialización de lista de enemigos
 
@@ -90,6 +94,10 @@ public class SpriteManager {
        updateEnemies(delta);
 
        updatePlayer(delta);
+
+       // Interacción entre jugador y objetos
+
+        itemManager.itemsTriggered(player);
 
         // Interacción entre enemigos y jugador
 
