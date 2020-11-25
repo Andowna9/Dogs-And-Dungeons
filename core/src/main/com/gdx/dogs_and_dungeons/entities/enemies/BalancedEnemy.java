@@ -2,6 +2,8 @@ package com.gdx.dogs_and_dungeons.entities.enemies;
 
 import com.badlogic.gdx.Gdx;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class BalancedEnemy extends Enemy {
@@ -82,5 +84,6 @@ public class BalancedEnemy extends Enemy {
             this.setDirection(this.getOppositeDirection());
         }
     }
+
 
 }
