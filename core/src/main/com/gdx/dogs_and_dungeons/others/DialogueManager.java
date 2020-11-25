@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class DialogueManager {
     public HashMap<Integer, ArrayList<String>> allDialogs = new HashMap<Integer, ArrayList<String>>();
 
-    public HashMap<Integer, ArrayList<String>> readFile(String name){ //Example readFile(dialogue12.txt)
+  /*  public HashMap<Integer, ArrayList<String>> readFile(String name){ //Example readFile(dialogue12.txt)
         File fichero = new File(name);
         ArrayList<String> importedDialog = new ArrayList<String>();
         try {
@@ -23,5 +23,5 @@ public class DialogueManager {
             System.out.println("Error while importing file" + Arrays.toString(e.getStackTrace()));
         }
         return allDialogs;
-    }
+    } */
 }

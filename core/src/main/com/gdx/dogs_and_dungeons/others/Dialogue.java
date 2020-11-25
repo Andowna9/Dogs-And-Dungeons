@@ -8,7 +8,7 @@ public class Dialogue {
     // displaying an ArrayList that saves Strings by order
 
     protected int dialID;
-    protected ArrayList<String> dialogueContent= new ArrayList<String>;
+    protected ArrayList<String> dialogueContent= new ArrayList<String>();
 
     //Getters and setters
     public int getDialID() {
@@ -37,21 +37,21 @@ public class Dialogue {
     }
 
     // Method that allows to use a recycled dialogue
-    public useAnotherDialogue(ArrayList<String> i){
+ /*   public useAnotherDialogue(ArrayList<String> i){
         dialogueContent = new ArrayList<String>(i);
-        return dialogueContent;
-    }
+       // return dialogueContent;    // ¿Por qué no funciona?
+    } */
 
     //Show dialogue on screen
-    public show(){
+  /*  public show(){
         for (int i = 0; i < dialogueContent.size(); i++){
             //show on screen code here
             // if keyboard is pressed i = i+1 to display following string
         }
-    }
+    } */
 
 
-    public void writeFile(String name){  // Trying to write file to Dialogues folder in assets
+ /*   public void writeFile(String name){  // Trying to write file to Dialogues folder in assets
         try {
             FileWriter fichero = new FileWriter(name + this.getDialID() + ".txt")
             fichero.write(this.getDialID(), this.getDialogueContent());
@@ -62,6 +62,6 @@ public class Dialogue {
             System.out.println("Error de escritura:" + e.getStackTrace());
 
         }
-    }
+    } */
 
 }
