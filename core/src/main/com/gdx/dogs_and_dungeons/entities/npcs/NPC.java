@@ -34,7 +34,6 @@ public class NPC extends Entity {
         this.currentDirection = currentDirection;
     }
 
-    @Override
     public void behave(float delta) {
 
         calculateNextPosition(delta);

@@ -18,8 +18,8 @@ public class DialogueManager {
          /*   for(String content : s){
                 importedDialog.add(content);
             } */
-            allDialogs.put(null, importedDialog);
-        } catch (FileNotFoundException e) {
+        /*    allDialogs.put(null, importedDialog);
+       } catch (FileNotFoundException e) {
             System.out.println("Error while importing file" + Arrays.toString(e.getStackTrace()));
         }
         return allDialogs;
