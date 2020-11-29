@@ -11,6 +11,7 @@ import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 // Hola soy Alex
 // Prueba para Jon Andoni
 public class DesktopLauncher {
+
 	public static void main (String[] arg) {
 
 		// Configuración del back-end de libgdx (Lwjgl)

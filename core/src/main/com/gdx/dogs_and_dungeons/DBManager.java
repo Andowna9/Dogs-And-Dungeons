@@ -13,21 +13,26 @@ public class DBManager {
     private static final String TAG = DBManager.class.getSimpleName();
 
 
-    public static void connect() {
+    public static void connect(String dbPath) {
 
-        String var = "jdbc:sqlite:" + Gdx.files.internal("core/database") + "/prueba.bd";
+        String var = "jdbc:sqlite:" + dbPath;
 
         try {
 
             // Creación de conexión de base de datos a partir de jdbc:sqlite
 
             Connection conn = DriverManager.getConnection(var);
+
+            Gdx.app.log(TAG,"Conexión con la base de datos realizada correctamente");
         }
 
         catch (SQLException e) {
 
            Gdx.app.error(TAG, "Error al conectar con la base de datos!", e);
         }
+
+
+
 
 
     }
