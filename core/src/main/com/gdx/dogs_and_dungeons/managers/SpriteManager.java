@@ -105,9 +105,11 @@ public class SpriteManager {
 
             player.attack(enemy);
 
-            if (player.isCollidingWithEntity(enemy)) {
+            if (player.isCollidingWithEntity(enemy) && !player.isBlinking()) {
 
                 Gdx.app.debug(TAG,"-1 de vida");
+
+                player.setBlinking();
             }
         }
     }

@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.Array;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.Utility;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class Entity {
 
@@ -72,6 +74,18 @@ public abstract class Entity {
 
     protected int health = 1;
 
+    // Parpadeo al recibir daño
+
+    private float blinkingTime = 0f;
+
+    private  float maxBlinkingTime = 2f;
+
+    private Timer blinkingTimer;
+
+    private boolean isRendered = true;
+
+    protected boolean isBlinking = false;
+
     // Factor de escalado, que se utiliza si un sprite es reescalado al ser dibujado
 
     private float scaleFactor;
@@ -110,6 +124,9 @@ public abstract class Entity {
 
         collisionBox = new Rectangle(0,0,(tileWidth * scaleFactor)/2,(tileHeight * scaleFactor)/2);
 
+        // El timer es daemon, por lo que no se espera al hilo asociado para finalizar la ejecución del programa
+
+        blinkingTimer = new Timer(true);
 
     }
 
@@ -131,6 +148,14 @@ public abstract class Entity {
         collisionBox.x = nextPosition.x / MapManager.UNIT_SCALE + (tileWidth * scaleFactor)/4;
 
         collisionBox.y = nextPosition.y / MapManager.UNIT_SCALE;
+
+        // Actualización del parpadeo
+
+        if (isBlinking) {
+
+            blinkingTime += deltaTime;
+        }
+
 
     }
 
@@ -331,6 +356,43 @@ public abstract class Entity {
 
     }
 
+    public void setBlinking() {
+
+        isBlinking = true;
+
+        Gdx.app.log(TAG, "Entrando en modo parpadeo...");
+
+        // El timer ejecuta la tarea en un hilo distinto, luego es muy importante cancelarlo una vez terminado un tiempo
+
+        blinkingTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+
+                if (blinkingTime >= maxBlinkingTime) {
+
+                    blinkingTime = 0;
+
+                    isRendered = true;
+
+                    isBlinking = false;
+
+                    Gdx.app.log(TAG,"Timer finalizado");
+
+                    cancel();
+
+                }
+
+                else {
+
+                    isRendered = !isRendered;
+
+                }
+            }
+        }, 0, 100);
+
+
+    }
+
     public Direction getOppositeDirection() {
 
         Direction opposite = null;
@@ -372,8 +434,13 @@ public abstract class Entity {
 
     public void render(OrthogonalTiledMapRenderer renderer) {
 
-        renderer.getBatch().draw(currentTexture, currentPosition.x, currentPosition.y, drawWidth, drawHeight);
+        // Si la entidad no está en modo parpadeo, se renderiza la textura
 
+        if(isRendered) {
+
+            renderer.getBatch().draw(currentTexture, currentPosition.x, currentPosition.y, drawWidth, drawHeight);
+
+        }
     }
 
     public void setInitialPosition(float x, float y) {
@@ -388,6 +455,10 @@ public abstract class Entity {
 
     }
 
+    public boolean isBlinking() {
+
+        return isBlinking;
+    }
 
 
 }
