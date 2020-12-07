@@ -35,7 +35,7 @@ public class AnimationManager {
         this.singleAnimations = singleAnimations;
     }
 
-    private List<Animation<TextureRegion>> loadAnimations(String animationsPath) {
+    private List<Animation<TextureRegion>> loadAnimations(String animationsPath,Animation.PlayMode playMode) {
 
         // Cargamos la textura (imagen que contiene las animacions por filas)
 
@@ -74,7 +74,7 @@ public class AnimationManager {
 
             }
 
-            Animation<TextureRegion> anim = new Animation<>(frameTime, sheet, Animation.PlayMode.LOOP);
+            Animation<TextureRegion> anim = new Animation<>(frameTime, sheet, playMode);
 
             animationSheets.add(anim);
 
@@ -87,7 +87,7 @@ public class AnimationManager {
 
     public void loadDirectionalAnimations(String animationsPath, Entity.State s) {
 
-        List<Animation<TextureRegion>> animations = loadAnimations(animationsPath);
+        List<Animation<TextureRegion>> animations = loadAnimations(animationsPath, Animation.PlayMode.LOOP);
 
         HashMap<Entity.Direction,Animation<TextureRegion>> dirMap = new HashMap<>();
 
@@ -106,7 +106,7 @@ public class AnimationManager {
 
     public void loadSingleAnimation(String animationPath, Entity.State s) {
 
-        singleAnimations.put(s, loadAnimations(animationPath).get(0));
+        singleAnimations.put(s, loadAnimations(animationPath, Animation.PlayMode.NORMAL).get(0));
 
         Gdx.app.debug(TAG,"Éxito al cargar las animación única para el estado " + s.name());
 

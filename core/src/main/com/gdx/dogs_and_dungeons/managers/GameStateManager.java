@@ -1,11 +1,14 @@
 package com.gdx.dogs_and_dungeons.managers;
 import com.badlogic.gdx.Gdx;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
+import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.screens.MainGameScreen;
 
  // Clase para gestionar los distintos estados del juego
 
 public class GameStateManager {
+
+    private static final String TAG = GameStateManager.class.getSimpleName();
 
     public enum GameState {
         PLAYING,
@@ -44,8 +47,6 @@ public class GameStateManager {
 
             setCurrentGameState(GameState.GAME_OVER);
         }
-
-
     }
 
     // De momento solo tenemos un estado, pero en caso de tener más, podríamos crear clases estado
@@ -67,7 +68,21 @@ public class GameStateManager {
 
                 spriteManager.updateEnemies(delta);
 
-                gameScreen.switchScreen(DogsAndDungeons.gameOverScreen,delta);
+                spriteManager.player.update(delta);
+
+                if (spriteManager.player.getCurrentState() != Entity.State.DYING) {
+
+                    spriteManager.player.setState(Entity.State.DYING);
+
+                    spriteManager.player.resetAnimationTime();
+                }
+
+                if (spriteManager.player.animationIsFinished(Entity.State.DYING)) {
+
+                    Gdx.app.log(TAG, "La animación de muerte ha terminado!");
+
+                    gameScreen.switchScreen(DogsAndDungeons.gameOverScreen, delta);
+                }
 
                 break;
         }

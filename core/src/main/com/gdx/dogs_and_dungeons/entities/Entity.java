@@ -181,6 +181,7 @@ public abstract class Entity {
         currentTexture = dirAnimations.get(state).get(direction).getKeyFrame(0);
     }
 
+
     public void setPosition(float x, float y) {
 
         currentPosition.x = x;
@@ -193,56 +194,6 @@ public abstract class Entity {
 
     }
 
-    /*
-
-
-    // Carga las animaciones de la entidad (único fichero)
-
-    protected void loadAnimations(String animationsPath, State state) {
-
-            // Cargamos la textura (imagen que contiene las animacions por filas)
-
-            Utility.loadTextureAsset(animationsPath);
-
-            Texture tileSheet = Utility.getTextureAsset(animationsPath);
-
-            // Obtenemos el número de filas columnas (el número de filas es igual al número de elementos
-            // de la enumeración Diretion
-
-            int num_cols = tileSheet.getWidth() / tileWidth;
-
-            Gdx.app.debug(TAG, "Columnas de spritesheet: " + num_cols);
-
-            TextureRegion[][] textures = TextureRegion.split(tileSheet, tileWidth, tileHeight);
-
-            // El tiempo de cada textura cada segundo dependerá del número de columnas
-
-            float frameTime = 1f / num_cols;
-
-            // Guardamos los tiles en sus respectivos arrays
-
-            HashMap<Direction, Animation<TextureRegion>> animationSheets = new HashMap<>();
-
-            for (Direction direction : Direction.values()) {
-
-                Array<TextureRegion> sheet = new Array<>(false, num_cols);
-
-                for (int j = 0; j < num_cols; j++) {
-
-                    TextureRegion texture = textures[direction.ordinal()][j];
-
-                    sheet.add(texture);
-
-                }
-
-                Animation<TextureRegion> anim = new Animation<>(frameTime, sheet, Animation.PlayMode.LOOP);
-
-                animationSheets.put(direction, anim);
-            }
-
-
-            dirAnimations.put(state, animationSheets);
-    } */
 
     protected void setFrameTime(State s, float frameTime) {
 
@@ -263,7 +214,9 @@ public abstract class Entity {
 
     private void updateAnimations() {
 
-        currentTexture = dirAnimations.get(currentState).get(currentDirection).getKeyFrame(animationTime);
+        if (singleAnimations.containsKey(currentState)) currentTexture = singleAnimations.get(currentState).getKeyFrame(animationTime);
+
+        else currentTexture = dirAnimations.get(currentState).get(currentDirection).getKeyFrame(animationTime);
 
     }
 
@@ -360,6 +313,8 @@ public abstract class Entity {
     }
 
     public boolean animationIsFinished(State s) {
+
+        if (singleAnimations.containsKey(s)) return singleAnimations.get(s).isAnimationFinished(animationTime);
 
         return dirAnimations.get(s).get(currentDirection).isAnimationFinished(animationTime);
 

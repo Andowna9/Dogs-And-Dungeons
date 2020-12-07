@@ -1,6 +1,6 @@
 package com.gdx.dogs_and_dungeons.entities.player;
 
-import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.gdx.dogs_and_dungeons.entities.Entity;

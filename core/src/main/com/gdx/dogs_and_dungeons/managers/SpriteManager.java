@@ -111,7 +111,11 @@ public class SpriteManager {
 
                 Gdx.app.debug(TAG,"Vida restante: " + player.getHealth());
 
-                player.setBlinking();
+                if (!player.isDead()) {
+
+                    player.setBlinking();
+
+                }
             }
         }
     }
