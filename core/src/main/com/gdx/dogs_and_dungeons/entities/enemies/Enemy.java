@@ -46,7 +46,7 @@ public abstract class Enemy extends Entity {
 
         super(width, height, drawWidth, drawHeight);
 
-        loadAnimations(generalPath + specificPath,State.WALKING);
+        animManager.loadDirectionalAnimations(generalPath + specificPath,State.WALKING);
 
         setDefaultTexture(State.WALKING, Direction.RIGHT);
 

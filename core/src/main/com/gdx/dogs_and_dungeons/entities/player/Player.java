@@ -13,19 +13,23 @@ public class Player extends Entity {
 
     private static final String attackingPath = "player/boy/dagger_attack.png";
 
+    private static final String dyingPath = "player/boy/dying.png";
+
     public Player(int width, int height,float drawWidth, float drawHeight) {
 
         super(width, height,drawWidth,drawHeight);
 
         // Vida del jugador
 
-        health = 5;
+        health = 3;
 
         setVelocity(2.5f,2.5f);
 
-        loadAnimations(walkingPath, State.WALKING);
+        animManager.loadDirectionalAnimations(walkingPath, State.WALKING);
 
-        loadAnimations(attackingPath, State.ATTACKING);
+        animManager.loadDirectionalAnimations(attackingPath, State.ATTACKING);
+
+        animManager.loadSingleAnimation(dyingPath,State.DYING);
 
         setFrameTime(State.ATTACKING,0.1f);
 

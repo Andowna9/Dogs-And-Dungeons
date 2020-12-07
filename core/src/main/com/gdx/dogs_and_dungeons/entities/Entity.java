@@ -19,7 +19,7 @@ public abstract class Entity {
 
     public enum State {
 
-        WALKING, ATTACKING, IDLE
+        WALKING, ATTACKING, IDLE, DYING
     }
 
     public enum Direction {
@@ -52,7 +52,17 @@ public abstract class Entity {
 
     protected float animationTime = 0f;
 
-    protected HashMap<State,HashMap<Direction,Animation<TextureRegion>>> animations;
+    // Animaciones con varias direcciones
+
+    protected HashMap<State,HashMap<Direction,Animation<TextureRegion>>> dirAnimations;
+
+    // Animaciones en una única dirección
+
+    protected  HashMap<State,Animation<TextureRegion>> singleAnimations;
+
+    // Gestor de animaciones (principalmente carga)
+
+    protected AnimationManager animManager;
 
     // Tamaño de cada región de la textura (en píxeles)
 
@@ -86,6 +96,7 @@ public abstract class Entity {
 
     protected boolean isBlinking = false;
 
+
     // Factor de escalado, que se utiliza si un sprite es reescalado al ser dibujado
 
     private float scaleFactor;
@@ -105,7 +116,11 @@ public abstract class Entity {
 
         scaleFactor = drawWidth / (tileWidth * MapManager.UNIT_SCALE);
 
-        animations = new HashMap<>();
+        dirAnimations = new HashMap<>();
+
+        singleAnimations = new HashMap<>();
+
+        animManager = new AnimationManager(tileWidth,tileHeight,dirAnimations,singleAnimations);
 
         init();
     }
@@ -163,7 +178,7 @@ public abstract class Entity {
 
     protected void setDefaultTexture(State state, Direction direction) {
 
-        currentTexture = animations.get(state).get(direction).getKeyFrame(0);
+        currentTexture = dirAnimations.get(state).get(direction).getKeyFrame(0);
     }
 
     public void setPosition(float x, float y) {
@@ -177,6 +192,9 @@ public abstract class Entity {
         nextPosition.y = y;
 
     }
+
+    /*
+
 
     // Carga las animaciones de la entidad (único fichero)
 
@@ -223,12 +241,12 @@ public abstract class Entity {
             }
 
 
-            animations.put(state, animationSheets);
-    }
+            dirAnimations.put(state, animationSheets);
+    } */
 
     protected void setFrameTime(State s, float frameTime) {
 
-        for (Animation<TextureRegion> a: animations.get(s).values()) {
+        for (Animation<TextureRegion> a: dirAnimations.get(s).values()) {
 
             a.setFrameDuration(frameTime);
         }
@@ -245,7 +263,7 @@ public abstract class Entity {
 
     private void updateAnimations() {
 
-        currentTexture = animations.get(currentState).get(currentDirection).getKeyFrame(animationTime);
+        currentTexture = dirAnimations.get(currentState).get(currentDirection).getKeyFrame(animationTime);
 
     }
 
@@ -343,7 +361,7 @@ public abstract class Entity {
 
     public boolean animationIsFinished(State s) {
 
-        return animations.get(s).get(currentDirection).isAnimationFinished(animationTime);
+        return dirAnimations.get(s).get(currentDirection).isAnimationFinished(animationTime);
 
     }
 
@@ -458,6 +476,16 @@ public abstract class Entity {
     public boolean isBlinking() {
 
         return isBlinking;
+    }
+
+    public int getHealth() {
+
+        return health;
+    }
+
+    public boolean isDead() {
+
+        return health <= 0;
     }
 
 
