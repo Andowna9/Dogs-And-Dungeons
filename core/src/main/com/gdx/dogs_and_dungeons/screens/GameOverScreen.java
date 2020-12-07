@@ -68,7 +68,7 @@ public class GameOverScreen implements Screen {
 
         // A continuación, aplicamos el efecto de fade in, que irá aumentando este valor hasta 1
 
-        stage.addAction(fadeIn(0.8f));
+        stage.addAction(fadeIn(1f));
 
         Gdx.input.setInputProcessor(stage);
 

@@ -3,14 +3,17 @@ package com.gdx.dogs_and_dungeons.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.gdx.dogs_and_dungeons.*;
 import com.gdx.dogs_and_dungeons.managers.CameraManager;
+import com.gdx.dogs_and_dungeons.managers.GameStateManager;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.managers.RenderManager;
 
@@ -20,6 +23,8 @@ public class MainGameScreen implements Screen {
 
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
+    private DogsAndDungeons game_ref;
+
     private SpriteBatch batch;
 
     // Fuente para mostrar fps
@@ -27,10 +32,6 @@ public class MainGameScreen implements Screen {
     private BitmapFont font;
 
     private OrthogonalTiledMapRenderer mapRenderer;
-
-    // Referencia a la clase que extiende de game
-
-    private DogsAndDungeons game_ref;
 
     // Gestor de entidades
 
@@ -44,16 +45,25 @@ public class MainGameScreen implements Screen {
 
     private CameraManager cameraManager;
 
+    // Gestor de estados del juegi
+
+    private GameStateManager gameStateManager;
+
     // Tiempos de pausa
 
     private long pauseTime;
 
     private long pauseStart;
 
+    private ShapeRenderer shapeRenderer;
+
+    private float alpha = 0f;
 
     public MainGameScreen(DogsAndDungeons game) {
 
         game_ref = game;
+
+        shapeRenderer = new ShapeRenderer();
 
         batch = new SpriteBatch();
 
@@ -63,9 +73,13 @@ public class MainGameScreen implements Screen {
 
         renderManager = new RenderManager(spriteManager);
 
+        gameStateManager = new GameStateManager(this,spriteManager);
+
         cameraManager = new CameraManager(renderManager, spriteManager);
 
+
     }
+
 
     @Override
     public void show() {
@@ -73,6 +87,7 @@ public class MainGameScreen implements Screen {
         Gdx.input.setInputProcessor(spriteManager.getPlayerController());
 
     }
+
 
     @Override
     public void render(float delta) {
@@ -92,8 +107,9 @@ public class MainGameScreen implements Screen {
 
         cameraManager.updateCamera();
 
+        // El GameStateManager actualiza el estado del juego si es necesario
 
-        spriteManager.update(delta);
+        gameStateManager.updateState(delta);
 
         // Antes de renderizar ajustamos la vista del mapa, ya que hemos actualizado la cámara
 
@@ -107,7 +123,32 @@ public class MainGameScreen implements Screen {
 
         font.draw(batch,String.valueOf(Gdx.graphics.getFramesPerSecond()),20,20);
 
+        // Rectángulo negro que servirá para lograr fadeOut
+
         batch.end();
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        shapeRenderer.setColor(0,0,0,alpha);
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        shapeRenderer.rect(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        shapeRenderer.end();
+
+    }
+
+    public void switchScreen(Screen newScreen, float delta) {
+
+        alpha += delta;
+
+        if (alpha >= 1) {
+
+
+            game_ref.setScreen(newScreen);
+        }
 
 
     }

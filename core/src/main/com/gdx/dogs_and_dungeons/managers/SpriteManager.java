@@ -59,7 +59,7 @@ public class SpriteManager {
 
     // Actulización de enemigos
 
-    private void updateEnemies(float delta) {
+    void updateEnemies(float delta) {
 
         for (Enemy e: enemies) {
 
@@ -107,7 +107,9 @@ public class SpriteManager {
 
             if (player.isCollidingWithEntity(enemy) && !player.isBlinking()) {
 
-                Gdx.app.debug(TAG,"-1 de vida");
+                player.receiveDamage();
+
+                Gdx.app.debug(TAG,"Vida restante: " + player.getHealth());
 
                 player.setBlinking();
             }
