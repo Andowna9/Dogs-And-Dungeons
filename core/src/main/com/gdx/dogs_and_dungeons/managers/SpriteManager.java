@@ -44,9 +44,9 @@ public class SpriteManager {
 
         player = new Player(64,64,1.3f,1.3f);
 
-        playerController = new PlayerController(player);
+        player.setPosition(22.5f,0);
 
-        player.setInitialPosition(22.5f,0);
+        playerController = new PlayerController(player);
 
         // Creación de los enemigos
 
@@ -63,7 +63,7 @@ public class SpriteManager {
 
         player.setHealth(3);
 
-        player.setPosition(22.5f,0);
+        player.setInitialPosition(mapManager.getPlayerSpawnPosition(player.getCurrentPosition()));
 
         player.setDefaultTexture(Entity.State.WALKING, Entity.Direction.UP);
 

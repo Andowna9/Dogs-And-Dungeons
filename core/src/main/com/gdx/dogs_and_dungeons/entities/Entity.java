@@ -191,6 +191,13 @@ public abstract class Entity {
 
     }
 
+    public void setInitialPosition(Vector2 v) {
+
+        initialPosition = v.cpy();
+
+        setPosition(v.x, v.y);
+    }
+
 
     protected void setFrameTime(State s, float frameTime) {
 

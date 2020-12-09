@@ -2,6 +2,7 @@ package com.gdx.dogs_and_dungeons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
@@ -10,8 +11,6 @@ import java.util.Hashtable;
 public class MapManager {
 
     private static final String TAG = MapManager.class.getSimpleName();
-
-    private Vector2 playerStartPosition;
 
     // Almacenamos las rutas utilizando como clave el nombre de cada mapa
 
@@ -54,8 +53,6 @@ public class MapManager {
     public static final float UNIT_SCALE = 1/32f;
 
     public MapManager() {
-
-        playerStartPosition = new Vector2();
 
         maps = new Hashtable<>();
 
@@ -128,6 +125,60 @@ public class MapManager {
 
     }
 
+    public Vector2 getPlayerSpawnPosition(Vector2 lastPosition) {
+
+        float shortestDistance = Float.MAX_VALUE;
+
+        // Es importante pasar la posición del jugador a píxeles para compararar distancias con instancias de RectangleMapObject
+
+        lastPosition.scl(1/UNIT_SCALE);
+
+        Vector2 playerPosition = new Vector2();
+
+        for (MapObject mapObject: spawnLayer.getObjects()) {
+
+            // Si el punto de spawn está activado, lo tenemos en cuenta en el cálculo del más cercano
+
+            if (mapObject.getProperties().get("activated",Boolean.class)) {
+
+                RectangleMapObject spawn = (RectangleMapObject) mapObject;
+
+                Vector2 spawnPosition = new Vector2();
+
+                spawn.getRectangle().getPosition(spawnPosition);
+
+                Gdx.app.debug(TAG, "Nombre de spawn: " + spawn.getName());
+
+                Gdx.app.debug(TAG, "Posición: " + spawnPosition);
+
+                Gdx.app.debug(TAG, "Posición jugador: " + lastPosition);
+
+                float distance = lastPosition.dst(spawnPosition);
+
+                Gdx.app.debug(TAG, "Distancia: " + distance);
+
+                if (distance < shortestDistance) {
+
+                    shortestDistance = distance;
+
+                    playerPosition = spawnPosition;
+
+                }
+
+
+            }
+        }
+
+        lastPosition.set(playerPosition);
+
+        // Compensamos la posición de acuerdo con el tamaño del jugador
+
+        lastPosition.add(-16, -16);
+
+        return lastPosition.scl(UNIT_SCALE);
+
+    }
+
     public TiledMap getMap() {
 
         return currentMap;
@@ -153,4 +204,5 @@ public class MapManager {
         return currentMapHeight;
 
     }
+
 }

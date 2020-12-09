@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="9">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="12">
  <tileset firstgid="1" source="[A]Grass_pipo.tsx"/>
  <tileset firstgid="529" source="[A]Water_pipo.tsx"/>
  <tileset firstgid="3601" source="[Base]BaseChip_pipo.tsx"/>
@@ -261,6 +261,13 @@
  </layer>
  <objectgroup id="6" name="OBJECTS_LAYER">
   <object id="8" name="wood" gid="3646" x="640" y="1790.67" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="7" name="SPAWN_LAYER">
+  <object id="9" name="START" x="734.666" y="1898.67">
+   <properties>
+    <property name="activated" type="bool" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="5" name="COLLISION_LAYER">
   <object id="1" x="420" y="1637.5" width="23" height="17"/>
