@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
@@ -44,8 +46,28 @@ public class GameOverScreen implements Screen {
 
         TextButton leaveButton = new TextButton("Abandonar",Utility.DEFAULT_SKIN);
 
+        leaveButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                game_ref.setScreen(DogsAndDungeons.mainScreen);
+
+            }
+        });
+
         TextButton resumeButton = new TextButton("Reintentar",Utility.DEFAULT_SKIN);
 
+        resumeButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                game_ref.setScreen(DogsAndDungeons.mainGameScreen);
+
+            }
+
+        });
         table.add(endText).colspan(2).expandY();
 
         table.row();

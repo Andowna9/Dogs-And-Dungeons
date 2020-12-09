@@ -57,6 +57,22 @@ public class SpriteManager {
         enemies.add(e);
     }
 
+    // Inicialización en caso de reanudar la partida (más adelante con puntos de spawn)
+
+    public void init() {
+
+        player.setHealth(3);
+
+        player.setPosition(22.5f,0);
+
+        player.setDefaultTexture(Entity.State.WALKING, Entity.Direction.UP);
+
+        player.setState(Entity.State.IDLE);
+
+        player.setDirection(Entity.Direction.UP);
+
+    }
+
     // Actulización de enemigos
 
     void updateEnemies(float delta) {

@@ -7,10 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.gdx.dogs_and_dungeons.*;
 import com.gdx.dogs_and_dungeons.managers.CameraManager;
 import com.gdx.dogs_and_dungeons.managers.GameStateManager;
@@ -84,6 +80,14 @@ public class MainGameScreen implements Screen {
     @Override
     public void show() {
 
+        alpha = 0;
+
+        gameStateManager.setCurrentGameState(GameStateManager.GameState.PLAYING);
+
+        spriteManager.init();
+
+        spriteManager.getPlayerController().init();
+
         Gdx.input.setInputProcessor(spriteManager.getPlayerController());
 
     }
@@ -146,8 +150,8 @@ public class MainGameScreen implements Screen {
 
         if (alpha >= 1) {
 
-
             game_ref.setScreen(newScreen);
+
         }
 
 

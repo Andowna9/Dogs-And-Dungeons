@@ -19,10 +19,6 @@ public class Player extends Entity {
 
         super(width, height,drawWidth,drawHeight);
 
-        // Vida del jugador
-
-        health = 3;
-
         setVelocity(2.5f,2.5f);
 
         animManager.loadDirectionalAnimations(walkingPath, State.WALKING);
@@ -32,10 +28,6 @@ public class Player extends Entity {
         animManager.loadSingleAnimation(dyingPath,State.DYING);
 
         setFrameTime(State.ATTACKING,0.1f);
-
-        setDefaultTexture(State.WALKING, Direction.UP);
-
-        setDirection(Direction.UP);
 
     }
 

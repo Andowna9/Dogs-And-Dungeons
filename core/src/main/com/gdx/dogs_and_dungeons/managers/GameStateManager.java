@@ -10,6 +10,7 @@ public class GameStateManager {
 
     private static final String TAG = GameStateManager.class.getSimpleName();
 
+
     public enum GameState {
         PLAYING,
         GAME_OVER

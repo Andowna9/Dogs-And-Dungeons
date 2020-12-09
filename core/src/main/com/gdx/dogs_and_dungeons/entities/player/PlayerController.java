@@ -12,21 +12,32 @@ public class PlayerController extends InputAdapter {
 
     private Player player;
 
-    private boolean movingUp = false;
+    private boolean movingUp ;
 
-    private boolean movingDown = false;
+    private boolean movingDown;
 
-    private boolean movingLeft = false;
+    private boolean movingLeft;
 
-    private boolean movingRight = false;
+    private boolean movingRight;
 
-    private boolean attacking = false;
+    private boolean attacking;
 
 
     public PlayerController(Player player) {
 
         this.player = player;
 
+    }
+
+    public void init() {
+
+        movingUp = false;
+
+        movingDown = false;
+
+        movingLeft = false;
+
+        movingRight = false;
     }
 
 
@@ -95,8 +106,6 @@ public class PlayerController extends InputAdapter {
     }
 
     public void processInput(float deltaTime) {
-
-
 
         if (attacking) {
 
