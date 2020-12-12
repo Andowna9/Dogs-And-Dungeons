@@ -155,6 +155,12 @@ public abstract class Entity {
             updateAnimations();
         }
 
+        else {
+
+            setIdleFrame();
+
+        }
+
         // Sumamos un cuarto del sprite a la caja de colisiones para compensar espacio vacío que pueda haber desde la izquierda
 
         collisionBox.x = nextPosition.x / MapManager.UNIT_SCALE + (tileWidth * scaleFactor)/4;
@@ -196,6 +202,11 @@ public abstract class Entity {
         initialPosition = v.cpy();
 
         setPosition(v.x, v.y);
+    }
+
+    private void setIdleFrame() {
+
+        currentTexture = dirAnimations.get(State.WALKING).get(currentDirection).getKeyFrame(0);
     }
 
 
@@ -276,7 +287,7 @@ public abstract class Entity {
         velocity.scl(1 / deltaTime);
     }
 
-    // Método para restar vida al enemigo (de momento siempre resta 1)
+    // Método para restar vida al enemigo/jugador (de momento siempre resta 1)
 
     public void receiveDamage() {
 
