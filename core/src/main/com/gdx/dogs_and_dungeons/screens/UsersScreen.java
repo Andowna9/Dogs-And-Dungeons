@@ -5,8 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
@@ -15,9 +17,11 @@ import com.gdx.dogs_and_dungeons.users.User;
 
 public class UsersScreen implements Screen {
 
+    private static final String TAG = UsersScreen.class.getSimpleName();
+
     private Stage stage;
 
-    private List userList;
+    private List<User> userList;
 
     private Label lSelectUser;
 
@@ -31,11 +35,87 @@ public class UsersScreen implements Screen {
 
     private Array<User> userModel;
 
+    private PasswordDialog dPass;
+
+    // Diálogo para introducir clave/contraseña
+
+    class PasswordDialog extends Dialog {
+
+        private TextField tPass;
+
+
+        public PasswordDialog(String title, Skin skin) {
+
+            super(title, skin);
+
+            // Label para indicar que se espera la contraseña
+
+            Label lPass = new Label("Introduce la clave: ", Utility.DEFAULT_SKIN);
+
+            // Campo de texto oculto para que no se visualice la contraseña
+
+            tPass = new TextField("", Utility.DEFAULT_SKIN);
+
+            tPass.setPasswordCharacter('*');
+
+            tPass.setPasswordMode(true);
+
+            // Botón de confirmación
+
+            TextButton confirmButton = new TextButton("OK",Utility.DEFAULT_SKIN);
+
+            confirmButton.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+
+                    String password = tPass.getText();
+
+                    // Se consulta si la contraseña del usuario es correcta
+
+                    Gdx.app.debug(TAG, "Contraseña introducida: " + password);
+
+                    hide();
+
+
+                }
+
+            });
+
+            // Botón para cancelar y cerrar el diálogo
+
+            TextButton cancelButton = new TextButton("Cancelar", Utility.DEFAULT_SKIN);
+
+            cancelButton.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+
+                    hide();
+                }
+            });
+
+            getContentTable().add(lPass);
+
+            getContentTable().row().width(200);
+
+            getContentTable().add(tPass);
+
+            getButtonTable().add(cancelButton,confirmButton);
+
+
+        }
+    }
+
     public UsersScreen(DogsAndDungeons game){
 
         this.game_ref = game;
 
         userModel = new Array<>();
+
+        // Diálogo para contraseña
+
+        dPass = new PasswordDialog("Advertencia!", Utility.DEFAULT_SKIN);
 
         gradient = new ShapeRenderer();
 
@@ -43,13 +123,22 @@ public class UsersScreen implements Screen {
 
         stage = new Stage();
 
-        userList = new List(Utility.DEFAULT_SKIN);
+        userList = new List<>(Utility.DEFAULT_SKIN);
 
         addUser(new User("Asier", "Jauregui"));
         addUser(new User("Jon Andoni", "Castillo"));
         addUser(new User("Alex", "Nitu"));
 
         bCreate = new TextButton("Crear usuario", Utility.DEFAULT_SKIN);
+
+        bCreate.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                dPass.show(stage);
+
+            }
+        });
 
         bDelete = new TextButton("Borrar usuario", Utility.DEFAULT_SKIN);
 
@@ -61,7 +150,7 @@ public class UsersScreen implements Screen {
         ScrollPane scroller = new ScrollPane(userList);
 
         Table table = new Table();
-        table.setDebug(true);
+        //table.setDebug(true);
 
         table.setFillParent(true);
 
