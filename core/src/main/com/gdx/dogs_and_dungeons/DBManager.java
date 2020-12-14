@@ -2,11 +2,8 @@ package com.gdx.dogs_and_dungeons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.users.User;
 
-import javax.jws.soap.SOAPBinding;
-import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
