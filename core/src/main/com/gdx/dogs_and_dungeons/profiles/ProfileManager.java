@@ -169,6 +169,8 @@ public class ProfileManager extends ProfileSubject {
 
     public void saveProfile() {
 
+        notifyObservers(this, ProfileObserver.ProfileEvent.SAVING_PROFILE);
+
         String text = json.prettyPrint(json.toJson(profileProperties));
 
         writeProfile(currentProfile,text,true);
@@ -187,6 +189,8 @@ public class ProfileManager extends ProfileSubject {
         }
 
         profileProperties = json.fromJson(ObjectMap.class, profiles.get(currentProfile));
+
+        notifyObservers(this, ProfileObserver.ProfileEvent.LOADING_PROFILE);
 
     }
 
