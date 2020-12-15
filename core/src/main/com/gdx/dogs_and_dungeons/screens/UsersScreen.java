@@ -128,6 +128,21 @@ public class UsersScreen implements Screen {
         addUser(new User("Asier", "Jauregui"));
         addUser(new User("Jon Andoni", "Castillo"));
         addUser(new User("Alex", "Nitu"));
+        addUser(new User("Asier", "Josejuan Alberto"));
+        addUser(new User("Jon Andoni", "Castillo"));
+        addUser(new User("Alex", "Nitu"));
+        addUser(new User("Asier", "Jauregui"));
+        addUser(new User("Jon Andoni", "Castillo"));
+        addUser(new User("Alex", "Nitu"));
+        addUser(new User("Asier", "Jauregui"));
+        addUser(new User("Jon Andoni", "Castillo"));
+        addUser(new User("Alex", "Nitu"));
+        addUser(new User("MMMMMeEEEEGGGGGGAAAAAMMMMIIIINNNNDDDDd", "Jauregui"));
+        addUser(new User("Jon Andoni", "Castillo"));
+        addUser(new User("Alex", "Nitu"));
+        addUser(new User("Asier", "Jauregui"));
+        addUser(new User("Jon Andoni", "Castillo"));
+        addUser(new User("Alex", "Nitu"));
 
         bCreate = new TextButton("Crear usuario", Utility.DEFAULT_SKIN);
 
@@ -150,26 +165,22 @@ public class UsersScreen implements Screen {
         ScrollPane scroller = new ScrollPane(userList);
 
         Table table = new Table();
-        //table.setDebug(true);
+
+        //table.setDebug(true); Quitar comentario para ver la alineación de la tabla
+
 
         table.setFillParent(true);
 
         table.top();
-        table.add(lSelectUser);
+        table.add(lSelectUser).padTop(50).left().padLeft(50);
         table.row().expandY();
-        table.add(scroller);
-        table.row().expandY();
-        table.add(bCreate);
-        table.add(bDelete);
+        table.add(scroller).padLeft(100).padBottom(50).padTop(50);
+        table.row();
+        table.add(bCreate).padRight(50).padBottom(100);
+        table.add(bDelete).padRight(150).padBottom(100);
 
 
         stage.addActor(table);
-
-
-
-
-
-
 
     }
 
