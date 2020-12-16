@@ -9,13 +9,18 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
-public class SecurePassword {
+public final class SecurePassword {
 
     private static final String TAG = SecureRandom.class.getSimpleName();
 
+    // Como es una clase de utilidad, no queremos que sea instanciada
+
+    private SecurePassword() {}
+
     // SHA1 utiliza hashes de 160 bits. Cuanto mayor sea este número, más costoso será hallar la contraseña mediande algoritmos de fuerza bruta, pero puede afectar al rendimiento.
 
-    public String getHashedPassword (String password, byte [] salt) {
+
+    public static String getHashedPassword (String password, byte [] salt) {
 
         String hashedPassword = null;
 
@@ -52,7 +57,7 @@ public class SecurePassword {
 
     // Genera una sal (número aleatorio) que se utilizará de forma conjunta con el hash creado a partir de la contraseña para mayor seguridad
 
-    public byte[] getSalt() {
+    public static byte[] getSalt() {
 
         // El generador utiliza por defecto el algoritmo SHA1PRNG
 

@@ -1,22 +1,16 @@
 package com.gdx.dogs_and_dungeons.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
@@ -125,8 +119,6 @@ public class UsersScreen implements Screen {
                         outputMessage.setText("Clave correcta!");
 
                         outputMessage.setColor(Color.GREEN);
-
-                        updateSize();
 
                         hide(Actions.fadeOut(1.5f));
 
@@ -247,8 +239,16 @@ public class UsersScreen implements Screen {
     }
 
     private void addUser(User user){
-        userModel.add(user);
-        userList.setItems(userModel);
+
+        // Nos aseguramos de que no se añaden usuarios duplicados al modelo
+
+        if (!userModel.contains(user,false)) {
+
+            userModel.add(user);
+
+            userList.setItems(userModel);
+
+        }
     }
     @Override
     public void show() {

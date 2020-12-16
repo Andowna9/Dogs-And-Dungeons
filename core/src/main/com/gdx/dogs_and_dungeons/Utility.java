@@ -29,6 +29,10 @@ public final class Utility {
 
     private final static InternalFileHandleResolver pathResolver = new InternalFileHandleResolver();
 
+    // Constructor privado para evitar instanciación
+
+    private Utility() {}
+
     // Eliminar recurso
 
     public static void unloadAsset(String assetPath) {
