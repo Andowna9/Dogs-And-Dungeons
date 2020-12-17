@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Base64;
 
 public final class SecurePassword {
 
@@ -72,6 +73,17 @@ public final class SecurePassword {
         Gdx.app.debug(TAG,"Sal generada: " + Arrays.toString(salt));
 
         return salt;
+    }
+
+    public static String  getEncodedSalt(byte [] salt) {
+
+        return Base64.getEncoder().encodeToString(salt);
+
+    }
+
+    public static byte [] getDecodedSalt(String encodedSalt) {
+
+        return Base64.getDecoder().decode(encodedSalt);
 
     }
 

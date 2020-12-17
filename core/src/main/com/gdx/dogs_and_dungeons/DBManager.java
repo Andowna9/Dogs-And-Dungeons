@@ -2,6 +2,7 @@ package com.gdx.dogs_and_dungeons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.gdx.dogs_and_dungeons.users.SecurePassword;
 import com.gdx.dogs_and_dungeons.users.User;
 
 import java.sql.*;
@@ -96,7 +97,8 @@ public class DBManager {
                     "Name TEXT," +
                     "Surname TEXT," +
                     "Nickname TEXT NOT NULL UNIQUE," +
-                    "Password TEXT NOT NULL)");
+                    "hash TEXT NOT NULL," +
+                    "Salt TEXT NOT NULL)");
         }
 
         catch (SQLException e) {
@@ -105,11 +107,26 @@ public class DBManager {
         }
     }
 
+    // Vista con aquellos datos de lectura que se podrán mostrar en las ventanas con el objetivo separarlos de los ocultos (contraseña, salt ...)
+
+    public void createUserView() {
+
+        try(Statement st = conn.createStatement()) {
+
+            st.executeUpdate("CREATE VIEW IF NOT EXISTS UserView AS SELECT id, name, surname, nickname FROM User");
+        }
+
+        catch (SQLException e) {
+
+            Gdx.app.error(TAG, "No se ha podido crear la vista para la tabla Usuario!",e);
+        }
+    }
+
     // Método para insertar un usuario en la tabla Usuario de la base de datos
 
-    public void storeUser(User user) {
+    public void storeUser(User user, String pass) {
 
-        try (PreparedStatement pst = conn.prepareStatement("INSERT INTO User (name, surname, nickname, password) VALUES (?, ?, ?, ?)")) {
+        try (PreparedStatement pst = conn.prepareStatement("INSERT INTO User (name, surname, nickname, hash, salt) VALUES (?, ?, ?, ?, ?)")) {
 
             try(Statement stforId = conn.createStatement()) {
 
@@ -119,7 +136,13 @@ public class DBManager {
 
                 pst.setString(3, user.getNickname());
 
-                pst.setString(4, user.getPassword());
+                byte [] salt = SecurePassword.getSalt();
+
+                String hashedPassword = SecurePassword.getHashedPassword(pass, salt);
+
+                pst.setString(4, hashedPassword);
+
+                pst.setString(5, SecurePassword.getEncodedSalt(salt));
 
                 pst.executeUpdate();
 
@@ -164,6 +187,7 @@ public class DBManager {
 
         catch (SQLException e) {
 
+            Gdx.app.error(TAG, "Error al borrar el usuario " + user);
 
         }
 
@@ -175,7 +199,7 @@ public class DBManager {
 
         try(Statement st = conn.createStatement()) {
 
-            ResultSet rs = st.executeQuery("SELECT id, Name, Surname, Nickname, Password FROM User");
+            ResultSet rs = st.executeQuery("SELECT id, name, surname, nickname FROM UserView");
 
             while (rs.next()) {
 
@@ -188,8 +212,6 @@ public class DBManager {
                 user.setSurname(rs.getString("Surname"));
 
                 user.setNickname(rs.getString("Nickname"));
-
-                user.setPassword(rs.getString("Password"));
 
                 users.add(user);
             }
@@ -209,7 +231,7 @@ public class DBManager {
 
         try (Statement st = conn.createStatement()) {
 
-            ResultSet rs = st.executeQuery("SELECT COUNT(*) FROM User");
+            ResultSet rs = st.executeQuery("SELECT COUNT(*) FROM UserView");
 
             if (rs.next()) {
 
@@ -248,7 +270,56 @@ public class DBManager {
             Gdx.app.error(TAG, "Error al borrar la tabla User");
         }
 
+    }
 
+    public void dropUserView() {
+
+        try (Statement st = conn.createStatement()) {
+
+            st.executeUpdate("DROP VIEW IF EXISTS UserView");
+
+        }
+
+        catch (SQLException e) {
+
+            Gdx.app.error(TAG, "Error al borrar la vista UserView");
+        }
+
+}
+
+
+    // Método para comprobar si la contraseña introducida es correcta comparando con el valor almacenado en la base de datos
+
+    public boolean isPasswordValid(int userId, String userPass) {
+
+        try(PreparedStatement pst = conn.prepareStatement("SELECT hash, salt FROM User WHERE id=?")) {
+
+            pst.setInt(1,userId);
+
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+
+               String storedHash =  rs.getString("hash");
+
+               byte [] storedSalt = SecurePassword.getDecodedSalt(rs.getString("salt"));
+
+               if (SecurePassword.getHashedPassword(userPass, storedSalt).equals(storedHash)) {
+
+                  return true;
+              }
+
+
+            }
+        }
+
+        catch (SQLException e) {
+
+            Gdx.app.error(TAG, "Error al validar la contraseña del usuario con id " + userId);
+
+        }
+
+        return false;
     }
 
     // Para borrar la base de datos basta con eliminar el fichero asociado

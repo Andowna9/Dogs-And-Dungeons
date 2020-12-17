@@ -10,28 +10,20 @@ public class User implements Comparable<User> {
 
     private String nickname;
 
-    private String password;
+    public User() {}
 
-    public User(String name, String surname, String nickname, String password) {
+    public User(String name, String surname, String nickname) {
 
         this.name = name;
 
         this.surname = surname;
 
         this.nickname = nickname;
-
-        this.password = password;
     }
 
-    public User() {
-
-    }
-
-    public User(String nickname, String password) {
+    public User(String nickname) {
 
         this.nickname = nickname;
-
-        this.password = password;
 
         this.name = "";
 
@@ -53,10 +45,6 @@ public class User implements Comparable<User> {
         return name;
     }
 
-    public String getPassword() {
-
-        return password;
-    }
 
     public int getId() {
 
@@ -72,11 +60,6 @@ public class User implements Comparable<User> {
             id = newId;
         }
 
-    }
-
-    public void setPassword(String newPassword) {
-
-        password = newPassword;
     }
 
     public void setName(String newName) {

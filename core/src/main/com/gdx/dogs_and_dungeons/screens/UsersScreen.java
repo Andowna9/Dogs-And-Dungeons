@@ -196,13 +196,13 @@ public class UsersScreen implements Screen {
             }
         });
 
-        addUser(new User("Asier", "añlsasal"));
-        addUser(new User("Jon Andoni", "sañlkñsa"));
-        addUser(new User("Alex", "alklas"));
-        addUser(new User("Alexby11","LKAJ"));
-        addUser(new User("Willyrex","alñjsksa"));
-        addUser(new User("Vegeta777","lakKJASK"));
-        addUser(new User("ElRubius","añksldsadñ"));
+        addUser(new User("Asier"));
+        addUser(new User("Jon Andoni"));
+        addUser(new User("Alex"));
+        addUser(new User("Alexby11"));
+        addUser(new User("Willyrex"));
+        addUser(new User("Vegeta777"));
+        addUser(new User("ElRubius"));
 
         bCreate = new TextButton("Crear usuario", Utility.DEFAULT_SKIN);
 
