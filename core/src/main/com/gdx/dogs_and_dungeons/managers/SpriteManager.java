@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.Entity;
+import com.gdx.dogs_and_dungeons.entities.EntityFactory;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
 import com.gdx.dogs_and_dungeons.entities.enemies.SimpleEnemy;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
@@ -42,7 +43,7 @@ public class SpriteManager {
 
         // Creación del jugador
 
-        player = new Player(64,64,1.3f,1.3f);
+        player = EntityFactory.getPlayer();
 
         player.setPosition(22.5f,0);
 
@@ -50,7 +51,7 @@ public class SpriteManager {
 
         // Creación de los enemigos
 
-        Enemy e = new SimpleEnemy(32,32,1f,1f, Entity.Direction.RIGHT);
+        Enemy e = EntityFactory.getEnemy(Enemy.Type.SIMPLE);
 
         e.setInitialPosition(15,5);
 

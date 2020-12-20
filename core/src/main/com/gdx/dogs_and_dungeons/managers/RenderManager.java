@@ -15,13 +15,11 @@ public class RenderManager {
 
     private SpriteManager spriteManager;
 
-    private ItemManager itemManager;
-
     // Posiciones de las capas del mapa
 
-    private final int [] backgroundLayers = {0,1,2};
+    private final int [] backgroundLayers = {0,1,2,3,4};
 
-    private final int [] foregroundLayers = {3};
+    private final int [] foregroundLayers = {5,6};
 
     // HUD del jugador
 

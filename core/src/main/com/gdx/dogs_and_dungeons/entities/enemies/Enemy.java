@@ -8,7 +8,7 @@ public abstract class Enemy extends Entity {
 
     public enum Type {
 
-        ENEMY1, ENEMY2, ENEMY3, ENEMY4
+        SIMPLE, BALANCED, HARD
     }
 
     public enum Movement {
