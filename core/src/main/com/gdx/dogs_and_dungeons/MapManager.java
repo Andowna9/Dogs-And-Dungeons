@@ -46,9 +46,9 @@ public class MapManager {
 
     // Dimensiones del mapa
 
-    private int currentMapWidth;
+    private static int currentMapWidth;
 
-    private int currentMapHeight;
+    private static int currentMapHeight;
 
     public static final float UNIT_SCALE = 1/32f;
 
@@ -194,15 +194,15 @@ public class MapManager {
         return objectsLayer;
     }
 
-    public int getCurrentMapWidth() {
+    public static int getCurrentMapWidth() {
 
         return currentMapWidth;
     }
 
-    public int getCurrentMapHeight() {
+    public static int getCurrentMapHeight() {
 
         return currentMapHeight;
-
     }
+
 
 }

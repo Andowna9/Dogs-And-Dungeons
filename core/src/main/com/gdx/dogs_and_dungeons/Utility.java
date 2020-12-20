@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -20,12 +21,15 @@ public final class Utility {
     // Referencia stática a skin por defecto para acceder convenientemente
 
     public static final Skin DEFAULT_SKIN = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
+    public static final TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(Gdx.files.internal("HUD/statusUI.atlas"));
 
     public static final AssetManager assetManager = new AssetManager();
 
     public static final BitmapFont mainFont = new BitmapFont(Gdx.files.internal("fonts/pixelade.fnt"));
 
     public static final BitmapFont titleFont = new BitmapFont(Gdx.files.internal("fonts/pixelade_title.fnt"));
+
+    public static final BitmapFont gameFont = new BitmapFont(Gdx.files.internal("fonts/pixelade_game.fnt"));
 
     private final static InternalFileHandleResolver pathResolver = new InternalFileHandleResolver();
 

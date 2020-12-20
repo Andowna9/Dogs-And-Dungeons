@@ -119,7 +119,7 @@ public class MainGameScreen implements Screen {
 
         // *RENDERIZADO DE TEXTURAS (GRÁFICOS)*
 
-        renderManager.render();
+        renderManager.render(delta);
 
         // Renderizado de texto para mostrar FPS en cada instante (con otro batch)
 

@@ -1,10 +1,13 @@
 package com.gdx.dogs_and_dungeons.managers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
+import com.gdx.dogs_and_dungeons.entities.player.PlayerHUD;
 
 public class RenderManager {
 
@@ -19,6 +22,10 @@ public class RenderManager {
     private final int [] backgroundLayers = {0,1,2};
 
     private final int [] foregroundLayers = {3};
+
+    // HUD del jugador
+
+    PlayerHUD playerHUD;
 
 
     public RenderManager(SpriteManager spriteManager) {
@@ -43,6 +50,12 @@ public class RenderManager {
             }
         };
 
+        OrthographicCamera camera = new OrthographicCamera();
+
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        playerHUD = new PlayerHUD(camera, spriteManager.player);
+
     }
 
     private void renderObjects() {
@@ -64,7 +77,7 @@ public class RenderManager {
         }
     }
 
-    public void render() {
+    public void render(float delta) {
 
         // Renderizado de capas inferiores
 
@@ -86,6 +99,10 @@ public class RenderManager {
         // Renderizado de capas superiores
 
         mapRenderer.render(foregroundLayers);
+
+        // Renderizado de HUD
+
+        playerHUD.render(delta);
 
     }
 }

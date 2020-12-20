@@ -1,0 +1,55 @@
+
+statusUI.png
+size: 64,32
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+healthbar
+  rotate: false
+  xy: 2, 22
+  size: 28, 8
+  orig: 28, 8
+  offset: 0, 0
+  index: 7
+healthbar
+  rotate: false
+  xy: 2, 12
+  size: 24, 8
+  orig: 24, 8
+  offset: 0, 0
+  index: 6
+healthbar
+  rotate: false
+  xy: 2, 2
+  size: 20, 8
+  orig: 20, 8
+  offset: 0, 0
+  index: 5
+healthbar
+  rotate: false
+  xy: 24, 2
+  size: 17, 8
+  orig: 17, 8
+  offset: 0, 0
+  index: 4
+healthbar
+  rotate: false
+  xy: 28, 12
+  size: 13, 8
+  orig: 13, 8
+  offset: 0, 0
+  index: 3
+healthbar
+  rotate: false
+  xy: 32, 22
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 1
+healthbar
+  rotate: false
+  xy: 43, 21
+  size: 10, 9
+  orig: 10, 9
+  offset: 0, 0
+  index: 2

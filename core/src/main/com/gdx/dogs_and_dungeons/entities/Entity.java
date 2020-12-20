@@ -338,6 +338,9 @@ public abstract class Entity {
 
     public void updatePosition() {
 
+        if (nextPosition.x < 0 || nextPosition.x > MapManager.getCurrentMapWidth()
+            || nextPosition.y < 0 || nextPosition.y > MapManager.getCurrentMapHeight()) return;
+
         currentPosition.x = nextPosition.x;
 
         currentPosition.y = nextPosition.y;

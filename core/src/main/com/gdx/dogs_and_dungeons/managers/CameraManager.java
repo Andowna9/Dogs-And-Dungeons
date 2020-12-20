@@ -3,6 +3,7 @@ package com.gdx.dogs_and_dungeons.managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
+import com.gdx.dogs_and_dungeons.MapManager;
 
 public class CameraManager {
 
@@ -50,11 +51,11 @@ public class CameraManager {
 
         camera.position.x = MathUtils.clamp(spriteManager.getPlayer().getCurrentPosition().x,
                 camera.viewportWidth/2,
-                spriteManager.mapManager.getCurrentMapWidth() - camera.viewportWidth/2);
+                MapManager.getCurrentMapWidth() - camera.viewportWidth/2);
 
         camera.position.y = MathUtils.clamp(spriteManager.getPlayer().getCurrentPosition().y,
                 camera.viewportHeight/2,
-                spriteManager.mapManager.getCurrentMapHeight() - camera.viewportHeight/2);
+                MapManager.getCurrentMapHeight() - camera.viewportHeight/2);
 
         camera.update();
 
@@ -71,7 +72,7 @@ public class CameraManager {
 
         VIEWPORT.virtualHeight = height;
 
-        VIEWPORT.viewportWidth = VIEWPORT.viewportWidth;
+        VIEWPORT.viewportWidth = VIEWPORT.virtualWidth;
 
         VIEWPORT.viewportHeight = VIEWPORT.virtualHeight;
 
