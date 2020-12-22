@@ -33,7 +33,7 @@ public class BalancedEnemy extends Enemy {
 
         updatePosition();
 
-        restringeField();
+        restringeField(3);
 
         timer += delta;
 
@@ -71,11 +71,11 @@ public class BalancedEnemy extends Enemy {
         }
     } */  // Not gonna use yet
 
-    public void restringeField(){
-        float verticalLine1 = initialPosition.x - 3;
-        float verticalLine2 = initialPosition.x + 3;
-        float horizontalLine1 = initialPosition.y - 3;
-        float horizontalLine2 = initialPosition.y + 3;
+    public void restringeField(int i){
+        float verticalLine1 = initialPosition.x - i;
+        float verticalLine2 = initialPosition.x + i;
+        float horizontalLine1 = initialPosition.y - i;
+        float horizontalLine2 = initialPosition.y + i;
 
         if (currentPosition.x <= verticalLine1 || currentPosition.x >= verticalLine2){
             this.setDirection(this.getOppositeDirection());

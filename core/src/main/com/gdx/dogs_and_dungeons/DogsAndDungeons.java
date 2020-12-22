@@ -1,6 +1,7 @@
 package com.gdx.dogs_and_dungeons;
 import com.badlogic.gdx.Game;
 import com.gdx.dogs_and_dungeons.screens.*;
+import sun.rmi.rmic.Main;
 
 // Clase para gestionar las distintas ventanas del juego gracias a la herencia de Game
 

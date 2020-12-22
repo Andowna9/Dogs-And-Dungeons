@@ -111,6 +111,21 @@ public class UsersScreen implements Screen {
         private Button bCreateUser;
         private Button bExit;
 
+        private void updateSize() {
+
+            getContentTable().getCell(lCreatedAlready).height(lCreatedAlready.getPrefHeight());
+
+
+            // Actualizamos el tamaño del diálogo tras insertar el nuevo elemento (label)
+
+            pack();
+
+            // Se centra el diálogo
+
+            setPosition(Math.round((stage.getWidth() - getWidth()) / 2), Math.round((stage.getHeight() - getHeight()) / 2));
+
+        }
+
 
         public CreationDialog(String title, Skin skin) {
             super(title, skin);
@@ -123,7 +138,7 @@ public class UsersScreen implements Screen {
             tPassword = new TextField("", Utility.DEFAULT_SKIN);
             tName = new TextField("", Utility.DEFAULT_SKIN);
             tSurname = new TextField("", Utility.DEFAULT_SKIN);
-            lCreatedAlready = new Label("Este usuario ya existe", Utility.DEFAULT_SKIN);
+            lCreatedAlready = new Label("Usuario existente", Utility.DEFAULT_SKIN);
 
             lCreatedAlready.setColor(224, 44, 44, 1);
             lCreatedAlready.setVisible(false);
@@ -184,7 +199,7 @@ public class UsersScreen implements Screen {
             getContentTable().add(lSurname);
             getContentTable().add(tSurname);
             getContentTable().row();
-            getContentTable().add(lCreatedAlready);
+            getContentTable().add(lCreatedAlready).height(0);
             getContentTable().padBottom(20);
 
 

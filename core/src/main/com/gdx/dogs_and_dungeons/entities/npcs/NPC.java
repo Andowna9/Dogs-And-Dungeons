@@ -40,7 +40,7 @@ public class NPC extends Entity {
 
         updatePosition();
 
-        restringeField();
+        restringeField(3);
 
         timer += delta;
 
@@ -65,11 +65,11 @@ public class NPC extends Entity {
         this.setDirection(movementArrayList.get(ranNum));
     }
 
-    public void restringeField(){
-        float verticalLine1 = initialPosition.x - 3;
-        float verticalLine2 = initialPosition.x + 3;
-        float horizontalLine1 = initialPosition.y - 3;
-        float horizontalLine2 = initialPosition.y + 3;
+    public void restringeField(int i){
+        float verticalLine1 = initialPosition.x - i;
+        float verticalLine2 = initialPosition.x + i;
+        float horizontalLine1 = initialPosition.y - i;
+        float horizontalLine2 = initialPosition.y + i;
 
         if (currentPosition.x <= verticalLine1 || currentPosition.x >= verticalLine2){
             this.setDirection(this.getOppositeDirection());
