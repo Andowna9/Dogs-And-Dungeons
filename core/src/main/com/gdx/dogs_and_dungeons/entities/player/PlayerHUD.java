@@ -1,6 +1,5 @@
 package com.gdx.dogs_and_dungeons.entities.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,6 +15,8 @@ public class PlayerHUD extends ScreenAdapter {
 
     private StatusUI statusUI;
 
+    private DialogUI dialogUI;
+
     public PlayerHUD(Camera camera, Player player) {
 
         Viewport viewport = new ScreenViewport(camera);
@@ -24,7 +25,11 @@ public class PlayerHUD extends ScreenAdapter {
 
         statusUI = new StatusUI(player);
 
+        dialogUI = new DialogUI("Hello my name is Alex, what about you?");
+
         stage.addActor(statusUI);
+      //  stage.addActor(dialogUI);    // this is just to show the dialog
+
 
     }
 
