@@ -12,6 +12,7 @@ import com.gdx.dogs_and_dungeons.managers.CameraManager;
 import com.gdx.dogs_and_dungeons.managers.GameStateManager;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.managers.RenderManager;
+import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
 
 // Pantalla de juego
 
@@ -191,5 +192,6 @@ public class MainGameScreen implements Screen {
     @Override
     public void dispose() {
 
+        ProfileManager.getInstance().saveProfile();
     }
 }

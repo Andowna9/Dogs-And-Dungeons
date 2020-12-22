@@ -24,6 +24,10 @@ public class ProfileManager extends ProfileSubject {
 
     private static final String SAVE_SUFFIX = ".sav";
 
+    // Directorio
+
+    private static final String DIR = "saved_profiles/";
+
     // Clase de utilidad para leer u escribir ficheros en formato json (clave : valor)
 
     private Json json;
@@ -130,7 +134,7 @@ public class ProfileManager extends ProfileSubject {
 
             // El método list devuelve las rutas a los hijos de un directorio, por lo que se empieza en la raíz
 
-            FileHandle [] files = Gdx.files.local(".").list(SAVE_SUFFIX);
+            FileHandle [] files = Gdx.files.local(DIR).list(SAVE_SUFFIX);
 
             for (FileHandle file: files) {
 
@@ -145,7 +149,7 @@ public class ProfileManager extends ProfileSubject {
 
         // Obtenemos el nombre completo del fichero
 
-        String fullFileName = profileName + SAVE_SUFFIX;
+        String fullFileName = DIR + profileName + SAVE_SUFFIX;
 
         // Si el fichero existe y no se quiere modificar, se sale de la función
 
@@ -181,11 +185,13 @@ public class ProfileManager extends ProfileSubject {
 
     public void loadProfile() {
 
-        String fullProfileName = currentProfile + SAVE_SUFFIX;
+        String fullProfileName = DIR + currentProfile + SAVE_SUFFIX;
 
         if (!Gdx.files.internal(fullProfileName).exists()) {
 
             Gdx.app.log(TAG, String.format("Fichero con perfil %s no encontrado", currentProfile));
+
+            return;
         }
 
         profileProperties = json.fromJson(ObjectMap.class, profiles.get(currentProfile));

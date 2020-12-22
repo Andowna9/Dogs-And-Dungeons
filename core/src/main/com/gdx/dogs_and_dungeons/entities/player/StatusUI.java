@@ -1,7 +1,6 @@
 package com.gdx.dogs_and_dungeons.entities.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -10,11 +9,9 @@ import com.gdx.dogs_and_dungeons.Utility;
 import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
 import com.gdx.dogs_and_dungeons.profiles.ProfileObserver;
 
-import java.awt.font.ImageGraphicAttribute;
-
 // Actor (tabla) que contiene los gráficos para mostrar las características principales del jugador
 
-public class StatusUI extends Table {
+public class StatusUI extends Table implements ProfileObserver {
 
     private static final String TAG = StatusUI.class.getSimpleName();
 
@@ -33,6 +30,13 @@ public class StatusUI extends Table {
     private Label logs;
 
     public StatusUI(Player player) {
+
+        // Prueba de serialización
+
+        ProfileManager.getInstance().addObserver(this);
+
+        ProfileManager.getInstance().loadProfile();
+
 
         this.player = player;
 
@@ -123,4 +127,19 @@ public class StatusUI extends Table {
     }
 
 
+    @Override
+    public void onNotify(ProfileManager subject, ProfileEvent event) {
+
+        if (event == ProfileEvent.SAVING_PROFILE) {
+
+            subject.setProperty("Log Count", logCounter);
+
+        }
+
+        else if (event == ProfileEvent.LOADING_PROFILE) {
+
+            logCounter = subject.getProperty("Log Count", Integer.class);
+
+        }
+    }
 }
