@@ -48,14 +48,6 @@ public class SpriteManager {
         player.setPosition(22.5f,0);
 
         playerController = new PlayerController(player);
-
-        // Creación de los enemigos
-
-        Enemy e = EntityFactory.getEnemy(Enemy.Type.SIMPLE);
-
-        e.setInitialPosition(15,5);
-
-        enemies.add(e);
     }
 
     // Inicialización en caso de reanudar la partida (más adelante con puntos de spawn)
@@ -71,6 +63,9 @@ public class SpriteManager {
         player.setState(Entity.State.IDLE);
 
         player.setDirection(Entity.Direction.UP);
+
+        mapManager.spawnEnemies(enemies);
+        Gdx.app.debug(TAG, ""+ enemies.size());
 
     }
 

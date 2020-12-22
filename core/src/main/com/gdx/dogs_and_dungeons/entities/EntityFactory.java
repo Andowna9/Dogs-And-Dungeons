@@ -13,21 +13,21 @@ public class EntityFactory {
         return new Player(64,64,1.3f,1.3f);
     }
 
-    public static Enemy getEnemy(Enemy.Type type) {
+    public static Enemy getEnemy(String type) {
 
         switch (type) {
 
 
-            case SIMPLE:
+            case "Simple":
 
                 return new SimpleEnemy(32,32, 1f, 1f, Entity.Direction.RIGHT);
 
-            case BALANCED:
+            case "Balanced":
 
                 return new BalancedEnemy(32, 32, 1f, 1f);
 
 
-            case HARD:
+            case "Hard":
 
                 return new HardEnemy(32, 32, 1f, 1f);
         }

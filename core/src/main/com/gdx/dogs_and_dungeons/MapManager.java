@@ -6,7 +6,11 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
+import com.gdx.dogs_and_dungeons.entities.EntityFactory;
+import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
+
 import java.util.Hashtable;
+import java.util.List;
 
 public class MapManager {
 
@@ -24,7 +28,9 @@ public class MapManager {
 
     private MapLayer collisionLayer;
 
-    private MapLayer spawnLayer;
+    private MapLayer playerSpawnLayer;
+
+    private MapLayer enemiesSpawnLayer;
 
     private MapLayer portalLayer;
 
@@ -34,7 +40,9 @@ public class MapManager {
 
     private static final String COLLISION_LAYER = "COLLISION_LAYER";
 
-    private static final String SPAWN_LAYER = "SPAWN_LAYER";
+    private static final String PLAYER_SPAWN_LAYER = "PLAYER_SPAWN_LAYER";
+
+    private static final String ENEMIES_SPAWN_LAYER = "ENEMIES_SPAWN_LAYER";
 
     private static final String PORTAL_LAYER = "PORTAL_LAYER";
 
@@ -98,11 +106,19 @@ public class MapManager {
             Gdx.app.debug(TAG,String.valueOf(collisionLayer.getObjects().getByType(RectangleMapObject.class).size));
         }
 
-        spawnLayer = currentMap.getLayers().get(SPAWN_LAYER);
+        playerSpawnLayer = currentMap.getLayers().get(PLAYER_SPAWN_LAYER);
 
-        if (spawnLayer == null) {
+        if (playerSpawnLayer == null) {
 
-            Gdx.app.log(TAG,"No se ha encontrado la capa: " + SPAWN_LAYER);
+            Gdx.app.log(TAG,"No se ha encontrado la capa: " + PLAYER_SPAWN_LAYER);
+
+        }
+
+        enemiesSpawnLayer = currentMap.getLayers().get(ENEMIES_SPAWN_LAYER);
+
+        if(enemiesSpawnLayer == null){
+
+            Gdx.app.log(TAG,"No se ha encontrado la capa: " + ENEMIES_SPAWN_LAYER);
 
         }
 
@@ -135,11 +151,11 @@ public class MapManager {
 
         Vector2 playerPosition = new Vector2();
 
-        for (MapObject mapObject: spawnLayer.getObjects()) {
-
+        for (MapObject mapObject: playerSpawnLayer.getObjects()) {
+            boolean isActivated = mapObject.getProperties().get("activated",Boolean.class);
             // Si el punto de spawn está activado, lo tenemos en cuenta en el cálculo del más cercano
 
-            if (mapObject.getProperties().get("activated",Boolean.class)) {
+            if (isActivated) {
 
                 RectangleMapObject spawn = (RectangleMapObject) mapObject;
 
@@ -176,6 +192,29 @@ public class MapManager {
         lastPosition.add(-16, -16);
 
         return lastPosition.scl(UNIT_SCALE);
+
+    }
+    public void spawnEnemies(List<Enemy> enemies){
+        //Buscamos cada punto de spawn que hay en el mapa para los enemigos para los enemigos
+        for (MapObject mapObject : enemiesSpawnLayer.getObjects()){
+
+            //Cogemos el tipo de enemigos que creará cada spawn
+            String type =  mapObject.getProperties().get("type",String.class);
+
+            //Cogemos la posicion de los spawns
+            RectangleMapObject spawn = (RectangleMapObject) mapObject;
+            float x = spawn.getRectangle().getX() * UNIT_SCALE;
+            float y = spawn.getRectangle().getY() * UNIT_SCALE;
+            Gdx.app.debug(TAG,""+ type);
+
+            //Creamos los enemigos con el tipo que hemos sacado previamente y los añadimos a la lista de enemigos
+            Enemy enemy = EntityFactory.getEnemy(type);
+
+            enemy.setInitialPosition(x,y);
+            enemies.add(enemy);
+
+
+        }
 
     }
 
