@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.gdx.dogs_and_dungeons.DBManager;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
@@ -36,6 +37,65 @@ public class UsersScreen implements Screen {
     private ShapeRenderer gradient;
 
     private Array<User> userModel;
+
+    private DBManager dbManager = DBManager.getInstance();
+
+    // Diálogo de confirmación
+
+    private  class ConfirmationDialog extends Dialog {
+
+
+        public ConfirmationDialog(String title, String message, Skin skin) {
+
+            super(title, skin);
+
+            TextButton confButton = new TextButton("Confirmar", Utility.DEFAULT_SKIN);
+
+            confButton.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+
+                    // Eliminamos al usuario de la base de datos
+
+                    // dbManager.deleteUser(userList.getSelected());
+
+                    // Eliminamos al usuario de memoria
+
+                    removeUser(userList.getSelected());
+
+                    // Ocultamos el diálogo
+
+                    hide();
+
+                }
+            });
+
+            TextButton cancelButton = new TextButton("Cancelar", Utility.DEFAULT_SKIN);
+
+            cancelButton.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+
+                    hide();
+
+                }
+
+            });
+
+            // Añadimos el mensaje
+
+            getContentTable().add(new Label(message, Utility.DEFAULT_SKIN)).pad(20,20,20,20);
+
+            // Añadimos botones
+
+            getButtonTable().add(cancelButton);
+
+            getButtonTable().add(confButton);
+
+        }
+    }
 
 
     // Diálogo para introducir clave/contraseña
@@ -62,6 +122,7 @@ public class UsersScreen implements Screen {
             setPosition(Math.round((stage.getWidth() - getWidth()) / 2), Math.round((stage.getHeight() - getHeight()) / 2));
 
         }
+
 
 
         public PasswordDialog(String title, Skin skin, User user) {
@@ -164,6 +225,10 @@ public class UsersScreen implements Screen {
 
         this.game_ref = game;
 
+        // Iniciamos conexión con la base de datos
+
+        dbManager.connect("core/database/user.db");
+
         userModel = new Array<>();
 
         gradient = new ShapeRenderer();
@@ -208,6 +273,21 @@ public class UsersScreen implements Screen {
 
         bDelete = new TextButton("Borrar usuario", Utility.DEFAULT_SKIN);
 
+        bDelete.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                String message = "Se va a borrar el usuario: " + userList.getSelected();
+
+                ConfirmationDialog confDialog = new ConfirmationDialog("Aviso!",message,Utility.DEFAULT_SKIN);
+
+                confDialog.show(stage);
+
+            }
+
+        });
+
         Label.LabelStyle style = new Label.LabelStyle();
 
         style.font = Utility.mainFont;
@@ -250,6 +330,18 @@ public class UsersScreen implements Screen {
 
         }
     }
+
+    public void removeUser(User user) {
+
+        if (userModel.contains(user, false)) {
+
+            userModel.removeValue(user, false);
+
+            userList.setItems(userModel);
+        }
+
+    }
+
     @Override
     public void show() {
 
