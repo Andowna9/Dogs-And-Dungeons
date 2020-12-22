@@ -1,26 +1,46 @@
 package com.gdx.dogs_and_dungeons.entities.player;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.gdx.dogs_and_dungeons.Utility;
 
+import java.awt.font.ImageGraphicAttribute;
+
 // Actor (tabla) que contiene los gráficos para mostrar las características principales del jugador
 
 public class StatusUI extends Table {
 
+    private static final String TAG = StatusUI.class.getSimpleName();
+
     private Image hpBar;
+
+    private Image log;
 
     private Label.LabelStyle style;
 
     private Player player;
+
+    private static int logCounter = 0;
+
+    private Label.LabelStyle logStyle;
+
+    private Label logs;
 
     public StatusUI(Player player) {
 
         this.player = player;
 
         hpBar = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("healthbar", 7));
+
+        log = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("log"));
+
+        float logScale = 1;
+
+        log.scaleBy(logScale);
 
         float hpScale = 2;
 
@@ -47,6 +67,20 @@ public class StatusUI extends Table {
         add(new Label("HP",style));
 
         add(hpBar).spaceLeft(10).padTop(hpBar.getPrefHeight() * hpScale);
+
+        row().space(20);
+
+        add(log).width(26).height(20);
+
+        logStyle = new Label.LabelStyle();
+
+        logStyle.font = Utility.gameFont;
+
+        logStyle.fontColor = Color.BROWN;
+
+        logs = new Label("x" + logCounter, logStyle);
+
+        add(logs).padBottom(20).padLeft(10);
     }
 
     // 7, 6 y 5 -> Verde
@@ -79,6 +113,10 @@ public class StatusUI extends Table {
 
        hpBar.setDrawable(new TextureRegionDrawable(Utility.STATUSUI_TEXTUREATLAS.findRegion("healthbar", health)));
 
-
+       logs.setText("x"+ logCounter);
+    }
+    public static void incrementLogs(){
+        logCounter++;
+        Gdx.app.debug(TAG,""+logCounter);
     }
 }

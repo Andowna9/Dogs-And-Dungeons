@@ -1,6 +1,6 @@
 
 statusUI.png
-size: 64,32
+size: 256,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -13,43 +13,50 @@ healthbar
   index: 7
 healthbar
   rotate: false
-  xy: 2, 12
+  xy: 208, 184
   size: 24, 8
   orig: 24, 8
   offset: 0, 0
   index: 6
 healthbar
   rotate: false
-  xy: 2, 2
+  xy: 234, 184
   size: 20, 8
   orig: 20, 8
   offset: 0, 0
   index: 5
 healthbar
   rotate: false
-  xy: 24, 2
+  xy: 2, 12
   size: 17, 8
   orig: 17, 8
   offset: 0, 0
   index: 4
 healthbar
   rotate: false
-  xy: 28, 12
+  xy: 32, 22
   size: 13, 8
   orig: 13, 8
   offset: 0, 0
   index: 3
 healthbar
   rotate: false
-  xy: 32, 22
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: 1
-healthbar
-  rotate: false
-  xy: 43, 21
+  xy: 208, 173
   size: 10, 9
   orig: 10, 9
   offset: 0, 0
   index: 2
+healthbar
+  rotate: false
+  xy: 2, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 1
+log
+  rotate: false
+  xy: 2, 32
+  size: 204, 160
+  orig: 204, 160
+  offset: 0, 0
+  index: -1
