@@ -40,6 +40,24 @@ public class UsersScreen implements Screen {
 
     private DBManager dbManager = DBManager.getInstance();
 
+    // Método para actualizar tamaño del diálogo
+
+    private void updateSize(Dialog d, Label outputMessage) {
+
+        d.getContentTable().getCell(outputMessage).height(outputMessage.getPrefHeight());
+
+
+        // Actualizamos el tamaño del diálogo tras insertar el nuevo elemento (label)
+
+        d.pack();
+
+        // Se centra el diálogo
+
+        d.setPosition(Math.round((stage.getWidth() - d.getWidth()) / 2), Math.round((stage.getHeight() - d.getHeight()) / 2));
+
+    }
+
+
     // Diálogo de confirmación
 
     private  class ConfirmationDialog extends Dialog {
@@ -103,7 +121,7 @@ public class UsersScreen implements Screen {
         private Label lPassword;
         private Label lName;
         private Label lSurname;
-        private Label lCreatedAlready;
+        private Label outputMessage;
         private TextField tNickname;
         private TextField tPassword;
         private TextField tName;
@@ -111,37 +129,21 @@ public class UsersScreen implements Screen {
         private Button bCreateUser;
         private Button bExit;
 
-        private void updateSize() {
-
-            getContentTable().getCell(lCreatedAlready).height(lCreatedAlready.getPrefHeight());
-
-
-            // Actualizamos el tamaño del diálogo tras insertar el nuevo elemento (label)
-
-            pack();
-
-            // Se centra el diálogo
-
-            setPosition(Math.round((stage.getWidth() - getWidth()) / 2), Math.round((stage.getHeight() - getHeight()) / 2));
-
-        }
-
 
         public CreationDialog(String title, Skin skin) {
             super(title, skin);
 
-            lNickname = new Label("Nickname", Utility.DEFAULT_SKIN);
-            lPassword = new Label("Clave", Utility.DEFAULT_SKIN);
-            lName = new Label("Nombre", Utility.DEFAULT_SKIN);
-            lSurname = new Label("Apellido", Utility.DEFAULT_SKIN);
+            lNickname = new Label("Usuario: ", Utility.DEFAULT_SKIN);
+            lPassword = new Label("Clave: ", Utility.DEFAULT_SKIN);
+            lName = new Label("Nombre: ", Utility.DEFAULT_SKIN);
+            lSurname = new Label("Apellido: ", Utility.DEFAULT_SKIN);
             tNickname = new TextField("", Utility.DEFAULT_SKIN);
             tPassword = new TextField("", Utility.DEFAULT_SKIN);
             tName = new TextField("", Utility.DEFAULT_SKIN);
             tSurname = new TextField("", Utility.DEFAULT_SKIN);
-            lCreatedAlready = new Label("Usuario existente", Utility.DEFAULT_SKIN);
 
-            lCreatedAlready.setColor(224, 44, 44, 1);
-            lCreatedAlready.setVisible(false);
+            outputMessage = new Label("", Utility.DEFAULT_SKIN);
+
 
             tPassword.setPasswordMode(true);
             tPassword.setPasswordCharacter('*');
@@ -160,11 +162,56 @@ public class UsersScreen implements Screen {
 
                     User createdUser = new User(name, surname, nickname);
 
-                    if (!userModel.contains(createdUser, true)) {
-                        addUser(createdUser);
-                    } else{
-                        lCreatedAlready.setVisible(true);
+                    // Falta alguno de los campos obligatorios
+
+                    if (nickname.isEmpty()) {
+
+                        if (!lNickname.getText().contains("*")) {
+
+                            lNickname.setText("* " + lNickname.getText());
+
+                            lNickname.setColor(Color.RED);
+
+                        }
+
+
                     }
+
+                    if (password.isEmpty()) {
+
+                        if (!lPassword.getText().contains("*")) {
+
+                            lPassword.setText("* " + lPassword.getText());
+
+                            lPassword.setColor(Color.RED);
+
+                        }
+
+                    }
+
+                    // Si el usuario ya existe, lanzamos un aviso
+
+                    else if (userExists(createdUser)) {
+
+                        outputMessage.setText("El usuario ya existe!");
+
+                        outputMessage.setColor(Color.GRAY);
+
+                    }
+
+                    else {
+
+                        // Guardado en base de datos
+
+                        // dbManager.storeUser(createdUser, password);
+
+                        // Añadimos el usuario a la lista en memoria
+
+                        addUser(createdUser);
+
+                    }
+
+                    updateSize(CreationDialog.this, outputMessage);
 
 
 
@@ -180,6 +227,8 @@ public class UsersScreen implements Screen {
                     hide();
                 }
             });
+
+            getContentTable().setDebug(true);
 
 
             getButtonTable().add(bCreateUser);
@@ -199,8 +248,8 @@ public class UsersScreen implements Screen {
             getContentTable().add(lSurname);
             getContentTable().add(tSurname);
             getContentTable().row();
-            getContentTable().add(lCreatedAlready).height(0);
-            getContentTable().padBottom(20);
+            getContentTable().add(outputMessage).colspan(2).height(0);
+
 
 
         }
@@ -216,21 +265,6 @@ public class UsersScreen implements Screen {
         private Label outputMessage;
 
         private User user;
-
-        private void updateSize() {
-
-            getContentTable().getCell(outputMessage).height(outputMessage.getPrefHeight());
-
-
-            // Actualizamos el tamaño del diálogo tras insertar el nuevo elemento (label)
-
-            pack();
-
-            // Se centra el diálogo
-
-            setPosition(Math.round((stage.getWidth() - getWidth()) / 2), Math.round((stage.getHeight() - getHeight()) / 2));
-
-        }
 
 
 
@@ -294,7 +328,7 @@ public class UsersScreen implements Screen {
 
                     }
 
-                    updateSize();
+                    updateSize(PasswordDialog.this, outputMessage);
 
                 }
 
@@ -370,6 +404,8 @@ public class UsersScreen implements Screen {
             }
         });
 
+        // Carga de usuarios
+
         addUser(new User("Asier"));
         addUser(new User("Jon Andoni"));
         addUser(new User("Alex"));
@@ -436,11 +472,13 @@ public class UsersScreen implements Screen {
 
     }
 
+    // Añade un usuario al modelo de datos (si está en la lista)
+
     private void addUser(User user){
 
         // Nos aseguramos de que no se añaden usuarios duplicados al modelo
 
-        if (!userModel.contains(user,false)) {
+        if (!userExists(user)) {
 
             userModel.add(user);
 
@@ -449,9 +487,13 @@ public class UsersScreen implements Screen {
         }
     }
 
-    public void removeUser(User user) {
 
-        if (userModel.contains(user, false)) {
+
+    // Elimina un usuario del modelo de datos (si está en la lista)
+
+    private void removeUser(User user) {
+
+        if (userExists(user)) {
 
             userModel.removeValue(user, false);
 
@@ -459,6 +501,12 @@ public class UsersScreen implements Screen {
         }
 
     }
+
+    private boolean userExists(User user) {
+
+        return userModel.contains(user, false);
+    }
+
 
     @Override
     public void show() {

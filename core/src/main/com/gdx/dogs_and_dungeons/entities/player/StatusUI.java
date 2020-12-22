@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.gdx.dogs_and_dungeons.Utility;
+import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
+import com.gdx.dogs_and_dungeons.profiles.ProfileObserver;
 
 import java.awt.font.ImageGraphicAttribute;
 
@@ -119,4 +121,6 @@ public class StatusUI extends Table {
         logCounter++;
         Gdx.app.debug(TAG,""+logCounter);
     }
+
+
 }
