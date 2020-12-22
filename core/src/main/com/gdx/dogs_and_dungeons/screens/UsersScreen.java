@@ -44,7 +44,6 @@ public class UsersScreen implements Screen {
 
     private  class ConfirmationDialog extends Dialog {
 
-
         public ConfirmationDialog(String title, String message, Skin skin) {
 
             super(title, skin);
@@ -93,6 +92,101 @@ public class UsersScreen implements Screen {
             getButtonTable().add(cancelButton);
 
             getButtonTable().add(confButton);
+
+        }
+    }
+
+    // Creation Dialog
+    private class CreationDialog extends Dialog{
+
+        private Label lNickname;
+        private Label lPassword;
+        private Label lName;
+        private Label lSurname;
+        private Label lCreatedAlready;
+        private TextField tNickname;
+        private TextField tPassword;
+        private TextField tName;
+        private TextField tSurname;
+        private Button bCreateUser;
+        private Button bExit;
+
+
+        public CreationDialog(String title, Skin skin) {
+            super(title, skin);
+
+            lNickname = new Label("Nickname", Utility.DEFAULT_SKIN);
+            lPassword = new Label("Clave", Utility.DEFAULT_SKIN);
+            lName = new Label("Nombre", Utility.DEFAULT_SKIN);
+            lSurname = new Label("Apellido", Utility.DEFAULT_SKIN);
+            tNickname = new TextField("", Utility.DEFAULT_SKIN);
+            tPassword = new TextField("", Utility.DEFAULT_SKIN);
+            tName = new TextField("", Utility.DEFAULT_SKIN);
+            tSurname = new TextField("", Utility.DEFAULT_SKIN);
+            lCreatedAlready = new Label("Este usuario ya existe", Utility.DEFAULT_SKIN);
+
+            lCreatedAlready.setColor(224, 44, 44, 1);
+            lCreatedAlready.setVisible(false);
+
+            tPassword.setPasswordMode(true);
+            tPassword.setPasswordCharacter('*');
+
+            // Botón crear
+
+            bCreateUser = new TextButton("Crear", Utility.DEFAULT_SKIN);
+            bCreateUser.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+                    String nickname = tNickname.getText();
+                    String password = tPassword.getText();
+                    String name = tName.getText();
+                    String surname = tSurname.getText();
+
+                    User createdUser = new User(name, surname, nickname);
+
+                    if (!userModel.contains(createdUser, true)) {
+                        addUser(createdUser);
+                    } else{
+                        lCreatedAlready.setVisible(true);
+                    }
+
+
+
+                }});
+
+            // Botón salir
+            bExit = new TextButton("Cancelar", Utility.DEFAULT_SKIN);
+            bExit.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+
+                    hide();
+                }
+            });
+
+
+            getButtonTable().add(bCreateUser);
+            getButtonTable().add(bExit);
+
+            // Content Table
+            getContentTable().padTop(20);
+            getContentTable().add(lNickname);
+            getContentTable().add(tNickname);
+            getContentTable().row().space(10);
+            getContentTable().add(lPassword);
+            getContentTable().add(tPassword);
+            getContentTable().row().space(10);
+            getContentTable().add(lName);
+            getContentTable().add(tName);
+            getContentTable().row().space(10);
+            getContentTable().add(lSurname);
+            getContentTable().add(tSurname);
+            getContentTable().row();
+            getContentTable().add(lCreatedAlready);
+            getContentTable().padBottom(20);
+
 
         }
     }
@@ -270,6 +364,15 @@ public class UsersScreen implements Screen {
         addUser(new User("ElRubius"));
 
         bCreate = new TextButton("Crear usuario", Utility.DEFAULT_SKIN);
+
+        bCreate.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+                CreationDialog dCreate = new CreationDialog("Crear Usuario", Utility.DEFAULT_SKIN);
+                dCreate.show(stage);
+            }
+        });
 
         bDelete = new TextButton("Borrar usuario", Utility.DEFAULT_SKIN);
 
