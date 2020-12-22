@@ -8,7 +8,6 @@ import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
-import com.gdx.dogs_and_dungeons.entities.enemies.SimpleEnemy;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
 import com.gdx.dogs_and_dungeons.entities.player.PlayerController;
 
@@ -64,8 +63,9 @@ public class SpriteManager {
 
         player.setDirection(Entity.Direction.UP);
 
+        enemies.clear();
+
         mapManager.spawnEnemies(enemies);
-        Gdx.app.debug(TAG, ""+ enemies.size());
 
     }
 

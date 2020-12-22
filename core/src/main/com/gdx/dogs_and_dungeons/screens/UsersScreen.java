@@ -73,9 +73,11 @@ public class UsersScreen implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
 
+                    if (userList.getSelected() == null) return;
+
                     // Eliminamos al usuario de la base de datos
 
-                    // dbManager.deleteUser(userList.getSelected());
+                    dbManager.deleteUser(userList.getSelected());
 
                     // Eliminamos al usuario de memoria
 
@@ -166,6 +168,7 @@ public class UsersScreen implements Screen {
 
                     if (nickname.isEmpty()) {
 
+
                         if (!lNickname.getText().contains("*")) {
 
                             lNickname.setText("* " + lNickname.getText());
@@ -173,6 +176,10 @@ public class UsersScreen implements Screen {
                             lNickname.setColor(Color.RED);
 
                         }
+
+                        outputMessage.setText("Campo/s obligatorio/s");
+
+                        outputMessage.setColor(Color.RED);
 
 
                     }
@@ -186,6 +193,10 @@ public class UsersScreen implements Screen {
                             lPassword.setColor(Color.RED);
 
                         }
+
+                        outputMessage.setText("Campo/s obligatorio/s");
+
+                        outputMessage.setColor(Color.RED);
 
                     }
 
@@ -203,17 +214,17 @@ public class UsersScreen implements Screen {
 
                         // Guardado en base de datos
 
-                        // dbManager.storeUser(createdUser, password);
+                        dbManager.storeUser(createdUser, password);
 
                         // Añadimos el usuario a la lista en memoria
 
                         addUser(createdUser);
 
+                        hide();
+
                     }
 
                     updateSize(CreationDialog.this, outputMessage);
-
-
 
                 }});
 
@@ -227,8 +238,6 @@ public class UsersScreen implements Screen {
                     hide();
                 }
             });
-
-            getContentTable().setDebug(true);
 
 
             getButtonTable().add(bCreateUser);
@@ -250,8 +259,6 @@ public class UsersScreen implements Screen {
             getContentTable().row();
             getContentTable().add(outputMessage).colspan(2).height(0);
 
-
-
         }
     }
 
@@ -264,7 +271,7 @@ public class UsersScreen implements Screen {
 
         private Label outputMessage;
 
-        private User user;
+        private User user_ref;
 
 
 
@@ -272,7 +279,7 @@ public class UsersScreen implements Screen {
 
             super(title, skin);
 
-            this.user = user;
+            user_ref = user;
 
             // Label para indicar que se espera la contraseña
 
@@ -311,11 +318,18 @@ public class UsersScreen implements Screen {
 
                         // Se añade de nuevo
 
-                        outputMessage.setText("Clave incorrecta!");
+                        outputMessage.setText("Clave no proporcionada");
+
+                        outputMessage.setColor(Color.GRAY);
+
+
+                    }
+
+                    else if (!dbManager.isPasswordValid(user_ref.getId(), password)) {
+
+                        outputMessage.setText("La clave no es correcta!");
 
                         outputMessage.setColor(Color.RED);
-
-
                     }
 
                     else {
@@ -325,7 +339,6 @@ public class UsersScreen implements Screen {
                         outputMessage.setColor(Color.GREEN);
 
                         hide(Actions.fadeOut(1.5f));
-
                     }
 
                     updateSize(PasswordDialog.this, outputMessage);
@@ -406,13 +419,10 @@ public class UsersScreen implements Screen {
 
         // Carga de usuarios
 
-        addUser(new User("Asier"));
-        addUser(new User("Jon Andoni"));
-        addUser(new User("Alex"));
-        addUser(new User("Alexby11"));
-        addUser(new User("Willyrex"));
-        addUser(new User("Vegeta777"));
-        addUser(new User("ElRubius"));
+        for (User user: dbManager.getAllUsers()) {
+
+            addUser(user);
+        }
 
         bCreate = new TextButton("Crear usuario", Utility.DEFAULT_SKIN);
 
@@ -545,6 +555,7 @@ public class UsersScreen implements Screen {
     @Override
     public void hide() {
 
+        dbManager.disconnect();
     }
 
     @Override
