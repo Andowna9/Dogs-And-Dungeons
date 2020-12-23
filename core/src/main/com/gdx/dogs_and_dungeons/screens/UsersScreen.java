@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.gdx.dogs_and_dungeons.DBManager;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
@@ -39,6 +40,10 @@ public class UsersScreen implements Screen {
     private Array<User> userModel;
 
     private DBManager dbManager = DBManager.getInstance();
+
+    // Usuario seleccionado
+
+    private static User selectedUser;
 
     // Método para actualizar tamaño del diálogo
 
@@ -135,6 +140,8 @@ public class UsersScreen implements Screen {
         public CreationDialog(String title, Skin skin) {
             super(title, skin);
 
+            Label info = new Label("Completa los siguientes campos: ", Utility.DEFAULT_SKIN);
+
             lNickname = new Label("Usuario: ", Utility.DEFAULT_SKIN);
             lPassword = new Label("Clave: ", Utility.DEFAULT_SKIN);
             lName = new Label("Nombre: ", Utility.DEFAULT_SKIN);
@@ -164,10 +171,19 @@ public class UsersScreen implements Screen {
 
                     User createdUser = new User(name, surname, nickname);
 
+                    // Contador del número de campos obligatorios restantes
+
+                    int fieldsLeft = 0;
+
                     // Falta alguno de los campos obligatorios
+
+                    // 1. Falta el nombre de usuario
 
                     if (nickname.isEmpty()) {
 
+                        fieldsLeft++;
+
+                        // Si no está marcado el label, lo marcamos
 
                         if (!lNickname.getText().contains("*")) {
 
@@ -177,27 +193,46 @@ public class UsersScreen implements Screen {
 
                         }
 
-                        outputMessage.setText("Campo/s obligatorio/s");
-
-                        outputMessage.setColor(Color.RED);
-
 
                     }
 
+                    else {
+
+                        // Se desmarca el label porque el nombre de usuario introducido no es vacío
+
+                        lNickname.setText(lNickname.getText().toString().replace("*", ""));
+
+                        lNickname.setColor(Color.WHITE);
+
+                    }
+
+                    // 2. Falta la contraseña
+
                     if (password.isEmpty()) {
+
+                        fieldsLeft++;
 
                         if (!lPassword.getText().contains("*")) {
 
                             lPassword.setText("* " + lPassword.getText());
 
                             lPassword.setColor(Color.RED);
-
                         }
 
-                        outputMessage.setText("Campo/s obligatorio/s");
+                    }
+
+                    else {
+
+                        lPassword.setText(lPassword.getText().toString().replace("*", ""));
+
+                        lPassword.setColor(Color.WHITE);
+                    }
+
+                    if (fieldsLeft >= 1) {
+
+                        outputMessage.setText(String.format("%d campo/s obligatorio/s restante/s", fieldsLeft));
 
                         outputMessage.setColor(Color.RED);
-
                     }
 
                     // Si el usuario ya existe, lanzamos un aviso
@@ -220,7 +255,11 @@ public class UsersScreen implements Screen {
 
                         addUser(createdUser);
 
-                        hide();
+                        outputMessage.setText("Usuario creado correctamente!");
+
+                        outputMessage.setColor(Color.GREEN);
+
+                        hide(Actions.fadeOut(2f));
 
                     }
 
@@ -239,12 +278,17 @@ public class UsersScreen implements Screen {
                 }
             });
 
+            // Button table
 
             getButtonTable().add(bCreateUser);
             getButtonTable().add(bExit);
 
             // Content Table
             getContentTable().padTop(20);
+            getContentTable().padLeft(40);
+            getContentTable().padRight(40);
+            getContentTable().add(info).colspan(2).space(20);
+            getContentTable().row();
             getContentTable().add(lNickname);
             getContentTable().add(tNickname);
             getContentTable().row().space(10);
@@ -338,7 +382,28 @@ public class UsersScreen implements Screen {
 
                         outputMessage.setColor(Color.GREEN);
 
-                        hide(Actions.fadeOut(1.5f));
+                        // Guardamos en el atributo estático de clase el usuario escogido
+
+                        selectedUser = user_ref;
+
+                        Gdx.app.log(TAG, "Usuario elegido: " + selectedUser);
+
+                        float fadeTime = 1.5f;
+
+                        hide(Actions.fadeOut(fadeTime));
+
+                        // Creamos un timer que cambie de pantalla una vez se desvanezca el diálogo
+
+                        Timer timer = new Timer();
+
+                        timer.scheduleTask(new Timer.Task() {
+                            @Override
+                            public void run() {
+
+                                game_ref.setScreen(DogsAndDungeons.selectionScreen);
+                            }
+                        }, fadeTime);
+
                     }
 
                     updateSize(PasswordDialog.this, outputMessage);
@@ -417,7 +482,7 @@ public class UsersScreen implements Screen {
             }
         });
 
-        // Carga de usuarios
+        // Carga de usuarios de la base de datos
 
         for (User user: dbManager.getAllUsers()) {
 
