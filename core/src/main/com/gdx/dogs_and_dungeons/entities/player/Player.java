@@ -15,6 +15,10 @@ public class Player extends Entity {
 
     private static final String dyingPath = "player/boy/dying.png";
 
+    // Booleano que indica si es posible atacar en un momento dado
+
+    private boolean isCoolingDown = false;
+
     public Player(int width, int height,float drawWidth, float drawHeight) {
 
         super(width, height,drawWidth,drawHeight);
@@ -33,15 +37,29 @@ public class Player extends Entity {
 
     public void attack(Enemy e) {
 
-        if ( currentState == State.ATTACKING && currentPosition.dst(e.getCurrentPosition()) <= 1.5f) {
+        // Cuando el jugador es atacado y se vuelve inmune, no hace daño al enemigo
+
+        if (isBlinking) {
+
+            isCoolingDown = true;
+        }
+
+        // Si no se cumple lo anterior y está en reposo, puede atacar
+
+        else if (currentState == State.IDLE) {
+
+            isCoolingDown = false;
+        }
+
+        if (!isCoolingDown && currentState == State.ATTACKING && currentPosition.dst(e.getCurrentPosition()) <= 1.5f) {
 
             e.receiveDamage();
 
-            Gdx.app.debug(TAG,"Un enemigo ha recibido un ataque!");
+            Gdx.app.debug(TAG,"Un enemigo " + e.getClass().getSimpleName() + " ha recibido un ataque! Vida restante: " + e.getHealth());
 
+            isCoolingDown = true;
         }
 
     }
-
 
 }

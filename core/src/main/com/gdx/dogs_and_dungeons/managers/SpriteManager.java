@@ -14,6 +14,7 @@ import com.gdx.dogs_and_dungeons.entities.player.PlayerController;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 // Clase para gestionar las interacciones entre entidades
@@ -32,11 +33,15 @@ public class SpriteManager {
 
     ItemManager itemManager;
 
+    ParticleEffectsManager effectsManager;
+
     public SpriteManager() {
 
         mapManager = new MapManager();
 
         itemManager = new ItemManager(mapManager);
+
+        effectsManager = new ParticleEffectsManager();
 
         // Inicialización de lista de enemigos
 
@@ -75,11 +80,26 @@ public class SpriteManager {
 
     void updateEnemies(float delta) {
 
-        for (Enemy e: enemies) {
+        for (Iterator<Enemy> it = enemies.iterator();it.hasNext();) {
+
+            Enemy e = it.next();
+
+            // Actualización de enemigos
 
             e.update(delta);
 
             e.behave(delta);
+
+            // Si el enemigo ha perdido toda su salud, se elimina de la lista
+
+            if (e.getHealth() <= 0) {
+
+                effectsManager.generateEffect(e.getCurrentPosition().x + 0.5f, e.getCurrentPosition().y + 0.5f, ParticleEffectsManager.EffectType.ENEMY_DEATH);
+
+                Gdx.app.debug(TAG, e.getClass().getSimpleName() + " eliminado por jugador!");
+
+                it.remove();
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.gdx.dogs_and_dungeons.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -10,6 +11,8 @@ import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
 import com.gdx.dogs_and_dungeons.entities.player.PlayerHUD;
 
 public class RenderManager {
+
+    SpriteBatch particleBatch;
 
     OrthogonalTiledMapRenderer mapRenderer;
 
@@ -29,6 +32,8 @@ public class RenderManager {
     public RenderManager(SpriteManager spriteManager) {
 
         this.spriteManager = spriteManager;
+
+        particleBatch = new SpriteBatch();
 
         // Sobreescribimos el método renderOPbject() de la instancia para poder dibujar los objetos del mapa
 
@@ -91,6 +96,9 @@ public class RenderManager {
 
         renderEnemies();
 
+        // Renderizado de efectos de partículas
+
+        spriteManager.effectsManager.renderPooledEffects(mapRenderer.getBatch(),delta);
 
         mapRenderer.getBatch().end();
 
@@ -98,9 +106,18 @@ public class RenderManager {
 
         mapRenderer.render(foregroundLayers);
 
+        // Renderizado de efectos de partículas
+
+        /* particleBatch.begin();
+
+        spriteManager.effectsManager.enemyDeathEffect.draw(particleBatch, delta);
+
+        particleBatch.end(); */
+
         // Renderizado de HUD
 
         playerHUD.render(delta);
+
 
     }
 }

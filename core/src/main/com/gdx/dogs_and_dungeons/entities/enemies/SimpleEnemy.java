@@ -16,7 +16,7 @@ public class SimpleEnemy extends Enemy {
 
         // Vida
 
-        health = 3;
+        setHealth(3);
 
         setState(State.WALKING);
 
