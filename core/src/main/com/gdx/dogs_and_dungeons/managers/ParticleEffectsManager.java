@@ -83,7 +83,7 @@ public class ParticleEffectsManager {
 
     // Renderizado - Actualización de efectos
 
-    void renderPooledEffects(Batch batch, float delta) {
+    void renderEffects(Batch batch, float delta) {
 
         // Recorremos el array al revés para que el borrado de un elemento no altere el próximo índice
 

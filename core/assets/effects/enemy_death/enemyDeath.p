@@ -105,9 +105,9 @@ behind: false
 premultipliedAlpha: false
 spriteMode: animated
 - Image Paths -
-/C:/Users/Antoni Martin/Desktop/PixelArt/Effects/white/p1.png
-/C:/Users/Antoni Martin/Desktop/PixelArt/Effects/white/p2.png
-/C:/Users/Antoni Martin/Desktop/PixelArt/Effects/white/p3.png
-/C:/Users/Antoni Martin/Desktop/PixelArt/Effects/white/p4.png
-/C:/Users/Antoni Martin/Desktop/PixelArt/Effects/white/p5.png
+p1.png
+p2.png
+p3.png
+p4.png
+p5.png
 

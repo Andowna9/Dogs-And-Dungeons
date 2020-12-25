@@ -98,21 +98,13 @@ public class RenderManager {
 
         // Renderizado de efectos de partículas
 
-        spriteManager.effectsManager.renderPooledEffects(mapRenderer.getBatch(),delta);
+        spriteManager.effectsManager.renderEffects(mapRenderer.getBatch(),delta);
 
         mapRenderer.getBatch().end();
 
         // Renderizado de capas superiores
 
         mapRenderer.render(foregroundLayers);
-
-        // Renderizado de efectos de partículas
-
-        /* particleBatch.begin();
-
-        spriteManager.effectsManager.enemyDeathEffect.draw(particleBatch, delta);
-
-        particleBatch.end(); */
 
         // Renderizado de HUD
 
