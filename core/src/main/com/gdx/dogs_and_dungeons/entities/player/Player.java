@@ -2,6 +2,7 @@ package com.gdx.dogs_and_dungeons.entities.player;
 import com.badlogic.gdx.Gdx;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
+import com.gdx.dogs_and_dungeons.screens.SelectionScreen;
 
 public class Player extends Entity {
 
@@ -9,11 +10,11 @@ public class Player extends Entity {
 
     // Ahora las clases hijas como Player, Enemy son las que se encargan de pasar la ruta a las animaciones
 
-    private static final String walkingPath = "player/boy/walking.png";
+    private static final String walkingPath = "player/x/walking.png";
 
-    private static final String attackingPath = "player/boy/dagger_attack.png";
+    private static final String attackingPath = "player/x/attack.png";
 
-    private static final String dyingPath = "player/boy/dying.png";
+    private static final String dyingPath = "player/x/dying.png";
 
     // Booleano que indica si es posible atacar en un momento dado
 
@@ -25,11 +26,21 @@ public class Player extends Entity {
 
         setVelocity(2.5f,2.5f);
 
-        animManager.loadDirectionalAnimations(walkingPath, State.WALKING);
+    }
 
-        animManager.loadDirectionalAnimations(attackingPath, State.ATTACKING);
+    public void loadPlayerSprites() {
 
-        animManager.loadSingleAnimation(dyingPath,State.DYING);
+        clearAnimations();
+
+        String gender = SelectionScreen.getGender();
+
+        Gdx.app.debug(TAG, "Cargando sprites del género: " + gender);
+
+        animManager.loadDirectionalAnimations(walkingPath.replace("x", gender), State.WALKING);
+
+        animManager.loadDirectionalAnimations(attackingPath.replace("x", gender), State.ATTACKING);
+
+        animManager.loadSingleAnimation(dyingPath.replace("x", gender),State.DYING);
 
         setFrameTime(State.ATTACKING,0.1f);
 

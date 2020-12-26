@@ -465,5 +465,14 @@ public abstract class Entity {
         return health <= 0;
     }
 
+    // Método para eliminar animaciones previemente cargadas
+
+    protected void clearAnimations() {
+
+        singleAnimations.clear();
+
+        dirAnimations.clear();
+    }
+
 
 }

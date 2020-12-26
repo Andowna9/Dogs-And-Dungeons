@@ -46,7 +46,7 @@ public class MainScreen implements Screen {
 
             public void clicked(InputEvent event, float x, float y) {
 
-                game_ref.setScreen(DogsAndDungeons.selectionScreen);
+                game_ref.setScreen(DogsAndDungeons.usersScreen);
 
             }
 

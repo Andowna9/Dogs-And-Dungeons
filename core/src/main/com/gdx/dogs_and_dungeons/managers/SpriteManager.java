@@ -58,6 +58,8 @@ public class SpriteManager {
 
     public void init() {
 
+        player.loadPlayerSprites();
+
         player.setHealth(7);
 
         player.setInitialPosition(mapManager.getPlayerSpawnPosition(player.getCurrentPosition()));

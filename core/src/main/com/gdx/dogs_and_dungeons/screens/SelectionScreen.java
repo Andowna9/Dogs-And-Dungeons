@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
@@ -17,13 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
+import com.gdx.dogs_and_dungeons.users.User;
 
 public class SelectionScreen implements Screen {
 
@@ -57,6 +54,14 @@ public class SelectionScreen implements Screen {
 	private SpriteDrawable boy;
 	
 	private SpriteDrawable girl;
+
+	private static String gender = "boy";
+
+	// Variables relativas al usuario
+
+	private Label userLabel;
+
+	private User user;
 	
 	public SelectionScreen(DogsAndDungeons game) {
 
@@ -84,20 +89,20 @@ public class SelectionScreen implements Screen {
 		
 		backButton = new TextButton("Atras", Utility.DEFAULT_SKIN);
 		
-		chooseButton = new TextButton("Choose", Utility.DEFAULT_SKIN);
+		chooseButton = new TextButton("Elegir", Utility.DEFAULT_SKIN);
 		
 		gradient = new ShapeRenderer();
 		
-		boy = new SpriteDrawable((new Sprite(new Texture(Gdx.files.internal("player/boy.png")))));
+		boy = new SpriteDrawable((new Sprite(new Texture(Gdx.files.internal("player/preview/boy.png")))));
 		
-		girl =  new SpriteDrawable((new Sprite(new Texture(Gdx.files.internal("player/girl.png")))));
+		girl =  new SpriteDrawable((new Sprite(new Texture(Gdx.files.internal("player/preview/girl.png")))));
 		
 		image = new Image();
 		image.setDrawable(boy);
 		
 		LabelStyle style = new LabelStyle();
 		style.font = Utility.mainFont;
-		titleLabel = new Label("Selecciona el genero", style);
+		titleLabel = new Label("Selecciona el género:", style);
 		
 		
 		newGameButton.addListener(new ClickListener() {
@@ -123,13 +128,13 @@ public class SelectionScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				if(image.getDrawable() == boy) {
 					image.setDrawable(girl);
+					gender = "girl";
 				
 				}
 				else	{
 					image.setDrawable(boy);
-					
+					gender = "boy";
 				}
-				
 			}
 
 		});
@@ -140,7 +145,7 @@ public class SelectionScreen implements Screen {
 
 			public void clicked(InputEvent event, float x, float y) {
 
-				game_ref.setScreen(DogsAndDungeons.mainScreen);
+				game_ref.setScreen(DogsAndDungeons.usersScreen);
 
 			}
 
@@ -167,11 +172,42 @@ public class SelectionScreen implements Screen {
 		horizontalGroup.expand(true);
 		horizontalGroup.space(100);
 		horizontalGroup.center();
+
 		stage.addActor(horizontalGroup);
+
+		userLabel = new Label("" , style);
+
+		userLabel.setBounds(20, 20, 5, 5);
+
+		stage.addActor(userLabel);
+
+	}
+
+	private void init() {
+
+		user = UsersScreen.getSelectedUser();
+
+		if (user != null) {
+
+			userLabel.setText("Usuario: " + user.getNickname());
+
+		}
+
+		else {
+
+			userLabel.setText("Sin Usuario");
+		}
+
+	}
+
+	public static String getGender() {
+
+		return gender;
 	}
 	
     @Override
     public void show() {
+		init();
 		Gdx.input.setInputProcessor(stage);
 	}
 

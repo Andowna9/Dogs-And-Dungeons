@@ -33,6 +33,8 @@ public class UsersScreen implements Screen {
 
     private TextButton bDelete;
 
+    private TextButton bBack;
+
     private DogsAndDungeons game_ref;
 
     private ShapeRenderer gradient;
@@ -517,6 +519,19 @@ public class UsersScreen implements Screen {
 
         });
 
+        TextButton bBack = new TextButton("Pantalla principal", Utility.DEFAULT_SKIN);
+
+        bBack.addListener(new ClickListener() {
+
+            @Override
+
+            public void clicked(InputEvent event, float x, float y) {
+
+                game_ref.setScreen(DogsAndDungeons.mainScreen);
+
+            }
+        });
+
         Label.LabelStyle style = new Label.LabelStyle();
 
         style.font = Utility.mainFont;
@@ -541,7 +556,8 @@ public class UsersScreen implements Screen {
         table.row().expandY().space(20);
         table.add(bCreate).right().padBottom(25); //padRight(50).padBottom(100);
         table.add(bDelete).left().padBottom(25);  //padRight(150).padBottom(100);
-
+        table.row();
+        table.add(bBack).colspan(2).padBottom(20);
 
         stage.addActor(table);
 
@@ -580,6 +596,11 @@ public class UsersScreen implements Screen {
     private boolean userExists(User user) {
 
         return userModel.contains(user, false);
+    }
+
+    public static User getSelectedUser() {
+
+        return selectedUser;
     }
 
 
