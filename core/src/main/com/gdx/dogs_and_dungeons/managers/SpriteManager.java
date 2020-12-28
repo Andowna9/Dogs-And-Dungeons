@@ -1,13 +1,11 @@
 package com.gdx.dogs_and_dungeons.managers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.math.Rectangle;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
+import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
 import com.gdx.dogs_and_dungeons.entities.player.PlayerController;
 
@@ -25,17 +23,38 @@ public class SpriteManager {
 
     private PlayerController playerController;
 
+    // Lista de enemigos
+
     List<Enemy> enemies;
 
-    MapManager mapManager;
+    // Lista de NPCs
+
+    List<NPC> npcs;
+
+    // Gestor de mapa
+
+    public static MapManager mapManager;
+
+    // Gestor de objetos
 
     ItemManager itemManager;
 
+    // Gestor de efectos de partículas
+
     ParticleEffectsManager effectsManager;
+
+    // Gestor de audio
+
+    public static AudioManager audioManager;
 
     public SpriteManager() {
 
         mapManager = new MapManager();
+
+        // Guardamos la referencia estática a la instancia del map manager para que todas las entidades tengam acceso
+
+        audioManager = new AudioManager();
+
 
         itemManager = new ItemManager(mapManager);
 
@@ -44,6 +63,10 @@ public class SpriteManager {
         // Inicialización de lista de enemigos
 
         enemies = new ArrayList<>();
+
+        // Inicialización de lista de npcs
+
+        npcs = new ArrayList<>();
 
         // Creación del jugador
 
@@ -73,6 +96,8 @@ public class SpriteManager {
         enemies.clear();
 
         mapManager.spawnEnemies(enemies);
+
+        mapManager.spawnNPCs(npcs);
 
     }
 
@@ -115,9 +140,19 @@ public class SpriteManager {
 
         player.update(delta);
 
-        if (!isCollidingWithMap(player.getCollisionBox())) {
+        if (!mapManager.isCollidingWithMap(player)) {
 
             player.updatePosition();
+        }
+    }
+
+    private void updateNPCs(float delta) {
+
+        for (NPC npc: npcs) {
+
+            npc.update(delta);
+
+            npc.behave(delta);
         }
     }
 
@@ -126,6 +161,8 @@ public class SpriteManager {
     public void update(float delta) {
 
        updateEnemies(delta);
+
+        updateNPCs(delta);
 
        updatePlayer(delta);
 
@@ -137,17 +174,17 @@ public class SpriteManager {
 
         for (Enemy enemy: enemies) {
 
-            player.attack(enemy);
+            player.checkAttack(enemy);
 
             if (player.isCollidingWithEntity(enemy) && !player.isBlinking()) {
 
                 player.receiveDamage();
 
-                Gdx.app.debug(TAG,"Vida restante: " + player.getHealth());
+                Gdx.app.debug(TAG,"Vida restante de jugador: " + player.getHealth());
 
                 if (!player.isDead()) {
 
-                    player.setBlinking();
+                    player.setBlinking(2f);
 
                 }
             }
@@ -159,24 +196,6 @@ public class SpriteManager {
         return playerController ;
     }
 
-    private boolean isCollidingWithMap(Rectangle collisionBox) {
-
-        MapLayer collisionLayer = mapManager.getCollisionLayer();
-
-        Rectangle rectangle;
-
-        for (RectangleMapObject object: collisionLayer.getObjects().getByType(RectangleMapObject.class)) {
-
-            rectangle = object.getRectangle();
-
-            if (collisionBox.overlaps(rectangle)) {
-
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     public Player getPlayer() {
 

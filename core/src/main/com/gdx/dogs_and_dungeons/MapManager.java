@@ -5,9 +5,12 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
+import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
 
 import java.util.Hashtable;
 import java.util.List;
@@ -32,6 +35,8 @@ public class MapManager {
 
     private MapLayer enemiesSpawnLayer;
 
+    private MapLayer npcsSpawnLayer;
+
     private MapLayer portalLayer;
 
     private MapLayer objectsLayer;
@@ -43,6 +48,8 @@ public class MapManager {
     private static final String PLAYER_SPAWN_LAYER = "PLAYER_SPAWN_LAYER";
 
     private static final String ENEMIES_SPAWN_LAYER = "ENEMIES_SPAWN_LAYER";
+
+    private static final String NPCS_SPAWN_LAYER = "NPCS_SPAWN_LAYER";
 
     private static final String PORTAL_LAYER = "PORTAL_LAYER";
 
@@ -59,6 +66,7 @@ public class MapManager {
     private static int currentMapHeight;
 
     public static final float UNIT_SCALE = 1/32f;
+
 
     public MapManager() {
 
@@ -120,6 +128,13 @@ public class MapManager {
 
             Gdx.app.log(TAG,"No se ha encontrado la capa: " + ENEMIES_SPAWN_LAYER);
 
+        }
+
+        npcsSpawnLayer = currentMap.getLayers().get(NPCS_SPAWN_LAYER);
+
+        if (npcsSpawnLayer == null) {
+
+            Gdx.app.log(TAG, "No se ha encontrado la capa: " + NPCS_SPAWN_LAYER);
         }
 
         portalLayer = currentMap.getLayers().get(PORTAL_LAYER);
@@ -194,6 +209,9 @@ public class MapManager {
         return lastPosition.scl(UNIT_SCALE);
 
     }
+
+    // Método para instanciar y posicionar enemigos en el mapa
+
     public void spawnEnemies(List<Enemy> enemies){
         //Buscamos cada punto de spawn que hay en el mapa para los enemigos para los enemigos
         for (MapObject mapObject : enemiesSpawnLayer.getObjects()){
@@ -218,14 +236,56 @@ public class MapManager {
 
     }
 
+    // Método para instanciar y posicionar npcs en el mapa
+
+    public void spawnNPCs(List<NPC> npcs) {
+
+        for (MapObject mapObject : npcsSpawnLayer.getObjects()){
+
+            //Cogemos el tipo de npc que creará cada spawn
+            String type =  mapObject.getProperties().get("type",String.class);
+
+            //Cogemos la posicion de los spawns
+            RectangleMapObject spawn = (RectangleMapObject) mapObject;
+            float x = spawn.getRectangle().getX() * UNIT_SCALE;
+            float y = spawn.getRectangle().getY() * UNIT_SCALE;
+            Gdx.app.debug(TAG,""+ type);
+
+            //Creamos los npcs con el tipo que hemos sacado previamente y los añadimos a la lista de enemigos
+             NPC npc = EntityFactory.getNPC(type);
+
+            npc.setInitialPosition(x,y);
+
+            npcs.add(npc);
+
+        }
+
+    }
+
+    public boolean isCollidingWithMap(Entity entity) {
+
+        MapLayer collisionLayer = this.collisionLayer;
+
+        Rectangle collisionBox = entity.getCollisionBox();
+
+        Rectangle rectangle;
+
+        for (RectangleMapObject object: collisionLayer.getObjects().getByType(RectangleMapObject.class)) {
+
+            rectangle = object.getRectangle();
+
+            if (collisionBox.overlaps(rectangle)) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public TiledMap getMap() {
 
         return currentMap;
-    }
-
-    public MapLayer getCollisionLayer() {
-
-        return  collisionLayer;
     }
 
     public MapLayer getObjectsLayer() {

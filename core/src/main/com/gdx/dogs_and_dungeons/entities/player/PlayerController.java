@@ -1,9 +1,9 @@
 package com.gdx.dogs_and_dungeons.entities.player;
 
-
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.gdx.dogs_and_dungeons.entities.Entity;
+import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 
 
 public class PlayerController extends InputAdapter {
@@ -114,6 +114,8 @@ public class PlayerController extends InputAdapter {
                 player.setState(Entity.State.ATTACKING);
 
                 player.resetAnimationTime();
+
+                SpriteManager.audioManager.playSound("drawDagger");
             }
 
             if (player.animationIsFinished(Entity.State.ATTACKING)) {

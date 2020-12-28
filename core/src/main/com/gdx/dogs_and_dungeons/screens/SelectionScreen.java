@@ -25,6 +25,7 @@ import com.gdx.dogs_and_dungeons.users.User;
 public class SelectionScreen implements Screen {
 
     // Código de pantalla de Asier
+
 	private Stage stage;
 	
 	private HorizontalGroup horizontalGroup;

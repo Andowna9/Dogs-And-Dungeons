@@ -2,6 +2,7 @@ package com.gdx.dogs_and_dungeons.entities.player;
 import com.badlogic.gdx.Gdx;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
+import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.screens.SelectionScreen;
 
 public class Player extends Entity {
@@ -46,7 +47,7 @@ public class Player extends Entity {
 
     }
 
-    public void attack(Enemy e) {
+    public void checkAttack(Enemy e) {
 
         // Cuando el jugador es atacado y se vuelve inmune, no hace daño al enemigo
 
@@ -62,9 +63,13 @@ public class Player extends Entity {
             isCoolingDown = false;
         }
 
-        if (!isCoolingDown && currentState == State.ATTACKING && currentPosition.dst(e.getCurrentPosition()) <= 1.5f) {
+        if (!isCoolingDown && !e.isBlinking() && currentState == State.ATTACKING && currentPosition.dst(e.getCurrentPosition()) <= 1.5f) {
 
             e.receiveDamage();
+
+            SpriteManager.audioManager.playSound("daggerSlice");
+
+            e.setBlinking(0.5f);
 
             Gdx.app.debug(TAG,"Un enemigo " + e.getClass().getSimpleName() + " ha recibido un ataque! Vida restante: " + e.getHealth());
 

@@ -6,7 +6,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.dogs_and_dungeons.MapManager;
+import com.gdx.dogs_and_dungeons.managers.AudioManager;
+
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -85,13 +88,15 @@ public abstract class Entity {
 
     private float blinkingTime = 0f;
 
-    private  float maxBlinkingTime = 2f;
-
     private Timer blinkingTimer;
 
     private boolean isRendered = true;
 
     protected boolean isBlinking = false;
+
+    // Generador de números aleatorios
+
+    private Random random = new Random();
 
 
     // Factor de escalado, que se utiliza si un sprite es reescalado al ser dibujado
@@ -347,7 +352,7 @@ public abstract class Entity {
 
     }
 
-    public void setBlinking() {
+    public void setBlinking(final float maxBlinkingTime) {
 
         isBlinking = true;
 
@@ -472,6 +477,11 @@ public abstract class Entity {
         singleAnimations.clear();
 
         dirAnimations.clear();
+    }
+
+    public Direction getRandomDirection() {
+
+        return Direction.values()[random.nextInt(Direction.values().length)];
     }
 
 

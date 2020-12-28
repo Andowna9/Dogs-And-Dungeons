@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="217">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="218">
  <tileset firstgid="1" source="[A]Grass_pipo.tsx"/>
  <tileset firstgid="529" source="[A]Water_pipo.tsx"/>
  <tileset firstgid="3601" source="[Base]BaseChip_pipo.tsx"/>
@@ -466,6 +466,9 @@
   <object id="70" name="E2" type="Simple" x="1077" y="1588"/>
   <object id="71" name="E3" type="Simple" x="556" y="1826"/>
  </objectgroup>
+ <objectgroup id="12" name="NPCS_SPAWN_LAYER">
+  <object id="217" name="NPC1" type="Dog" x="92" y="1569"/>
+ </objectgroup>
  <objectgroup id="5" name="COLLISION_LAYER">
   <object id="1" x="420" y="1637.5" width="23" height="17"/>
   <object id="2" x="367.333" y="1633.33" width="14" height="23"/>
@@ -524,7 +527,7 @@
   <object id="90" x="865" y="1471" width="30" height="30"/>
   <object id="91" x="770" y="1506" width="27" height="27"/>
   <object id="92" x="656" y="1488"/>
-  <object id="93" x="674" y="1438.5" width="60" height="78"/>
+  <object id="93" x="674" y="1438.5" width="60" height="66"/>
   <object id="94" x="810" y="1060.5" width="114" height="23"/>
   <object id="95" x="806" y="1025.5" width="21" height="28"/>
   <object id="96" x="991" y="1060.5" width="122" height="23"/>

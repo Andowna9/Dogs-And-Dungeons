@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
+import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
 import com.gdx.dogs_and_dungeons.entities.player.PlayerHUD;
 
 public class RenderManager {
@@ -80,6 +81,14 @@ public class RenderManager {
         }
     }
 
+    private void renderNPCs() {
+
+        for (NPC npc: spriteManager.npcs) {
+
+            npc.render(mapRenderer);
+        }
+    }
+
     public void render(float delta) {
 
         // Renderizado de capas inferiores
@@ -93,6 +102,8 @@ public class RenderManager {
         // Renderizado de entidades
 
         renderPlayer();
+
+        renderNPCs();
 
         renderEnemies();
 
