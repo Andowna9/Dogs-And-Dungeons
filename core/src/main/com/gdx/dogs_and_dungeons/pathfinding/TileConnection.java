@@ -10,4 +10,11 @@ public class TileConnection extends DefaultConnection<Tile> {
 
         super(fromTile, toTile);
     }
+
+    @Override
+    public String toString() {
+
+        return fromNode.toString() + " -- " + toNode.toString();
+
+    }
 }

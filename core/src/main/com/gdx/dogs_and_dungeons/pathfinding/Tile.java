@@ -20,4 +20,25 @@ public class Tile {
 
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+
+       return String.format("(%d, %d)", x, y);
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (!(o instanceof Tile)) {
+
+            return false;
+        }
+
+        Tile t = (Tile) o;
+
+        return  this.x == t.x && this.y == t.y;
+    }
+
 }

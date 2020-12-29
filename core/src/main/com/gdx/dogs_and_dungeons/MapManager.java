@@ -41,9 +41,13 @@ public class MapManager {
 
     private MapLayer objectsLayer;
 
+    private MapLayer locationsLayer;
+
     // Nombre de cada capa
 
     private static final String COLLISION_LAYER = "COLLISION_LAYER";
+
+    private static final String LOCATIONS_LAYER = "LOCATIONS";
 
     private static final String PLAYER_SPAWN_LAYER = "PLAYER_SPAWN_LAYER";
 
@@ -150,6 +154,14 @@ public class MapManager {
         if (objectsLayer == null) {
 
             Gdx.app.log(TAG,"No se ha encontrado la capa: " + OBJECTS_LAYER);
+
+        }
+
+        locationsLayer = currentMap.getLayers().get(LOCATIONS_LAYER);
+
+        if (locationsLayer == null) {
+
+            Gdx.app.log(TAG,"No se ha encontrado la capa: " + LOCATIONS_LAYER);
 
         }
 
@@ -291,6 +303,11 @@ public class MapManager {
     public MapLayer getObjectsLayer() {
 
         return objectsLayer;
+    }
+
+    public MapLayer getLocationsLayer() {
+
+        return locationsLayer;
     }
 
     public static int getCurrentMapWidth() {

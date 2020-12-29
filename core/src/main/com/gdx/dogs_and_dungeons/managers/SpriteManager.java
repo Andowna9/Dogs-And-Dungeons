@@ -1,6 +1,7 @@
 package com.gdx.dogs_and_dungeons.managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
@@ -8,6 +9,7 @@ import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
 import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
 import com.gdx.dogs_and_dungeons.entities.player.PlayerController;
+import com.gdx.dogs_and_dungeons.pathfinding.TileGraph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -75,6 +77,10 @@ public class SpriteManager {
         player.setPosition(22.5f,0);
 
         playerController = new PlayerController(player);
+
+        // Prueba de TileGraph
+
+        new TileGraph((TiledMapTileLayer) mapManager.getMap().getLayers().get("AStar"),"GRAVEYARD");
     }
 
     // Inicialización en caso de reanudar la partida (más adelante con puntos de spawn)
