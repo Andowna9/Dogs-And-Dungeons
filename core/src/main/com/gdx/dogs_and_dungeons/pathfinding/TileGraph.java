@@ -10,13 +10,13 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gdx.dogs_and_dungeons.MapManager;
+import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
-
 import java.util.Arrays;
-import java.util.Optional;
 
 // Esta clase se comporta como un grafo indexado que es capaz de encontrar la ruta óptima entre 2 de sus nodos (inicio, fin)
 
@@ -30,7 +30,7 @@ public class TileGraph implements IndexedGraph<Tile> {
 
     Tile [][] tiles;
 
-    // Vértices
+    // Vértices del rectángulo que rodea la zona del mapa
 
     private int initX;
 
@@ -60,6 +60,10 @@ public class TileGraph implements IndexedGraph<Tile> {
 
     private String zone;
 
+    // Rectángulo que representa los límites de la zona en el mapa
+
+    private Rectangle zoneRect;
+
     // Constructor del grafo
     // Recibe una capa del mapa y la convierte en un grafo
 
@@ -67,11 +71,11 @@ public class TileGraph implements IndexedGraph<Tile> {
 
         zone = location;
 
-        //RectangleMapObject start = (RectangleMapObject) layer.getProperties().get("start", Object.class);
-
         RectangleMapObject obj = (RectangleMapObject) SpriteManager.mapManager.getLocationsLayer().getObjects().get(location);
 
         Rectangle rect = obj.getRectangle();
+
+        zoneRect = rect;
 
         // Fila y columna iniciales
 
@@ -127,7 +131,7 @@ public class TileGraph implements IndexedGraph<Tile> {
 
                 // Creamos un nodo con las coordenadas x e y relativas a la zona
 
-                Tile currentTile = new Tile(x, y);
+                Tile currentTile = new Tile(x, y, initX + x, initY + y);
 
                 // Se añade el nodo actual al grafo
                 // Para mantener el sistema de coordenadas del mapa(derecha-arriba) empezamos añadiendo desde la última fila
@@ -149,7 +153,17 @@ public class TileGraph implements IndexedGraph<Tile> {
 
                 if (tiles[i][j] == null) continue;
 
-                // Si no estamos en la última columna
+                // Si no estamos en la primera columna: Vecino a la izquirda
+
+                if (j != 0) {
+
+                    if (tiles[i][j - 1] != null) {
+
+                        connectTiles(tiles[i][j], tiles[i][j - 1]);
+                    }
+                }
+
+                // Si no estamos en la última columna: Vecino a la derecha
 
                 if (j != tiles[i].length - 1) {
 
@@ -162,7 +176,17 @@ public class TileGraph implements IndexedGraph<Tile> {
                     }
                 }
 
-                // Si no estamos en la última fila
+                // Si no estamos en la primera fila: Vecino encima
+
+                if (i != 0) {
+
+                    if (tiles[i - 1][j] != null) {
+
+                        connectTiles(tiles[i][j], tiles[i - 1][j]);
+                    }
+                }
+
+                // Si no estamos en la última fila: Vecino debajo
 
                 if (i != tiles.length - 1) {
 
@@ -193,19 +217,48 @@ public class TileGraph implements IndexedGraph<Tile> {
 
     }
 
-
-    // Método para obtener el nodo en las coordenada s(fila, columna) proporcionadas
+    // Método para obtener el nodo en las coordenada (x, y) relativas proporcionadas
     // Devuelve null si no hay nodo en dicha posición o está fuera de los límites
 
-    public Tile getTile(int x, int y) {
+    private Tile getTile(int x, int y) {
 
-        if (y >= tiles.length || y < 0 || x >= tiles[y].length || x <= 0) {
+        if (y >= tiles.length || y < 0 || x >= tiles[y].length || x < 0) {
 
             return null;
         }
 
         return tiles[tiles.length - 1 - y][x];
     }
+
+    // Método para obtener el tile en coordenadas del mapa
+
+    public Tile getTileAt(Vector2 pos) {
+
+        // Obtenemos la posición en el mapa redondeando al entero más cercano
+
+        int x = MathUtils.roundPositive(pos.x);
+
+        int y = MathUtils.roundPositive(pos.y);
+
+        // Se obtinen las posiciones relativas, de acuerdo a la posición en el mapa
+
+        x -= initX;
+
+        y -= initY;
+
+        return getTile(x, y);
+    }
+
+
+    // Método para para obtener la posición de una entidad en la zona
+    // Devuelve null si la entidad no está dentro de la zona
+
+    public Tile getTileFrom(Entity e) {
+
+
+        return getTileAt(e.getCurrentPosition());
+    }
+
 
     // Método para imprimir el grafo en pantalla como un mapa bidimensional en el que cada posición es un nodo
 
@@ -222,6 +275,22 @@ public class TileGraph implements IndexedGraph<Tile> {
 
        Gdx.app.debug(TAG, message);
     }
+
+    // Método para comprobar si el jugador está dentro de la zona en cuestión
+
+    public boolean isPlayerInsideZone() {
+
+        return zoneRect.contains(SpriteManager.player.getCollisionBox());
+
+    }
+
+    // Método para obtener el nombre de la zona en cuestión
+
+    public String getZoneName() {
+
+        return zone;
+    }
+
 
     // Método para conectar un tile con otro y añadir
 
@@ -248,12 +317,28 @@ public class TileGraph implements IndexedGraph<Tile> {
 
         boolean isPathFound = new IndexedAStarPathFinder<>(this).searchNodePath(startTile,goalTile,heuristic,tilePath);
 
-        if (isPathFound) Gdx.app.debug(TAG, "Camino encontrado desde " + startTile + " hasta " + goalTile);
+        if (isPathFound) {
+
+            String path = "";
+
+            String arrow = " -> ";
+
+            for (Tile tile: tilePath) {
+
+                path = path + tile.toString() + arrow;
+            }
+
+            path = path.substring(0, path.length() - arrow.length());
+
+            Gdx.app.debug(TAG, "Camino encontrado desde " + startTile + " hasta " + goalTile + ": " + path);
+        }
 
         else Gdx.app.debug(TAG, "No se ha encontrado ninguna ruta desde " + startTile + " hasta " + goalTile);
 
         return tilePath;
     }
+
+    // MÉTODOS PROPIOS DE LA IMPLEMENTACIÓN DEL GRAFO
 
     // Método que devuelve el índice de un tile
 
