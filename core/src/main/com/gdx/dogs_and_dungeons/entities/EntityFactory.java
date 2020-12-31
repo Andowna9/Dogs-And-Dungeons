@@ -1,9 +1,6 @@
 package com.gdx.dogs_and_dungeons.entities;
 
-import com.gdx.dogs_and_dungeons.entities.enemies.BalancedEnemy;
-import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
-import com.gdx.dogs_and_dungeons.entities.enemies.HardEnemy;
-import com.gdx.dogs_and_dungeons.entities.enemies.SimpleEnemy;
+import com.gdx.dogs_and_dungeons.entities.enemies.*;
 import com.gdx.dogs_and_dungeons.entities.npcs.Dog;
 import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
@@ -21,24 +18,37 @@ public class EntityFactory {
 
     public static Enemy getEnemy(String type) {
 
-        switch (type) {
+        Enemy e = null;
 
+        switch (type) {
 
             case "Simple":
 
-                return new SimpleEnemy(32,32, 1f, 1f, Entity.Direction.RIGHT);
+                e = new SimpleEnemy();
+
+                break;
 
             case "Balanced":
 
-                return new BalancedEnemy(32, 32, 1f, 1f);
+                 e = new BalancedEnemy();
+
+                 break;
 
 
             case "Hard":
 
-                return new HardEnemy(32, 32, 1f, 1f);
+                e = new HardEnemy();
+
+                break;
+
+            case "Boss":
+
+                e = new BossEnemy();
+
+                break;
         }
 
-        return null;
+        return e;
     }
 
     // Devuelve un NPC

@@ -10,9 +10,21 @@ public class SimpleEnemy extends Enemy {
 
     private static final String specificPath = "pumpkin.png";
 
-    public SimpleEnemy(int width, int height,float drawWidth, float drawHeight, Direction direction) {
+    public SimpleEnemy(int width, int height,float drawWidth, float drawHeight) {
 
         super(width, height, drawWidth, drawHeight, specificPath);
+
+    }
+
+    public SimpleEnemy() {
+
+        super(specificPath);
+    }
+
+    // Método que representa el comportamiento del enemigo
+
+    @Override
+    public void initEnemy() {
 
         // Vida
 
@@ -20,19 +32,12 @@ public class SimpleEnemy extends Enemy {
 
         setState(State.WALKING);
 
-        setDirection(direction);
+        setDirection(Direction.RIGHT);
 
         setVelocity(2f,2f);
-
     }
 
-    // Método que representa el comportamiento del enemigo
-
     public void behave(float delta) {
-
-        calculateNextPosition(delta);
-
-        updatePosition();
 
         timer += delta;
 

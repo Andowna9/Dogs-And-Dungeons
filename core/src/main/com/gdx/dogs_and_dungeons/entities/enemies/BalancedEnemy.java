@@ -1,7 +1,6 @@
 package com.gdx.dogs_and_dungeons.entities.enemies;
 
 import com.badlogic.gdx.Gdx;
-import java.util.ArrayList;
 
 public class BalancedEnemy extends Enemy {
 
@@ -14,17 +13,24 @@ public class BalancedEnemy extends Enemy {
 
         super(width, height, drawWidth, drawHeight, specificPath);
 
-        setState(State.WALKING);
+    }
+
+    public BalancedEnemy() {
+
+        super(specificPath);
+    }
+
+    @Override
+    public void initEnemy() {
 
         setVelocity(2f, 2f);
+
+        setState(State.WALKING);
     }
 
     @Override
     public void behave(float delta) {
 
-        calculateNextPosition(delta);
-
-        updatePosition();
 
         restringeField(3);
 

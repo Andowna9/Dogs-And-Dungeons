@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.dogs_and_dungeons.MapManager;
-import com.gdx.dogs_and_dungeons.managers.AudioManager;
+import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -124,10 +124,10 @@ public abstract class Entity {
 
         animManager = new AnimationManager(tileWidth,tileHeight,dirAnimations,singleAnimations);
 
-        init();
+        initDefaults();
     }
 
-    protected void init() {
+    protected void initDefaults() {
 
         currentPosition = new Vector2();
 
@@ -155,10 +155,21 @@ public abstract class Entity {
 
         animationTime = (animationTime + deltaTime) % 5;
 
+        // Si el estado actual no es estar quieto, se actualizan las animaciones
+
         if (currentState != State.IDLE) {
 
             updateAnimations();
+
+            // Además, se calcula la siguiente posición si la entidad no está atacando o muriendo
+
+            if (currentState != State.ATTACKING && currentState != State.DYING) {
+
+                calculateNextPosition(deltaTime);
+            }
+
         }
+
 
         else {
 
@@ -172,13 +183,20 @@ public abstract class Entity {
 
         collisionBox.y = nextPosition.y / MapManager.UNIT_SCALE;
 
+
+        // Actualización en caso de que no haya colisiones
+
+        if (!SpriteManager.mapManager.isCollidingWithMap(this)) {
+
+                updatePosition();
+        }
+
         // Actualización del parpadeo
 
         if (isBlinking) {
 
             blinkingTime += deltaTime;
         }
-
 
     }
 
@@ -301,15 +319,15 @@ public abstract class Entity {
     }
 
 
-    public TextureRegion getCurrentTexture() {
-
-        return currentTexture;
-    }
-
     public Vector2 getCurrentPosition() {
 
         return currentPosition;
     }
+
+   public Vector2 getInitialPosition() {
+
+        return initialPosition;
+   }
 
     public Rectangle getCollisionBox() {
 
@@ -332,6 +350,11 @@ public abstract class Entity {
         return currentState;
     }
 
+    public Direction getCurrentDirection() {
+
+        return currentDirection;
+    }
+
     public boolean animationIsFinished(State s) {
 
         if (singleAnimations.containsKey(s)) return singleAnimations.get(s).isAnimationFinished(animationTime);
@@ -340,8 +363,11 @@ public abstract class Entity {
 
     }
 
+    // Método para actualizar la posición actual de la entidad una vez calculada la siguiente
 
     public void updatePosition() {
+
+        // Si la próxima posición se sale de los límites del mapa, no se actualiza la actual
 
         if (nextPosition.x < 0 || nextPosition.x > MapManager.getCurrentMapWidth()
             || nextPosition.y < 0 || nextPosition.y > MapManager.getCurrentMapHeight()) return;
@@ -424,6 +450,11 @@ public abstract class Entity {
 
         velocity.y =  vy;
 
+    }
+
+    public Vector2 getVelocity() {
+
+        return velocity;
     }
 
     // Método para dibujar las entidadades a partir del batch del mapa

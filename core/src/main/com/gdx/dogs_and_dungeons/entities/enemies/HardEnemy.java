@@ -12,6 +12,15 @@ public class HardEnemy extends Enemy {
     public HardEnemy(int width, int height,float drawWidth, float drawHeight) {
 
         super(width, height, drawWidth, drawHeight, specificPath);
+    }
+
+    public HardEnemy() {
+
+        super(specificPath);
+    }
+
+    @Override
+    public void initEnemy() {
 
         setState(State.IDLE);
 

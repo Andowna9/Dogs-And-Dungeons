@@ -16,6 +16,12 @@ public abstract class Enemy extends Entity {
         MOVEMENT1, MOVEMENT2, MOVEMENT3
     }
 
+    // Método que las clases hijas deben implementar para inicializar parámetros (cada enemigo los suyos)
+
+    public abstract void initEnemy();
+
+    // Método que determinará el comportamiento o lógica del enemigo
+
     public abstract void behave(float delta);
 
 
@@ -45,6 +51,17 @@ public abstract class Enemy extends Entity {
     public Enemy(int width, int height, float drawWidth, float drawHeight, String specificPath) {
 
         super(width, height, drawWidth, drawHeight);
+
+        animManager.loadDirectionalAnimations(generalPath + specificPath,State.WALKING);
+
+        setDefaultTexture(State.WALKING, Direction.RIGHT);
+    }
+
+    // Constructor de enemigos con tamaños de sprites/dibujado por defecto
+
+    public Enemy(String specificPath) {
+
+        super(32,32,1f,1f);
 
         animManager.loadDirectionalAnimations(generalPath + specificPath,State.WALKING);
 

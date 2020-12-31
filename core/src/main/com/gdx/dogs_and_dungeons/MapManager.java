@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.dogs_and_dungeons.entities.Entity;
@@ -233,16 +234,15 @@ public class MapManager {
 
             //Cogemos la posicion de los spawns
             RectangleMapObject spawn = (RectangleMapObject) mapObject;
-            float x = spawn.getRectangle().getX() * UNIT_SCALE;
-            float y = spawn.getRectangle().getY() * UNIT_SCALE;
+            float x = (spawn.getRectangle().getX() - 16) * UNIT_SCALE;
+            float y = (spawn.getRectangle().getY() - 16) * UNIT_SCALE;
             Gdx.app.debug(TAG,""+ type);
 
             //Creamos los enemigos con el tipo que hemos sacado previamente y los añadimos a la lista de enemigos
             Enemy enemy = EntityFactory.getEnemy(type);
-
             enemy.setInitialPosition(x,y);
+            enemy.initEnemy();
             enemies.add(enemy);
-
 
         }
 
@@ -259,8 +259,8 @@ public class MapManager {
 
             //Cogemos la posicion de los spawns
             RectangleMapObject spawn = (RectangleMapObject) mapObject;
-            float x = spawn.getRectangle().getX() * UNIT_SCALE;
-            float y = spawn.getRectangle().getY() * UNIT_SCALE;
+            float x = (spawn.getRectangle().getX() - 16) * UNIT_SCALE;
+            float y = (spawn.getRectangle().getY() - 16) * UNIT_SCALE;
             Gdx.app.debug(TAG,""+ type);
 
             //Creamos los npcs con el tipo que hemos sacado previamente y los añadimos a la lista de enemigos
@@ -308,6 +308,11 @@ public class MapManager {
     public MapLayer getLocationsLayer() {
 
         return locationsLayer;
+    }
+
+    public TiledMapTileLayer getAStarLayer() {
+
+        return (TiledMapTileLayer) currentMap.getLayers().get("AStar");
     }
 
     public static int getCurrentMapWidth() {

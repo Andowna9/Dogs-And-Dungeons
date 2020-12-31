@@ -105,7 +105,7 @@ public class PlayerController extends InputAdapter {
         return true;
     }
 
-    public void processInput(float deltaTime) {
+    public void processInput() {
 
         if (attacking) {
 
@@ -124,7 +124,7 @@ public class PlayerController extends InputAdapter {
 
                 player.resetAnimationTime();
 
-                player.setState(Entity.State.WALKING);
+                player.setState(Entity.State.IDLE);
             }
 
 
@@ -132,16 +132,12 @@ public class PlayerController extends InputAdapter {
 
         else if (movingUp) {
 
-            player.calculateNextPosition(deltaTime);
-
             player.setState(Player.State.WALKING);
 
             player.setDirection(Player.Direction.UP);
         }
 
         else if (movingDown) {
-
-            player.calculateNextPosition(deltaTime);
 
             player.setState(Player.State.WALKING);
 
@@ -151,8 +147,6 @@ public class PlayerController extends InputAdapter {
 
         else if (movingLeft) {
 
-            player.calculateNextPosition(deltaTime);
-
             player.setState(Player.State.WALKING);
 
             player.setDirection(Player.Direction.LEFT);
@@ -160,8 +154,6 @@ public class PlayerController extends InputAdapter {
         }
 
         else if (movingRight) {
-
-            player.calculateNextPosition(deltaTime);
 
             player.setState(Player.State.WALKING);
 
