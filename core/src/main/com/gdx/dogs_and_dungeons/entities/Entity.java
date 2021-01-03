@@ -6,8 +6,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.gdx.dogs_and_dungeons.MapManager;
-import com.gdx.dogs_and_dungeons.managers.SpriteManager;
-
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
@@ -98,7 +96,6 @@ public abstract class Entity {
 
     private Random random = new Random();
 
-
     // Factor de escalado, que se utiliza si un sprite es reescalado al ser dibujado
 
     private float scaleFactor;
@@ -183,14 +180,6 @@ public abstract class Entity {
 
         collisionBox.y = nextPosition.y / MapManager.UNIT_SCALE;
 
-
-        // Actualización en caso de que no haya colisiones
-
-        if (!SpriteManager.mapManager.isCollidingWithMap(this)) {
-
-                updatePosition();
-        }
-
         // Actualización del parpadeo
 
         if (isBlinking) {
@@ -200,12 +189,6 @@ public abstract class Entity {
 
     }
 
-    // Sitúa a la entidad en una posición dada
-
-    public void setDefaultTexture(State state, Direction direction) {
-
-        currentTexture = dirAnimations.get(state).get(direction).getKeyFrame(0);
-    }
 
 
     public void setPosition(float x, float y) {

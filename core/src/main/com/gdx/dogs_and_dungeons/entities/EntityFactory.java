@@ -3,6 +3,7 @@ package com.gdx.dogs_and_dungeons.entities;
 import com.gdx.dogs_and_dungeons.entities.enemies.*;
 import com.gdx.dogs_and_dungeons.entities.npcs.Dog;
 import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
+import com.gdx.dogs_and_dungeons.entities.npcs.Villager;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
 
 public class EntityFactory {
@@ -55,13 +56,23 @@ public class EntityFactory {
 
     public static NPC getNPC(String type) {
 
+        NPC npc = null;
+
         switch (type) {
 
             case "Dog":
 
-                return new Dog(32,32,1,1);
+                npc = new Dog();
+
+                break;
+
+            case "Villager":
+
+                npc = new Villager();
+
+                break;
         }
 
-        return null;
+        return npc;
     }
 }

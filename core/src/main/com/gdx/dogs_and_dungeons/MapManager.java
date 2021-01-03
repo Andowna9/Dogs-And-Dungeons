@@ -267,6 +267,7 @@ public class MapManager {
              NPC npc = EntityFactory.getNPC(type);
 
             npc.setInitialPosition(x,y);
+            npc.initNPC();
 
             npcs.add(npc);
 

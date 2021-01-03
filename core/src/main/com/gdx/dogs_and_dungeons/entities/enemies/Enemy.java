@@ -54,7 +54,6 @@ public abstract class Enemy extends Entity {
 
         animManager.loadDirectionalAnimations(generalPath + specificPath,State.WALKING);
 
-        setDefaultTexture(State.WALKING, Direction.RIGHT);
     }
 
     // Constructor de enemigos con tamaños de sprites/dibujado por defecto
@@ -64,8 +63,6 @@ public abstract class Enemy extends Entity {
         super(32,32,1f,1f);
 
         animManager.loadDirectionalAnimations(generalPath + specificPath,State.WALKING);
-
-        setDefaultTexture(State.WALKING, Direction.RIGHT);
 
     }
 }

@@ -87,6 +87,8 @@ public class MainGameScreen implements Screen {
 
         spriteManager.init();
 
+        renderManager.init();
+
         spriteManager.getPlayerController().init();
 
         Gdx.input.setInputProcessor(spriteManager.getPlayerController());

@@ -9,8 +9,18 @@ public class Dog extends NPC {
     private boolean leaving = false;
 
     public Dog(int width, int height, float drawWidth, float drawHeight) {
+
         super(width, height, drawWidth, drawHeight, specificPath);
-        setPosition(25,10);
+    }
+
+    public Dog() {
+
+        super(specificPath);
+    }
+
+    @Override
+    public void initNPC() {
+
         setState(State.WALKING);
         setDirection(Direction.LEFT);
         setVelocity(1.0f,1.0f);

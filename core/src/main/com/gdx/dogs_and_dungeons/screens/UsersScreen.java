@@ -448,10 +448,6 @@ public class UsersScreen implements Screen {
 
         this.game_ref = game;
 
-        // Iniciamos conexión con la base de datos
-
-        dbManager.connect("core/database/user.db");
-
         userModel = new Array<>();
 
         gradient = new ShapeRenderer();
@@ -483,13 +479,6 @@ public class UsersScreen implements Screen {
 
             }
         });
-
-        // Carga de usuarios de la base de datos
-
-        for (User user: dbManager.getAllUsers()) {
-
-            addUser(user);
-        }
 
         bCreate = new TextButton("Crear usuario", Utility.DEFAULT_SKIN);
 
@@ -603,11 +592,26 @@ public class UsersScreen implements Screen {
         return selectedUser;
     }
 
+    // Al mostrar la pantalla, se inicia la conexión con la base de datos y se cargan
 
     @Override
     public void show() {
 
         Gdx.input.setInputProcessor(stage);
+
+        // Iniciamos conexión con la base de datos
+
+        dbManager.connect("core/database/user.db");
+
+        // Carga de usuarios de la base de datos
+
+        for (User user: dbManager.getAllUsers()) {
+
+            // Este método no permite añadir usuarios repetidos a la lista, luego no hace falta comprobar si los usuariso ya están en memoria
+
+            addUser(user);
+        }
+
     }
 
     @Override
@@ -647,5 +651,6 @@ public class UsersScreen implements Screen {
     @Override
     public void dispose() {
 
+        dbManager.disconnect();
     }
 }

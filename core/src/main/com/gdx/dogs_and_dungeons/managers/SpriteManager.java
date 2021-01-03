@@ -85,8 +85,6 @@ public class SpriteManager {
 
         player.setInitialPosition(mapManager.getPlayerSpawnPosition(player.getCurrentPosition()));
 
-        player.setDefaultTexture(Entity.State.WALKING, Entity.Direction.UP);
-
         player.setState(Entity.State.IDLE);
 
         player.setDirection(Entity.Direction.UP);
@@ -96,6 +94,8 @@ public class SpriteManager {
         mapManager.spawnEnemies(enemies);
 
         mapManager.spawnNPCs(npcs);
+
+
 
     }
 
@@ -110,6 +110,8 @@ public class SpriteManager {
             // Actualización de enemigos
 
             e.update(delta);
+
+            if (!mapManager.isCollidingWithMap(e)) e.updatePosition();
 
             e.behave(delta);
 
@@ -137,6 +139,27 @@ public class SpriteManager {
         // Actulización de animaciones y cajas de colisión
 
         player.update(delta);
+
+        // Colisiones con el mapa y NPCs
+
+       if (!mapManager.isCollidingWithMap(player)) {
+
+           boolean collidesWithNpc = false;
+
+           for (NPC npc: npcs) {
+
+               if (player.isCollidingWithEntity(npc)) {
+
+                   collidesWithNpc = true;
+
+                   break;
+               }
+           }
+
+           if (!collidesWithNpc) player.updatePosition();
+
+       }
+
     }
 
     private void updateNPCs(float delta) {
@@ -144,6 +167,8 @@ public class SpriteManager {
         for (NPC npc: npcs) {
 
             npc.update(delta);
+
+            if (!mapManager.isCollidingWithMap(npc)) npc.updatePosition();
 
             npc.behave(delta);
         }

@@ -7,11 +7,15 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.gdx.dogs_and_dungeons.MapManager;
-import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
-import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
+import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.player.PlayerHUD;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 public class RenderManager {
+
 
     SpriteBatch particleBatch;
 
@@ -28,6 +32,43 @@ public class RenderManager {
     // HUD del jugador
 
     PlayerHUD playerHUD;
+
+    // Orden de renderizado de entidades dependiendo del punto medio del sprite
+
+    private List<Entity> entities;
+
+    // Comparador de índices z (qué entidad se renderiza antes)
+
+    private RenderComparator zOrdering;
+
+    // Ordenación del índice z (índice en la lista) a partir de coordenada y
+
+    private class RenderComparator implements Comparator<Entity> {
+
+        @Override
+        public int compare(Entity e1, Entity e2) {
+
+            // Sumamos 16, para calcular la y desde la mitad de la entidad (sabemos que son de 32 x 32 píxeles)
+
+            float y1 = e1.getCurrentPosition().y + 16;
+
+            float y2 = e2.getCurrentPosition().y + 16;
+
+            int value = 0;
+
+            // Mayor y -> La entidad 1 está por detrás, se renderiza antes
+
+            if (y1 > y2) value = -1; // Su índice en la lista tiene que ser menor
+
+            // Menor y -> La entidad 1 está por delante, se renderiza más tarde
+
+            else if (y1 < y2) value = 1; // Su índice en la lista tiene que ser mayor
+
+            // En caso contario, las dos entidades tienen la misma prioridad, no se reordenan
+
+            return value;
+        }
+    }
 
 
     public RenderManager(SpriteManager spriteManager) {
@@ -60,33 +101,29 @@ public class RenderManager {
 
         playerHUD = new PlayerHUD(camera, spriteManager.player);
 
+        entities = new ArrayList<>();
+
+        zOrdering = new RenderComparator();
+
+    }
+
+    // Inicialización de lista de entidades, una vez se han inicializado en spritemanager
+
+    public void init() {
+
+        entities.clear();
+
+        entities.add(SpriteManager.player);
+
+        entities.addAll(spriteManager.npcs);
+
+        entities.addAll(spriteManager.enemies);
+
     }
 
     private void renderObjects() {
 
         spriteManager.itemManager.render(mapRenderer);
-    }
-
-    private void renderPlayer() {
-
-        spriteManager.player.render(mapRenderer);
-
-    }
-
-    private void renderEnemies() {
-
-        for(Enemy e: spriteManager.enemies) {
-
-            e.render(mapRenderer);
-        }
-    }
-
-    private void renderNPCs() {
-
-        for (NPC npc: spriteManager.npcs) {
-
-            npc.render(mapRenderer);
-        }
     }
 
     public void render(float delta) {
@@ -101,11 +138,16 @@ public class RenderManager {
 
         // Renderizado de entidades
 
-        renderPlayer();
+        // En cada vuelta del bucle reordenamos la lista de entidades para que se rendericen en el orden correcto
 
-        renderNPCs();
+        entities.sort(zOrdering);
 
-        renderEnemies();
+        // Renderizamos las entidades de la lista una vez ordenada
+
+        for (Entity e: entities) {
+
+            e.render(mapRenderer);
+        }
 
         // Renderizado de efectos de partículas
 

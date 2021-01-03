@@ -1,10 +1,6 @@
 package com.gdx.dogs_and_dungeons.entities.npcs;
 
-import com.badlogic.gdx.Gdx;
 import com.gdx.dogs_and_dungeons.entities.Entity;
-import com.gdx.dogs_and_dungeons.entities.enemies.BalancedEnemy;
-
-import java.util.ArrayList;
 
 public abstract class NPC extends Entity {
 
@@ -12,16 +8,27 @@ public abstract class NPC extends Entity {
 
     public abstract void behave(float delta);
 
+    public abstract void initNPC();
+
     // All methods inherited from class Entity
 
-    // Constructor
+    // Constructor completo
     public NPC(int width, int height, float drawWidth, float drawHeight, String specificPath) {
 
         super(width, height, drawWidth, drawHeight);
 
         animManager.loadDirectionalAnimations(generalPath + specificPath,State.WALKING);
 
-        setDefaultTexture(State.WALKING, Direction.DOWN);
+    }
+
+    // Constructor con valores por defecto
+
+    public NPC(String specificPath) {
+
+        super(32, 32, 1f, 1f);
+
+        animManager.loadDirectionalAnimations(generalPath + specificPath,State.WALKING);
+
     }
 
 
