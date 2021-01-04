@@ -21,6 +21,10 @@ public class Player extends Entity {
 
     private boolean isCoolingDown = false;
 
+    // Booleano para saber si el jugador está interactuando
+
+    private boolean isInteracting = false;
+
     public Player(int width, int height,float drawWidth, float drawHeight) {
 
         super(width, height,drawWidth,drawHeight);
@@ -76,6 +80,16 @@ public class Player extends Entity {
             isCoolingDown = true;
         }
 
+    }
+
+    public boolean isInteracting() {
+
+        return isInteracting;
+    }
+
+    public void  setInteracting(boolean b) {
+
+        isInteracting = b;
     }
 
 }

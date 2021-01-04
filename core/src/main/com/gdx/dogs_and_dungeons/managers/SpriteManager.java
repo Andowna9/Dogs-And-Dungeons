@@ -6,6 +6,7 @@ import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
 import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
+import com.gdx.dogs_and_dungeons.entities.npcs.Villager;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
 import com.gdx.dogs_and_dungeons.entities.player.PlayerController;
 import java.util.ArrayList;
@@ -45,6 +46,10 @@ public class SpriteManager {
     // Gestor de audio
 
     public static AudioManager audioManager;
+
+    // Npc con el que se esá interactuando, solo 1 simultáneamente
+
+   Villager interactingNPC;
 
     public SpriteManager() {
 
@@ -156,9 +161,34 @@ public class SpriteManager {
                }
            }
 
+
            if (!collidesWithNpc) player.updatePosition();
 
        }
+
+       // Interacciones npcs
+
+        boolean interactingWithNPC = false;
+
+        for (NPC npc: npcs) {
+
+            if (!(npc instanceof Villager)) continue;
+
+            interactingNPC = (Villager) npc;
+
+            if (player.getCurrentPosition().dst(npc.getCurrentPosition()) < 1) {
+
+                    interactingWithNPC = true;
+
+                    break;
+
+            }
+
+        }
+
+        player.setInteracting(interactingWithNPC);
+
+        if (!interactingWithNPC) interactingNPC = null;
 
     }
 

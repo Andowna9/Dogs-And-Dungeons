@@ -2,6 +2,7 @@ package com.gdx.dogs_and_dungeons.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
@@ -9,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.player.PlayerHUD;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -49,27 +49,19 @@ public class RenderManager {
         public int compare(Entity e1, Entity e2) {
 
             // Sumamos 16, para calcular la y desde la mitad de la entidad (sabemos que son de 32 x 32 píxeles)
+            // Multiplicamos por 1000 para que la resta de ints posterior sea más precisa y tenga en cuenta los primeros decimales
+            float y1 = (e1.getCurrentPosition().y + 16) * 1000;
+            float y2 = (e2.getCurrentPosition().y + 16) * 1000;
 
-            float y1 = e1.getCurrentPosition().y + 16;
+            // Comparamos las coordenadas restándolas
 
-            float y2 = e2.getCurrentPosition().y + 16;
-
-            int value = 0;
-
-            // Mayor y -> La entidad 1 está por detrás, se renderiza antes
-
-            if (y1 > y2) value = -1; // Su índice en la lista tiene que ser menor
-
-            // Menor y -> La entidad 1 está por delante, se renderiza más tarde
-
-            else if (y1 < y2) value = 1; // Su índice en la lista tiene que ser mayor
-
-            // En caso contario, las dos entidades tienen la misma prioridad, no se reordenan
-
-            return value;
+            return (int) y2 - (int) y1;
         }
     }
 
+    // Textura que se dibuja para representar las interacciones
+
+    private Texture interaction = new Texture("HUD/interact.png");
 
     public RenderManager(SpriteManager spriteManager) {
 
@@ -121,6 +113,15 @@ public class RenderManager {
 
     }
 
+    // Renderizado de interacciones si hay un NPC
+
+    private void renderInteractions() {
+
+        if (spriteManager.interactingNPC != null)
+
+        mapRenderer.getBatch().draw(interaction,spriteManager.interactingNPC.getCurrentPosition().x + 0.25f, spriteManager.interactingNPC.getCurrentPosition().y + 1 ,0.5f,0.5f);
+    }
+
     private void renderObjects() {
 
         spriteManager.itemManager.render(mapRenderer);
@@ -152,6 +153,8 @@ public class RenderManager {
         // Renderizado de efectos de partículas
 
         spriteManager.effectsManager.renderEffects(mapRenderer.getBatch(),delta);
+
+        renderInteractions();
 
         mapRenderer.getBatch().end();
 

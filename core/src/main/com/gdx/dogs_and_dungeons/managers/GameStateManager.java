@@ -1,5 +1,6 @@
 package com.gdx.dogs_and_dungeons.managers;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.screens.MainGameScreen;
@@ -13,6 +14,7 @@ public class GameStateManager {
 
     public enum GameState {
         PLAYING,
+        INTERACTING,
         GAME_OVER
     }
 
@@ -42,11 +44,30 @@ public class GameStateManager {
 
     private void changeState() {
 
-        if ( currentGameState == GameState.PLAYING && spriteManager.player.isDead()) {
+        if ( currentGameState == GameState.PLAYING ) {
 
-            Gdx.input.setInputProcessor(null);
+            // FIN DEL JUEGO
 
-            setCurrentGameState(GameState.GAME_OVER);
+            if (SpriteManager.player.isDead()) {
+
+                Gdx.input.setInputProcessor(null);
+
+                setCurrentGameState(GameState.GAME_OVER);
+
+            }
+
+            // MODO DIÁLOGOS (INTERACCIÓN CON NPCS)
+
+            else if (Gdx.input.isKeyPressed(Input.Keys.E) && SpriteManager.player.isInteracting()) {
+
+                System.out.println("Mostrando diálogo...");
+
+                spriteManager.interactingNPC.setDirection(SpriteManager.player.getOppositeDirection());
+
+                Gdx.input.setInputProcessor(null);
+
+                setCurrentGameState(GameState.INTERACTING);
+            }
         }
     }
 
@@ -59,6 +80,8 @@ public class GameStateManager {
 
         switch (currentGameState) {
 
+            case INTERACTING:
+
             case PLAYING:
 
                 spriteManager.update(delta);
@@ -69,16 +92,16 @@ public class GameStateManager {
 
                 spriteManager.updateEnemies(delta);
 
-                spriteManager.player.update(delta);
+                SpriteManager.player.update(delta);
 
-                if (spriteManager.player.getCurrentState() != Entity.State.DYING) {
+                if (SpriteManager.player.getCurrentState() != Entity.State.DYING) {
 
-                    spriteManager.player.setState(Entity.State.DYING);
+                    SpriteManager.player.setState(Entity.State.DYING);
 
-                    spriteManager.player.resetAnimationTime();
+                    SpriteManager.player.resetAnimationTime();
                 }
 
-                if (spriteManager.player.animationIsFinished(Entity.State.DYING)) {
+                if (SpriteManager.player.animationIsFinished(Entity.State.DYING)) {
 
                     Gdx.app.log(TAG, "La animación de muerte ha terminado!");
 
