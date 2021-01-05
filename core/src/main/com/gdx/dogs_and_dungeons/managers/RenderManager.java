@@ -9,10 +9,9 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.Entity;
-import com.gdx.dogs_and_dungeons.entities.player.PlayerHUD;
-import java.util.ArrayList;
+import com.gdx.dogs_and_dungeons.entities.player.hud.PlayerHUD;
+
 import java.util.Comparator;
-import java.util.List;
 
 public class RenderManager {
 
@@ -29,13 +28,6 @@ public class RenderManager {
 
     private final int [] foregroundLayers = {5,6};
 
-    // HUD del jugador
-
-    PlayerHUD playerHUD;
-
-    // Orden de renderizado de entidades dependiendo del punto medio del sprite
-
-    private List<Entity> entities;
 
     // Comparador de índices z (qué entidad se renderiza antes)
 
@@ -91,27 +83,13 @@ public class RenderManager {
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        playerHUD = new PlayerHUD(camera, spriteManager.player);
-
-        entities = new ArrayList<>();
-
         zOrdering = new RenderComparator();
 
-    }
+        spriteManager.playerHUD = new PlayerHUD(camera, SpriteManager.player);
 
-    // Inicialización de lista de entidades, una vez se han inicializado en spritemanager
-
-    public void init() {
-
-        entities.clear();
-
-        entities.add(SpriteManager.player);
-
-        entities.addAll(spriteManager.npcs);
-
-        entities.addAll(spriteManager.enemies);
 
     }
+
 
     // Renderizado de interacciones si hay un NPC
 
@@ -141,11 +119,11 @@ public class RenderManager {
 
         // En cada vuelta del bucle reordenamos la lista de entidades para que se rendericen en el orden correcto
 
-        entities.sort(zOrdering);
+        spriteManager.entities.sort(zOrdering);
 
         // Renderizamos las entidades de la lista una vez ordenada
 
-        for (Entity e: entities) {
+        for (Entity e: spriteManager.entities) {
 
             e.render(mapRenderer);
         }
@@ -164,7 +142,7 @@ public class RenderManager {
 
         // Renderizado de HUD
 
-        playerHUD.render(delta);
+        spriteManager.playerHUD.render(delta);
 
 
     }

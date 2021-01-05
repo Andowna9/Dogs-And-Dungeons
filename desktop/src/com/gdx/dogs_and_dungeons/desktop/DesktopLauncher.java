@@ -1,15 +1,11 @@
 package com.gdx.dogs_and_dungeons.desktop;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 
-//Prueba
-// Hola soy Alex
-// Prueba para Jon Andoni
 public class DesktopLauncher {
 
 	public static void main (String[] arg) {

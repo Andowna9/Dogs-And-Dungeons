@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.gdx.dogs_and_dungeons.Item;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
-import com.gdx.dogs_and_dungeons.entities.player.StatusUI;
+import com.gdx.dogs_and_dungeons.entities.player.hud.StatusUI;
 
 import java.util.ArrayList;
 import java.util.Iterator;

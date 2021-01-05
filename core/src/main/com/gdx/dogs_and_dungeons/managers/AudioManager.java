@@ -69,4 +69,30 @@ public class AudioManager {
         }
     }
 
+    // Método para reproducir música
+
+    public void playMusic(String name) {
+
+        Music m = music.get(name);
+
+        if (m != null) {
+
+            // Reproducción en bucle por defecto
+
+            m.play();
+        }
+    }
+
+    // Método para parar la reproducción de música (la próxima vez se iniciará desde el principio)
+
+    public void stopMusic(String name) {
+
+        Music m = music.get(name);
+
+        if (m != null) {
+
+            m.stop();
+        }
+    }
+
 }

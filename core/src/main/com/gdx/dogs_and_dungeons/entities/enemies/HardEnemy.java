@@ -1,13 +1,17 @@
 package com.gdx.dogs_and_dungeons.entities.enemies;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.gdx.dogs_and_dungeons.managers.SpriteManager;
+import com.gdx.dogs_and_dungeons.pathfinding.PfaAgent;
+import com.gdx.dogs_and_dungeons.pathfinding.Tile;
+import com.gdx.dogs_and_dungeons.pathfinding.TileGraph;
 
 public class HardEnemy extends Enemy {
 
     private static final String specificPath = "ghost.png";
     private static final String TAG = HardEnemy.class.getSimpleName();
-    private Rectangle zonOfVision = new Rectangle(getCurrentPosition().x, getCurrentPosition().y, 30,30);
-    private boolean isFollowing = false;
+    private boolean isFollowingPlayer = false;
+    private TileGraph tileGraph;
+    private PfaAgent pfaAgent;
 
     public HardEnemy(int width, int height,float drawWidth, float drawHeight) {
 
@@ -25,25 +29,43 @@ public class HardEnemy extends Enemy {
         setState(State.IDLE);
 
         setVelocity(2f, 2f);
+
+        tileGraph = new TileGraph(SpriteManager.mapManager.getAStarLayer(), "GHOSTZONE");
+
+        pfaAgent = new PfaAgent(tileGraph, this);
+    }
+
+    public void setPathToPlayer() {
+
+        // Cuidado porque el método getTile() del grafo puede devolver valor nulo
+
+        Tile playerTile = tileGraph.getTileFrom(SpriteManager.player);
+
+        Tile enemyTile = tileGraph.getTileFrom(this);
+
+        // Establecemos un nuevo camino para el agente desde su posición hasta la del jugador
+
+        pfaAgent.setPath(enemyTile, playerTile);
+
+        isFollowingPlayer = true;
+
     }
 
     @Override
     public void behave(float delta) {
 
-    }
-    public void followPlayer(float playerX, float playerY){
-        if (zonOfVision.contains(playerX, playerY)){
-            isFollowing = true;
-        }
-    }
-    public void calculateDirection(float playerX, float playerY){
-        /*if(isFollowing){
-            if(getCurrentPosition().x > playerX){
-                setDirection(Direction.LEFT);
+        if (!isFollowingPlayer) {
 
-          }
-            */
+            if (tileGraph.isPlayerInsideZone()) {
+
+                setPathToPlayer();
+            }
+        }
+
+        pfaAgent.move();
     }
+
+
 
 
 

@@ -1,11 +1,12 @@
 package com.gdx.dogs_and_dungeons.managers;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.screens.MainGameScreen;
 
- // Clase para gestionar los distintos estados del juego
+// Clase para gestionar los distintos estados del juego
 
 public class GameStateManager {
 
@@ -15,6 +16,7 @@ public class GameStateManager {
     public enum GameState {
         PLAYING,
         INTERACTING,
+        PAUSED,
         GAME_OVER
     }
 
@@ -44,6 +46,8 @@ public class GameStateManager {
 
     private void changeState() {
 
+        // Estado actual: JUGANDO
+
         if ( currentGameState == GameState.PLAYING ) {
 
             // FIN DEL JUEGO
@@ -54,6 +58,17 @@ public class GameStateManager {
 
                 setCurrentGameState(GameState.GAME_OVER);
 
+            }
+
+            // MODO PAUSA
+
+            else if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+
+                Gdx.input.setInputProcessor(spriteManager.playerHUD.getStage());
+
+                spriteManager.playerHUD.showPauseMenu();
+
+                setCurrentGameState(GameState.PAUSED);
             }
 
             // MODO DIÁLOGOS (INTERACCIÓN CON NPCS)
@@ -68,6 +83,21 @@ public class GameStateManager {
 
                 setCurrentGameState(GameState.INTERACTING);
             }
+        }
+
+        // Estado Actual: PAUSADO
+
+        else if (currentGameState == GameState.PAUSED) {
+
+            // Si el HUD ya no está en modo pausa, se puede volver a jugar
+
+            if (!spriteManager.playerHUD.isPaused()) {
+
+                Gdx.input.setInputProcessor(spriteManager.getPlayerController());
+
+                setCurrentGameState(GameState.PLAYING);
+            }
+
         }
     }
 
@@ -107,6 +137,12 @@ public class GameStateManager {
 
                     gameScreen.switchScreen(DogsAndDungeons.gameOverScreen, delta);
                 }
+
+                break;
+
+             // Por defecto, nos se realiza ninguna actualización
+
+            default:
 
                 break;
         }

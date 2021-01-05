@@ -1,6 +1,7 @@
 package com.gdx.dogs_and_dungeons.managers;
 
 import com.badlogic.gdx.Gdx;
+import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
@@ -9,6 +10,8 @@ import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
 import com.gdx.dogs_and_dungeons.entities.npcs.Villager;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
 import com.gdx.dogs_and_dungeons.entities.player.PlayerController;
+import com.gdx.dogs_and_dungeons.entities.player.hud.PlayerHUD;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -51,7 +54,21 @@ public class SpriteManager {
 
    Villager interactingNPC;
 
-    public SpriteManager() {
+    // Orden de renderizado de entidades dependiendo del punto medio del sprite
+
+    List<Entity> entities;
+
+    // HUD del jugador
+
+    public PlayerHUD playerHUD;
+
+    // Referencia al juego
+
+    public static DogsAndDungeons game_ref;
+
+    public SpriteManager(DogsAndDungeons game) {
+
+        game_ref = game;
 
         mapManager = new MapManager();
 
@@ -78,6 +95,8 @@ public class SpriteManager {
         player.setPosition(22.5f,0);
 
         playerController = new PlayerController(player);
+
+        entities = new ArrayList<>();
     }
 
     // Inicialización en caso de reanudar la partida (más adelante con puntos de spawn)
@@ -100,7 +119,13 @@ public class SpriteManager {
 
         mapManager.spawnNPCs(npcs);
 
+        entities.clear();
 
+        entities.add(player);
+
+        entities.addAll(npcs);
+
+        entities.addAll(enemies);
 
     }
 
@@ -129,6 +154,8 @@ public class SpriteManager {
                 Gdx.app.debug(TAG, e.getClass().getSimpleName() + " eliminado por jugador!");
 
                 it.remove();
+
+                entities.remove(e);
             }
         }
     }
@@ -240,6 +267,8 @@ public class SpriteManager {
     }
 
     public PlayerController getPlayerController() {
+
+        playerController.init();
 
         return playerController ;
     }
