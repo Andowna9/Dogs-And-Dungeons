@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
 
-
 public class PlayerHUD extends ScreenAdapter {
 
     private static final String TAG = PlayerHUD.class.getSimpleName();
@@ -65,7 +64,6 @@ public class PlayerHUD extends ScreenAdapter {
 
             pauseUI.renderFilter();
 
-
             stage.getBatch().begin();
 
             pauseUI.draw(stage.getBatch(), 1f);
@@ -99,6 +97,12 @@ public class PlayerHUD extends ScreenAdapter {
     public Stage getStage() {
 
         return stage;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+        stage.getViewport().setScreenSize(width, height);
     }
 
     @Override

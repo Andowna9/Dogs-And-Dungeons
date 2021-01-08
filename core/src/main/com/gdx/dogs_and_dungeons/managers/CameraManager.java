@@ -33,11 +33,9 @@ public class CameraManager {
 
         camera = new OrthographicCamera();
 
-        init();
-
     }
 
-    private void init() {
+    public void init() {
 
         setViewport(15,12);
 

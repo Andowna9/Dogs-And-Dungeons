@@ -12,7 +12,6 @@ import com.gdx.dogs_and_dungeons.managers.GameStateManager;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.managers.RenderManager;
 
-
 // Pantalla de juego
 
 public class MainGameScreen implements Screen {
@@ -78,7 +77,14 @@ public class MainGameScreen implements Screen {
     @Override
     public void show() {
 
+        // Se establece pantalla completa dependiendo de las preferencias
+
+        if (DogsAndDungeons.GamePreferences.fullscreen)
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+
         alpha = 0;
+
+        cameraManager.init();
 
         gameStateManager.setCurrentGameState(GameStateManager.GameState.PLAYING);
 
@@ -157,6 +163,7 @@ public class MainGameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
 
+        spriteManager.playerHUD.resize(width, height);
     }
 
     @Override
@@ -179,9 +186,16 @@ public class MainGameScreen implements Screen {
 
     }
 
+    // Cuando el juego está en pantalla completa y se oculta (se pasa a otra pantalla), se vuelve
+    // a establecer el modo ventana
+
     @Override
     public void hide() {
 
+        if (Gdx.graphics.isFullscreen()) {
+
+            Gdx.graphics.setWindowedMode(800, 500);
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 
 import java.util.HashMap;
 
@@ -65,7 +66,11 @@ public class AudioManager {
 
         if (s != null) {
 
-            s.play();
+            long id = s.play();
+
+            // Volumen con rango entre 0 y 1
+
+            s.setVolume(id, DogsAndDungeons.GamePreferences.volume);
         }
     }
 
@@ -80,6 +85,8 @@ public class AudioManager {
             // Reproducción en bucle por defecto
 
             m.play();
+
+            m.setVolume(DogsAndDungeons.GamePreferences.volume);
         }
     }
 

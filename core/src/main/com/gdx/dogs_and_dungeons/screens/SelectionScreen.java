@@ -218,7 +218,7 @@ public class SelectionScreen implements Screen {
 		
         
         gradient.begin(ShapeRenderer.ShapeType.Filled);
-        gradient.rect(0, 0, 800, 600, Color.DARK_GRAY, Color.DARK_GRAY, Color.GOLD, Color.GOLD);
+        gradient.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.DARK_GRAY, Color.DARK_GRAY, Color.GOLD, Color.GOLD);
         gradient.end();
         
         stage.act(delta); 

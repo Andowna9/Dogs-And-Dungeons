@@ -26,7 +26,7 @@ public class MainScreen implements Screen {
     private DogsAndDungeons game_ref;
 
 
-    public MainScreen(DogsAndDungeons game){
+    public MainScreen(DogsAndDungeons game) {
 
         game_ref = game;
 
@@ -112,7 +112,7 @@ public class MainScreen implements Screen {
 
         // Background
         batch.begin();
-        batch.draw(backgroundTexture, 0, 0);
+        batch.draw(backgroundTexture, 0, 0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
 
         // Scene2d UI
