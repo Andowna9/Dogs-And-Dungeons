@@ -19,6 +19,7 @@ public class DogsAndDungeons extends Game {
 	public static MainScreen mainScreen;
 	public static SelectionScreen selectionScreen;
 	public static GameOverScreen gameOverScreen;
+	public static VictoryScreen victoryScreen;
 
 	// Preferencias estáticas del juego para un acceso simple desde cualquier otra clase
 
@@ -74,6 +75,7 @@ public class DogsAndDungeons extends Game {
 		mainScreen = new MainScreen(this);
 		selectionScreen = new SelectionScreen(this);
 		gameOverScreen = new GameOverScreen(this);
+		victoryScreen = new VictoryScreen(this);
 
 		// Por defecto se inicia la pantalla del juego como primera
 

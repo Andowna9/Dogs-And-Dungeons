@@ -6,6 +6,8 @@ public abstract class NPC extends Entity {
 
     private static final String generalPath = "npc/";
 
+    private String name = "";
+
     public abstract void behave(float delta);
 
     public abstract void initNPC();
@@ -29,6 +31,20 @@ public abstract class NPC extends Entity {
 
         animManager.loadDirectionalAnimations(generalPath + specificPath,State.WALKING);
 
+    }
+
+    public String getName() {
+
+        return name;
+    }
+
+    public void setName(String n) {
+
+        if (n != null) {
+
+            name = n;
+
+        }
     }
 
 

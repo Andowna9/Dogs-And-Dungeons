@@ -4,9 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -103,8 +100,9 @@ public class DialogUI extends Table {
         textLabel.setText(dividedText.removeFirst());
     }
 
-    // Método para dividir el texto hasta
-    // Divide el texto en palabras y prueba a ir concatenando hasta que se produce overflow y elimina la última palabra añadida
+
+    // Divide el texto en palabras y prueba a ir concatenando hasta que se produce overflow y lo corrige saltando de línea
+    // Por otro lado, añade las frases a la cola para ir mostrándolas en orden posteriormente
 
     private void divideText(String text) {
 
@@ -112,9 +110,9 @@ public class DialogUI extends Table {
 
         String [] textArray = text.split("\\s");
 
-        boolean isContinuation = false;
-
         for (int i = 0; i < textArray.length; i++) {
+
+            String nextWord = textArray[i];
 
             // Se añade espacio al principio solo si no se trata de la primera palabra
 
@@ -123,53 +121,31 @@ public class DialogUI extends Table {
                 words += " ";
             }
 
-            // Y si se trata de la primera palabra (sindo una continuación)
-
-            else if (isContinuation) {
-
-                words += "... ";
-            }
-
-            // Se añade la palabra em cuestión
-
-            words += textArray[i];
-
-            textLabel.setText(words);
+            textLabel.setText(words + nextWord);
 
             // Si la anchura del label con el texto hasta ahora supera la del diálogo (menos un margen en píxeles)
 
             if (textLabel.getPrefWidth() > dialogWidth - 60) {
 
-                // Se modifica el texto actual quitando la última palabra y espacio (+1)
+                // Saltamos de línea para evitar que se supere la anchura
 
-                words = words.substring(0, words.length() - (textArray[i].length() + 1));
+                words += "\n";
+            }
 
-                // Además si no acaba en punto, exclamación o interrogación, se ponen puntos suspensivos
+            // Se añade la palabra em cuestión
 
-                if (!words.matches("[.!?]$")) {
+            words += nextWord;
 
-                    words += " ...";
+            // Si la siguiente palabra tiene un número indefinido de caracteres y acaba en punto, exclamación o interrogación, se añade la frase a la cola
 
-                    isContinuation = true;
-                }
-
-                else isContinuation = false;
-
-                // Se añade el texto a la cola
+            if (nextWord.matches(".*[!?.]")) {
 
                 dividedText.addLast(words);
 
-                // Se vacía el texto y se resta 1 al índice para seguir la iteración desde esta palabra
-
                 words = "";
 
-                i--;
             }
         }
-
-        // Añadimos el último fragmento, ya que es aquel que no se ha salido del diálogo
-
-        dividedText.addLast(words);
     }
 
 

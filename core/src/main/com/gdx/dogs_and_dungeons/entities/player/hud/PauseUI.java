@@ -26,15 +26,12 @@ public class PauseUI extends Table {
 
     private ShapeRenderer shapeRenderer;
 
-    private PlayerHUD hud_ref;
-
     private Image modeImage;
 
     private Label infoLabel;
 
-    public PauseUI(PlayerHUD hud) {
+    public PauseUI() {
 
-        hud_ref = hud;
 
         shapeRenderer = new ShapeRenderer();
 
@@ -51,9 +48,8 @@ public class PauseUI extends Table {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                // Se cambia a estado de juego PLAYING
 
-                hud_ref.hidePauseMenu();
+                setVisible(false);
 
             }
         });

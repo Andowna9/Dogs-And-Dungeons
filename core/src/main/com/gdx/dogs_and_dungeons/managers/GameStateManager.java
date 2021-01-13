@@ -77,11 +77,16 @@ public class GameStateManager {
 
                 System.out.println("Mostrando diálogo...");
 
+                spriteManager.playerHUD.showDialog(spriteManager.interactingNPC.getClass().getSimpleName(), spriteManager.dialogManager.getDialog(spriteManager.interactingNPC));
                 spriteManager.interactingNPC.setDirection(SpriteManager.player.getOppositeDirection());
 
                 Gdx.input.setInputProcessor(null);
 
+                spriteManager.getPlayerController().reset();
+
                 setCurrentGameState(GameState.INTERACTING);
+
+                SpriteManager.player.setState(Entity.State.IDLE);
             }
         }
 
@@ -93,12 +98,29 @@ public class GameStateManager {
 
             if (!spriteManager.playerHUD.isPaused()) {
 
-                Gdx.input.setInputProcessor(spriteManager.getPlayerController());
-
-                setCurrentGameState(GameState.PLAYING);
+                transitionToPlaying();
             }
 
         }
+
+        else if (currentGameState == GameState.INTERACTING) {
+
+            if (!spriteManager.playerHUD.isDialogActive()) {
+
+                transitionToPlaying();
+
+            }
+        }
+    }
+
+    // Método para pasar al estado PLAYING
+
+    private void transitionToPlaying() {
+
+        Gdx.input.setInputProcessor(spriteManager.getPlayerController());
+
+        setCurrentGameState(GameState.PLAYING);
+
     }
 
     // De momento solo tenemos un estado, pero en caso de tener más, podríamos crear clases estado

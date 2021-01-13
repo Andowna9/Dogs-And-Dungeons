@@ -13,13 +13,13 @@ public class PlayerHUD extends ScreenAdapter {
 
     private Stage stage;
 
+    // Interfaces gráficas que gestiona PlayerHUD
+
     private StatusUI statusUI;
 
     private DialogUI dialogUI;
 
     private PauseUI pauseUI;
-
-    boolean isPaused;
 
     public PlayerHUD(Camera camera, Player player) {
 
@@ -29,9 +29,11 @@ public class PlayerHUD extends ScreenAdapter {
 
         statusUI = new StatusUI(player);
 
-        dialogUI = new DialogUI("Alex","Hello I'm Alex, what about you?");
+        dialogUI = new DialogUI();
 
-        pauseUI = new PauseUI(this);
+        pauseUI = new PauseUI();
+
+        // El menú de pausa y la UI que muestra los diálogos son invisibles por defecto
 
         pauseUI.setVisible(false);
 
@@ -58,6 +60,13 @@ public class PlayerHUD extends ScreenAdapter {
 
         statusUI.draw(stage.getBatch(), 1f);
 
+        if (dialogUI.isVisible()) {
+
+            dialogUI.update(delta);
+
+            dialogUI.draw(stage.getBatch(), 1f);
+        }
+
         stage.getBatch().end();
 
         if (pauseUI.isVisible()) {
@@ -69,29 +78,42 @@ public class PlayerHUD extends ScreenAdapter {
             pauseUI.draw(stage.getBatch(), 1f);
 
             stage.getBatch().end();
-
         }
 
     }
+
+    // Muestra el menú de Pausa
 
     public void showPauseMenu() {
 
         pauseUI.setVisible(true);
 
-        isPaused = true;
     }
 
-    public void hidePauseMenu() {
-
-        pauseUI.setVisible(false);
-
-        isPaused = false;
-    }
-
+    // Método para comprobar si el HUD está en modo pausa
 
     public boolean isPaused() {
 
-        return isPaused;
+        return pauseUI.isVisible();
+    }
+
+    // Díalogo para interacciones con NPCs
+    // Recibe el nombre del NPC, al igual que el texto que se quiere mostrar
+
+    public void showDialog(String npcName, String text) {
+
+        dialogUI.setTitle(npcName);
+
+        dialogUI.setText(text);
+
+        dialogUI.setVisible(true);
+    }
+
+    // Método para comprobar si el diálogo del HUD está activado
+
+    public boolean isDialogActive() {
+
+        return dialogUI.isVisible();
     }
 
     public Stage getStage() {

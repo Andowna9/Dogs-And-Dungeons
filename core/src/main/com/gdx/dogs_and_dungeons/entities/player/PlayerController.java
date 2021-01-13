@@ -29,7 +29,9 @@ public class PlayerController extends InputAdapter {
 
     }
 
-    public void init() {
+    // Devuelve el procesador de input a su estado original, olvidando cualquier tecla que se haya pulsado y no soltado
+
+    public void reset() {
 
         movingUp = false;
 

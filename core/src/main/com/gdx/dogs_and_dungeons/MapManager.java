@@ -256,15 +256,17 @@ public class MapManager {
 
             //Cogemos el tipo de npc que creará cada spawn
             String type =  mapObject.getProperties().get("type",String.class);
+            String name = mapObject.getName();
 
             //Cogemos la posicion de los spawns
             RectangleMapObject spawn = (RectangleMapObject) mapObject;
             float x = (spawn.getRectangle().getX() - 16) * UNIT_SCALE;
             float y = (spawn.getRectangle().getY() - 16) * UNIT_SCALE;
-            Gdx.app.debug(TAG,""+ type);
+            Gdx.app.debug(TAG, type + ": " + name);
 
             //Creamos los npcs con el tipo que hemos sacado previamente y los añadimos a la lista de enemigos
-             NPC npc = EntityFactory.getNPC(type);
+            NPC npc = EntityFactory.getNPC(type);
+            npc.setName(name);
 
             npc.setInitialPosition(x,y);
             npc.initNPC();

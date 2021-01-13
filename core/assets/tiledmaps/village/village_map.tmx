@@ -474,7 +474,7 @@
  </objectgroup>
  <objectgroup id="12" name="NPCS_SPAWN_LAYER">
   <object id="217" name="NPC1" type="Dog" x="92" y="1569"/>
-  <object id="231" name="NPC2" type="Villager" x="1454.67" y="1546"/>
+  <object id="231" name="Hombre Mayor" type="Villager" x="1454.67" y="1546"/>
  </objectgroup>
  <objectgroup id="5" name="COLLISION_LAYER">
   <object id="1" x="420" y="1637.5" width="23" height="17"/>

@@ -66,6 +66,8 @@ public class SpriteManager {
 
     public static DogsAndDungeons game_ref;
 
+    DialogManager dialogManager;
+
     public SpriteManager(DogsAndDungeons game) {
 
         game_ref = game;
@@ -79,6 +81,8 @@ public class SpriteManager {
         itemManager = new ItemManager(mapManager);
 
         effectsManager = new ParticleEffectsManager();
+
+        dialogManager = new DialogManager();
 
         // Inicialización de lista de enemigos
 
@@ -268,7 +272,7 @@ public class SpriteManager {
 
     public PlayerController getPlayerController() {
 
-        playerController.init();
+        playerController.reset();
 
         return playerController ;
     }
