@@ -1,12 +1,16 @@
 package com.gdx.dogs_and_dungeons.entities.player.hud;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.gdx.dogs_and_dungeons.Utility;
-import com.gdx.dogs_and_dungeons.entities.player.Player;
+import com.gdx.dogs_and_dungeons.entities.player.Countdown;
+import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
 import com.gdx.dogs_and_dungeons.profiles.ProfileObserver;
 
@@ -16,21 +20,39 @@ public class StatusUI extends Table implements ProfileObserver {
 
     private static final String TAG = StatusUI.class.getSimpleName();
 
+    // Imágenes
+
     private Image hpBar;
 
     private Image log;
 
-    private Label.LabelStyle style;
+    private static Image sword;
 
-    private Player player;
+    private static Image boots;
+
+    // Estilo para hpLabel
+
+    private Label.LabelStyle hpLabelstyle;
+
+    // Número de troncos recogidos
 
     private static int logCounter = 0;
 
-    private Label.LabelStyle logStyle;
+    // Labels que se actualizan
 
-    private Label logs;
+    private Label logLabel;
 
-    public StatusUI(Player player) {
+    private Label speedLabel;
+
+    private Label damageLabel;
+
+    // Cuentas atrás
+
+    public static Countdown speedCountdown;
+
+    public static Countdown damageCountdown;
+
+    public StatusUI() {
 
         // Prueba de serialización
 
@@ -39,11 +61,18 @@ public class StatusUI extends Table implements ProfileObserver {
         ProfileManager.getInstance().loadProfile();
 
 
-        this.player = player;
+
+        // Carga de imágenes
 
         hpBar = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("healthbar", 7));
 
         log = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("log"));
+
+        sword = new Image(new Texture(Gdx.files.internal("HUD/sword.png")));
+
+        boots = new Image(new Texture(Gdx.files.internal("HUD/boots.png")));
+
+        // Se escalan dichas imágenes
 
         float logScale = 1;
 
@@ -53,9 +82,51 @@ public class StatusUI extends Table implements ProfileObserver {
 
         hpBar.scaleBy(hpScale);
 
-        setFillParent(true);
+        // Labels:
 
-        //setDebug(true);
+        // HP
+
+        hpLabelstyle = new Label.LabelStyle();
+
+        hpLabelstyle.font = Utility.gameFont;
+
+        hpLabelstyle.fontColor = Color.GREEN;
+
+        Label hpLabel = new Label("HP", hpLabelstyle);
+
+        // Log - Tronco
+
+        Label.LabelStyle logStyle = new Label.LabelStyle();
+
+        logStyle.font = Utility.gameFont;
+
+        logStyle.fontColor = Color.BROWN;
+
+        logLabel = new Label("x" + logCounter, logStyle);
+
+        // Label de velocidad extra
+
+        Label.LabelStyle speedStyle = new Label.LabelStyle();
+
+        speedStyle.font = Utility.gameFont;
+
+        speedStyle.fontColor = Color.BLUE;
+
+        speedLabel = new Label("", speedStyle);
+
+        // Label de ataque(daño) adicional
+
+        Label.LabelStyle damageStyle = new Label.LabelStyle();
+
+        damageStyle.font = Utility.gameFont;
+
+        damageStyle.fontColor = Color.RED;
+
+        damageLabel = new Label("", damageStyle);
+
+        // Se añaden los componentes a la tabla
+
+        setFillParent(true);
 
         top();
 
@@ -65,29 +136,46 @@ public class StatusUI extends Table implements ProfileObserver {
 
         padTop(20);
 
-        style = new Label.LabelStyle();
-
-        style.font = Utility.gameFont;
-
-        style.fontColor = Color.GREEN;
-
-        add(new Label("HP",style));
+        add(hpLabel);
 
         add(hpBar).spaceLeft(10).padTop(hpBar.getPrefHeight() * hpScale);
 
         row().space(20);
 
-        add(log).width(26).height(20);
+        add(log).width(26).height(20).padTop(20);
 
-        logStyle = new Label.LabelStyle();
+        add(logLabel).padLeft(10);
 
-        logStyle.font = Utility.gameFont;
+        row().space(20);
 
-        logStyle.fontColor = Color.BROWN;
+        HorizontalGroup hg = new HorizontalGroup();
 
-        logs = new Label("x" + logCounter, logStyle);
+        add(hg).colspan(2).width(100);
 
-        add(logs).padBottom(20).padLeft(10);
+
+        // Cuentas atrás
+
+        speedCountdown = new Countdown(30, new Runnable() {
+            @Override
+            public void run() {
+
+                Gdx.app.debug(TAG, "Cuenta atrás para velocidad terminada!");
+
+                SpriteManager.player.restoreSpeed();
+            }
+        }, speedLabel, boots,hg);
+
+
+        damageCountdown = new Countdown(60, new Runnable() {
+            @Override
+            public void run() {
+
+                Gdx.app.debug(TAG, "Cuenta atrás para daño terminada!");
+
+                SpriteManager.player.restoreDamage();
+
+            }
+        },damageLabel, sword, hg);
     }
 
     // 7, 6 y 5 -> Verde
@@ -98,33 +186,52 @@ public class StatusUI extends Table implements ProfileObserver {
 
     public void update() {
 
-        int health = player.getHealth();
+        int health = SpriteManager.player.getHealth();
 
         if (health <= 0) return;
 
-       if (health <= 2) {
+        if (health <= 2) {
 
-           style.fontColor = Color.RED;
+           hpLabelstyle.fontColor = Color.RED;
 
-       }
+        }
 
        else if (health <= 4) {
 
-           style.fontColor = Color.YELLOW;
+           hpLabelstyle.fontColor = Color.YELLOW;
        }
 
        else {
 
-           style.fontColor = Color.GREEN;
+           hpLabelstyle.fontColor = Color.GREEN;
        }
 
        hpBar.setDrawable(new TextureRegionDrawable(Utility.STATUSUI_TEXTUREATLAS.findRegion("healthbar", health)));
 
-       logs.setText("x"+ logCounter);
+       logLabel.setText("x"+ logCounter);
     }
-    public static void incrementLogs(){
+
+    public static void incrementLogs() {
+
         logCounter++;
+
         Gdx.app.debug(TAG,""+logCounter);
+    }
+
+    public static boolean startCountdown(Countdown countdown) {
+
+        if (!countdown.isFinished()) {
+
+            countdown.increaseTime();
+
+            return false;
+        }
+
+
+        countdown.start();
+
+        return true;
+
     }
 
 
@@ -143,4 +250,5 @@ public class StatusUI extends Table implements ProfileObserver {
 
         }
     }
+
 }

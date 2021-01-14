@@ -82,6 +82,10 @@ public abstract class Entity {
 
     protected int health = 1;
 
+    // Daño que provoca la entidad
+
+    protected int damage = 1;
+
     // Parpadeo al recibir daño
 
     private float blinkingTime = 0f;
@@ -293,11 +297,9 @@ public abstract class Entity {
         velocity.scl(1 / deltaTime);
     }
 
-    // Método para restar vida al enemigo/jugador (de momento siempre resta 1)
+    public void receiveDamageFrom(Entity e) {
 
-    public void receiveDamage() {
-
-        health--;
+        health -= e.damage;
 
     }
 

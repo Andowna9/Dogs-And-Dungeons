@@ -1,21 +1,29 @@
 package com.gdx.dogs_and_dungeons;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
+import com.gdx.dogs_and_dungeons.entities.player.hud.StatusUI;
+import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 
 //Clase Item para gestionar los objetos que el jugador podra conseguir (trozos de madera, pociones de regeneración, etc.)
 public class Item {
-	
-	private String name;	//Nombre del objeto
+
+	private static final String TAG = Item.class.getSimpleName();
+
+	public enum Type {
+
+		WOOD, APPLE, ATTACK_BOOK, SPEED_BOOK, UNDEFINED
+	}
+
 	private Rectangle box;	//Hitbox del objeto que sera un rectangulo
-	private MapObject mapObject;
+	private MapObject mapObject; //Objeto del mapa asociado
+	private Type itemType;
 
 	public Item (MapObject object) {
 
 	    mapObject = object;
-
-		name = object.getName();
 
 		MapProperties properties = object.getProperties();
 
@@ -25,26 +33,76 @@ public class Item {
         float height = properties.get("height", Float.class);
         float x = properties.get("x", Float.class);
         float y = properties.get("y",Float.class);
+        String type = properties.get("type","",String.class);
 
         box = new Rectangle(x, y, width, height);
+
+        try {
+
+			itemType = Type.valueOf(type.toUpperCase());
+
+		}
+
+        catch (IllegalArgumentException e) {
+
+			Gdx.app.error(TAG, "El tipo de objeto " + type + " no existe!", e);
+
+			itemType = Type.UNDEFINED;
+		}
 		
 	}
 	
-	//Metodo que devuelve True si la hitbox del jugador y de un objeto Item se solapan 
+	// Método que devuelve True si la hitbox del jugador y de un objeto Item se solapan
 
 	public boolean isTriggered(Rectangle playerBox) {
 
-		if(box.overlaps(playerBox)) {
-
-			return true;
-		}
-		return false;
+		return box.overlaps(playerBox);
 	}
 
+	// Método al que se llama cada vez que un objeto es tocado
 
-	public String getName() {
+	public void collect() {
 
-		return name;
+		switch (itemType) {
+
+			// Se incrementa el contador de madera
+
+			case WOOD:
+
+				StatusUI.incrementLogs();
+
+				break;
+
+			// Las manzanas suman 1 de vida al jugador
+
+			case APPLE:
+
+				SpriteManager.player.addHealth(1);
+
+				break;
+
+			// Aumenta el ataque del jugador temporalmente
+
+			case ATTACK_BOOK:
+
+				SpriteManager.player.increaseDamage();
+
+				break;
+
+			// Aumenta la velocidad del jugador temporalmente
+
+			case SPEED_BOOK:
+
+				SpriteManager.player.increaseSpeed();
+
+				break;
+		}
+
+	}
+
+	public Type getType() {
+
+		return itemType;
 	}
 
 

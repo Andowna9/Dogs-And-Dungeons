@@ -27,7 +27,7 @@ public class PlayerHUD extends ScreenAdapter {
 
         stage = new Stage(viewport);
 
-        statusUI = new StatusUI(player);
+        statusUI = new StatusUI();
 
         dialogUI = new DialogUI();
 
@@ -56,7 +56,7 @@ public class PlayerHUD extends ScreenAdapter {
 
         //Renderizado manual de UIs para tener un mayor control
 
-        stage.getBatch().begin();
+        /* stage.getBatch().begin();
 
         statusUI.draw(stage.getBatch(), 1f);
 
@@ -78,7 +78,9 @@ public class PlayerHUD extends ScreenAdapter {
             pauseUI.draw(stage.getBatch(), 1f);
 
             stage.getBatch().end();
-        }
+        } */
+
+        stage.draw();
 
     }
 

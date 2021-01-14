@@ -24,6 +24,10 @@ public class AnimationManager {
 
     private HashMap<Entity.State,Animation<TextureRegion>> singleAnimations;
 
+    // Duración por defecto de un frame en una animación dada
+
+    private HashMap<Entity.State,Float> defaultFrameTimes;
+
     public AnimationManager(int tileWidth, int tileHeight, HashMap<Entity.State,HashMap<Entity.Direction,Animation<TextureRegion>>> dirAnimations, HashMap<Entity.State,Animation<TextureRegion>> singleAnimations) {
 
         this.tileWidth = tileWidth;
@@ -33,9 +37,11 @@ public class AnimationManager {
         this.dirAnimations = dirAnimations;
 
         this.singleAnimations = singleAnimations;
+
+        defaultFrameTimes = new HashMap<>();
     }
 
-    private List<Animation<TextureRegion>> loadAnimations(String animationsPath,Animation.PlayMode playMode) {
+    private List<Animation<TextureRegion>> loadAnimations(String animationsPath, Animation.PlayMode playMode, Entity.State state) {
 
         // Cargamos la textura (imagen que contiene las animacions por filas)
 
@@ -57,6 +63,8 @@ public class AnimationManager {
         // El tiempo de cada textura cada segundo dependerá del número de columnas
 
         float frameTime = 1f / num_cols;
+
+        defaultFrameTimes.put(state, frameTime);
 
         // Guardamos los tiles en sus respectivos arrays
 
@@ -87,7 +95,7 @@ public class AnimationManager {
 
     public void loadDirectionalAnimations(String animationsPath, Entity.State s) {
 
-        List<Animation<TextureRegion>> animations = loadAnimations(animationsPath, Animation.PlayMode.LOOP);
+        List<Animation<TextureRegion>> animations = loadAnimations(animationsPath, Animation.PlayMode.LOOP, s);
 
         HashMap<Entity.Direction,Animation<TextureRegion>> dirMap = new HashMap<>();
 
@@ -106,9 +114,16 @@ public class AnimationManager {
 
     public void loadSingleAnimation(String animationPath, Entity.State s) {
 
-        singleAnimations.put(s, loadAnimations(animationPath, Animation.PlayMode.NORMAL).get(0));
+        singleAnimations.put(s, loadAnimations(animationPath, Animation.PlayMode.NORMAL, s).get(0));
 
         Gdx.app.debug(TAG,"Éxito al cargar las animación única para el estado " + s.name());
 
+    }
+
+    // Se obtiene el tiempo dedicado a cada frame (textura) en la animación
+
+    public float getDefaultFrameTime(Entity.State state) {
+
+        return defaultFrameTimes.get(state);
     }
 }

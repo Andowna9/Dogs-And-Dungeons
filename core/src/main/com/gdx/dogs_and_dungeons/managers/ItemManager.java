@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.gdx.dogs_and_dungeons.Item;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
-import com.gdx.dogs_and_dungeons.entities.player.hud.StatusUI;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,7 +34,6 @@ public class ItemManager {
 
     public void render(OrthogonalTiledMapRenderer renderer) {
 
-
         for (Item item: items) {
 
            renderer.renderObject(item.getMapObject());
@@ -50,7 +48,12 @@ public class ItemManager {
 
             Item item = new Item(object);
 
-            items.add(item);
+            // Si el objeto es de un tipo definido, se añade a la lista
+
+            if (item.getType() != Item.Type.UNDEFINED) {
+
+                items.add(item);
+            }
         }
     }
 
@@ -62,9 +65,12 @@ public class ItemManager {
 
             if (item.isTriggered(player.getCollisionBox())) {
 
-                Gdx.app.debug(TAG,"El jugador ha cogido el objeto: " + item.getName());
+                Gdx.app.debug(TAG,"El jugador ha cogido el objeto: " + item.getType());
 
-                StatusUI.incrementLogs();
+                // Se coge el objeto
+
+                item.collect();
+
                 // Eliminamos el objeto
 
                 it.remove();

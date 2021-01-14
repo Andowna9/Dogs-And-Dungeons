@@ -1,7 +1,9 @@
 package com.gdx.dogs_and_dungeons.entities.player;
+
 import com.badlogic.gdx.Gdx;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
+import com.gdx.dogs_and_dungeons.entities.player.hud.StatusUI;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.screens.SelectionScreen;
 
@@ -25,11 +27,28 @@ public class Player extends Entity {
 
     private boolean isInteracting = false;
 
+    // Máxima salud del jugador
+
+    private static final int MAX_HEALTH = 7;
+
+    // Velocidad de movimiento
+
+    private float normalSpeed = 2.5f;
+
+    // Velocidad de animación de movimiento
+
+    private float walkingFrameTime;
+
+    // Daño
+
+    private int normalDamage = 1;
+
+
     public Player(int width, int height,float drawWidth, float drawHeight) {
 
         super(width, height,drawWidth,drawHeight);
 
-        setVelocity(2.5f,2.5f);
+        setVelocity(normalSpeed, normalSpeed);
 
     }
 
@@ -48,6 +67,8 @@ public class Player extends Entity {
         animManager.loadSingleAnimation(dyingPath.replace("x", gender),State.DYING);
 
         setFrameTime(State.ATTACKING,0.1f);
+
+        walkingFrameTime = animManager.getDefaultFrameTime(State.WALKING);
 
     }
 
@@ -69,7 +90,7 @@ public class Player extends Entity {
 
         if (!isCoolingDown && !e.isBlinking() && currentState == State.ATTACKING && currentPosition.dst(e.getCurrentPosition()) <= 1.5f) {
 
-            e.receiveDamage();
+            e.receiveDamageFrom(this);
 
             SpriteManager.audioManager.playSound("daggerSlice");
 
@@ -90,6 +111,48 @@ public class Player extends Entity {
     public void  setInteracting(boolean b) {
 
         isInteracting = b;
+    }
+
+    public void addHealth(int value) {
+
+        health += value;
+
+        if (health > MAX_HEALTH) {
+
+            health = MAX_HEALTH;
+        }
+    }
+
+    public void increaseSpeed() {
+
+        if (StatusUI.startCountdown(StatusUI.speedCountdown)) {
+
+            setVelocity(normalSpeed * 1.5f, normalSpeed * 1.5f);
+
+            setFrameTime(State.WALKING, walkingFrameTime / 1.5f);
+        }
+
+    }
+
+    public void increaseDamage() {
+
+        if (StatusUI.startCountdown(StatusUI.damageCountdown)) {
+
+            damage += 1;
+        }
+
+    }
+
+    public void restoreSpeed() {
+
+        setVelocity(normalSpeed,normalSpeed);
+
+        setFrameTime(State.WALKING, walkingFrameTime);
+    }
+
+    public void restoreDamage() {
+
+        damage = normalDamage;
     }
 
 }

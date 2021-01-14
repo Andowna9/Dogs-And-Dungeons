@@ -257,7 +257,7 @@ public class SpriteManager {
 
             if (player.isCollidingWithEntity(enemy) && !player.isBlinking()) {
 
-                player.receiveDamage();
+                player.receiveDamageFrom(enemy);
 
                 Gdx.app.debug(TAG,"Vida restante de jugador: " + player.getHealth());
 

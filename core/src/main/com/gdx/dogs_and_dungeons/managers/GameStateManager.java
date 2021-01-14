@@ -75,9 +75,10 @@ public class GameStateManager {
 
             else if (Gdx.input.isKeyPressed(Input.Keys.E) && SpriteManager.player.isInteracting()) {
 
-                System.out.println("Mostrando diálogo...");
+                Gdx.app.log(TAG,"Mostrando diálogo...");
 
-                spriteManager.playerHUD.showDialog(spriteManager.interactingNPC.getClass().getSimpleName(), spriteManager.dialogManager.getDialog(spriteManager.interactingNPC));
+                spriteManager.playerHUD.showDialog(spriteManager.interactingNPC.getName(), spriteManager.dialogManager.getDialog(spriteManager.interactingNPC));
+
                 spriteManager.interactingNPC.setDirection(SpriteManager.player.getOppositeDirection());
 
                 Gdx.input.setInputProcessor(null);
