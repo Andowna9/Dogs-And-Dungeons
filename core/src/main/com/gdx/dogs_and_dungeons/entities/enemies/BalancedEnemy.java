@@ -4,24 +4,18 @@ import com.badlogic.gdx.Gdx;
 
 public class BalancedEnemy extends Enemy {
 
-    private static final String specificPath = "skeleton.png";
     private static final String TAG = BalancedEnemy.class.getSimpleName();
 
     private float timer = 0;
 
-    public BalancedEnemy(int width, int height,float drawWidth, float drawHeight) {
 
-        super(width, height, drawWidth, drawHeight, specificPath);
+    public BalancedEnemy(String subtype) {
 
-    }
-
-    public BalancedEnemy() {
-
-        super(specificPath);
+        super(subtype);
     }
 
     @Override
-    public void initEnemy() {
+    public void initEntity() {
 
         setVelocity(2f, 2f);
 
@@ -48,6 +42,7 @@ public class BalancedEnemy extends Enemy {
     }
 
     public void restringeField(int i){
+
         float verticalLine1 = initialPosition.x - i;
         float verticalLine2 = initialPosition.x + i;
         float horizontalLine1 = initialPosition.y - i;

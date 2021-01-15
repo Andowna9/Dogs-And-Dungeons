@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
 import com.gdx.dogs_and_dungeons.entities.player.hud.StatusUI;
+import com.gdx.dogs_and_dungeons.managers.ParticleEffectsManager;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 
 //Clase Item para gestionar los objetos que el jugador podra conseguir (trozos de madera, pociones de regeneración, etc.)
@@ -87,6 +88,9 @@ public class Item {
 
 				SpriteManager.player.increaseDamage();
 
+				SpriteManager.effectsManager.generateEffect(SpriteManager.player.getCurrentPosition().x + 0.5f,
+						SpriteManager.player.getCurrentPosition().y + 0.5f , ParticleEffectsManager.EffectType.ATTACK_UPGRADE);
+
 				break;
 
 			// Aumenta la velocidad del jugador temporalmente
@@ -94,6 +98,9 @@ public class Item {
 			case SPEED_BOOK:
 
 				SpriteManager.player.increaseSpeed();
+
+				SpriteManager.effectsManager.generateEffect(SpriteManager.player.getCurrentPosition().x + 0.5f,
+						SpriteManager.player.getCurrentPosition().y + 0.5f , ParticleEffectsManager.EffectType.SPEED_UPGRADE);
 
 				break;
 		}

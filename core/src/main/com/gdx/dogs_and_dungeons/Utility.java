@@ -112,17 +112,23 @@ public final class Utility {
 
         if (pathResolver.resolve(texturePath).exists()) {
 
-            assetManager.load(texturePath, Texture.class);
+            // Solo se carga la textura si no estaba cargada de antes
 
-            assetManager.finishLoading();
+            if (!assetManager.isLoaded(texturePath)) {
 
-            Gdx.app.debug(TAG,"Textura cargada correctamente");
+                assetManager.load(texturePath, Texture.class);
+
+                assetManager.finishLoading();
+
+                Gdx.app.debug(TAG, "Textura (" + texturePath + ") cargada correctamente");
+
+            }
 
         }
 
         else {
 
-            Gdx.app.error(TAG,"La textura no existe!");
+            Gdx.app.error(TAG,"La textura en el path " + texturePath + " no existe!");
         }
     }
 

@@ -2,23 +2,16 @@ package com.gdx.dogs_and_dungeons.entities.npcs;
 
 public class Villager extends NPC{
 
-    private static final String specificPath = "male/old_man.png";
 
-    public Villager(int width, int height, float drawWidth, float drawHeight, String specificPath) {
+    public Villager(String subtype) {
 
-        super(width, height, drawWidth, drawHeight, specificPath);
-    }
-
-    public Villager() {
-
-        super(specificPath);
+        super("humans/" + subtype);
     }
 
     @Override
-    public void initNPC() {
+    public void initEntity() {
 
         setState(State.IDLE);
-        setDirection(Direction.DOWN);
         setVelocity(1f,1f);
     }
 

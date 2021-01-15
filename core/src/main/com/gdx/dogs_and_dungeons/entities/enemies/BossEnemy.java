@@ -1,7 +1,6 @@
 package com.gdx.dogs_and_dungeons.entities.enemies;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Timer;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.pathfinding.PfaAgent;
 import com.gdx.dogs_and_dungeons.pathfinding.Tile;
@@ -12,8 +11,6 @@ import com.gdx.dogs_and_dungeons.pathfinding.TileGraph;
 public class BossEnemy extends Enemy {
 
     private static final String TAG = BossEnemy.class.getSimpleName();
-
-    private static final String specificPath = "dark_skeleton.png";
 
     // Variable booleana para controlar si el enemigo ha entrado en modo persecución
 
@@ -27,29 +24,19 @@ public class BossEnemy extends Enemy {
 
     private PfaAgent pfaAgent;
 
-    // Timer para realizar acciones de forma periódica o pasado un tiempo
-
-    private Timer timer;
-
-    // Constructor completo
-
-    public BossEnemy(int width, int height,float drawWidth, float drawHeight) {
-
-        super(width, height, drawWidth, drawHeight, specificPath);
-    }
 
     // Constructor por defecto
 
-    public BossEnemy() {
+    public BossEnemy(String subtype) {
 
-        super(specificPath);
+        super(subtype);
     }
 
 
     // Comportamiento/lógica del enemigo
 
     @Override
-    public void initEnemy() {
+    public void initEntity() {
 
         setHealth(5);
 
@@ -57,11 +44,9 @@ public class BossEnemy extends Enemy {
 
         setState(State.IDLE);
 
-        setDirection(Direction.LEFT);
+        String location = SpriteManager.mapManager.getLocationFor(this);
 
-        tileGraph = new TileGraph(SpriteManager.mapManager.getAStarLayer(),"GRAVEYARD");
-
-        timer = new Timer();
+        tileGraph = new TileGraph(SpriteManager.mapManager.getAStarLayer(),location);
 
         pfaAgent = new PfaAgent(tileGraph,this);
 
@@ -128,7 +113,7 @@ public class BossEnemy extends Enemy {
 
         }
 
-        // Gestión del movimiento del
+        // Gestión del movimiento del agente
 
         pfaAgent.move();
 

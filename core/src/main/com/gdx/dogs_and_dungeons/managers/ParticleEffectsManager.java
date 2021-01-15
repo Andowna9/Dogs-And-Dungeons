@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.HashMap;
+
 
 // Clase para gestionar los efectos de partículas eficientemente
 
@@ -13,20 +15,13 @@ public class ParticleEffectsManager {
 
     public enum EffectType {
 
-        ENEMY_DEATH
+        ENEMY_DEATH, ATTACK_UPGRADE, SPEED_UPGRADE
     }
 
-    // Atlas
-
-    TextureAtlas particleAtlas;
-
-    // Efectos
-
-    ParticleEffect enemyDeathEffect;
 
     // Contenedores de efectos (para reducir la carga debida al garbage collector -> Se reciclan efectos)
 
-    ParticleEffectPool enemyDeathPool;
+    private HashMap<EffectType, ParticleEffectPool> effectPools;
 
     // Efectos que se renderizan y una vez terminan se devuelven a su respectivo contenedor
 
@@ -34,47 +29,54 @@ public class ParticleEffectsManager {
 
     public ParticleEffectsManager() {
 
+        effectPools = new HashMap<>();
+
         // Cargamos el atlas con las imágenes correspondientes a las partículas
 
-        particleAtlas = new TextureAtlas(Gdx.files.internal("effects/enemy_death/particles.atlas"));
+        TextureAtlas particleAtlas = new TextureAtlas(Gdx.files.internal("effects/enemy_death/particles.atlas"));
 
         // Efecto de muerte de enemigos
 
-        enemyDeathEffect = new ParticleEffect();
+        ParticleEffect enemyDeathEffect = new ParticleEffect();
 
         enemyDeathEffect.load(Gdx.files.internal("effects/enemy_death/enemyDeath.p"), particleAtlas);
 
-        // Contenedor
+        storeEffect(enemyDeathEffect, EffectType.ENEMY_DEATH);
 
-        enemyDeathPool = new ParticleEffectPool(enemyDeathEffect,1, 2);
+
+        // Efecto de aumento de ataque
+
+        ParticleEffect attackUpgradeEffect = new ParticleEffect();
+
+        attackUpgradeEffect.load(Gdx.files.internal("effects/player/attack_upgrade.p"), Gdx.files.internal("HUD"));
+
+        storeEffect(attackUpgradeEffect, EffectType.ATTACK_UPGRADE);
+
+        // Efecto de aumento de velocidad
+
+        ParticleEffect speedUpgradeEffect = new ParticleEffect();
+
+        speedUpgradeEffect.load(Gdx.files.internal("effects/player/speed_upgrade.p"), Gdx.files.internal("HUD"));
+
+        storeEffect(speedUpgradeEffect, EffectType.SPEED_UPGRADE);
 
     }
 
-    // Devuelve el contenedor de efectos de acuerdo con el tipo
+    // Método para cargar un nuevo efecto y asignarle una pool
 
-    private ParticleEffectPool getPool(EffectType type) {
+    private void storeEffect(ParticleEffect effect, EffectType type) {
 
-        ParticleEffectPool pool = null;
+        ParticleEffectPool pool = new ParticleEffectPool(effect,1,2);
 
-        // Próximamente más efectos ...
+        effectPools.put(type,pool);
 
-        switch (type) {
-
-            case ENEMY_DEATH:
-
-                pool = enemyDeathPool;
-
-                break;
-        }
-
-        return pool;
     }
 
     // Método para generar un efecto del tipo especificado
 
     public void generateEffect(float x, float y, EffectType type) {
 
-        ParticleEffectPool.PooledEffect effect = getPool(type).obtain();
+        ParticleEffectPool.PooledEffect effect = effectPools.get(type).obtain();
 
         effect.setPosition(x, y);
 

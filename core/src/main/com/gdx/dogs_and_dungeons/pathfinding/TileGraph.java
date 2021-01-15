@@ -44,6 +44,10 @@ public class TileGraph implements IndexedGraph<Tile> {
 
     Array<TileConnection> tileConnections = new Array<>();
 
+    // Nodos en una lista
+
+    Array<Tile> tileArray = new Array<>();
+
     // Función para que A* realice estimaciones
 
     TileHeuristic heuristic = new TileHeuristic();
@@ -137,6 +141,10 @@ public class TileGraph implements IndexedGraph<Tile> {
                 // Para mantener el sistema de coordenadas del mapa(derecha-arriba) empezamos añadiendo desde la última fila
 
                 addTile(currentTile,tiles.length - 1 - y,x);
+
+                // También se añade a una lista, en la que no habrá tiles nulos
+
+                tileArray.add(currentTile);
 
             }
         }
@@ -247,6 +255,15 @@ public class TileGraph implements IndexedGraph<Tile> {
         y -= initY;
 
         return getTile(x, y);
+    }
+
+    // Método para obtener un tile (nodo) de forma aleatoria
+
+    public Tile getRandomTile() {
+
+        int index = MathUtils.random(tileArray.size - 1);
+
+        return tileArray.get(index);
     }
 
 

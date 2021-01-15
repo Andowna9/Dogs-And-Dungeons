@@ -6,22 +6,16 @@ public abstract class NPC extends Entity {
 
     private static final String generalPath = "npc/";
 
-    private String name = "";
+    // Tipos de de NPCs: Útil a la hora de instanciar
+
+    public enum Type {
+
+        VILLAGER, CAT, DOG
+    }
 
     public abstract void behave(float delta);
 
-    public abstract void initNPC();
-
     // All methods inherited from class Entity
-
-    // Constructor completo
-    public NPC(int width, int height, float drawWidth, float drawHeight, String specificPath) {
-
-        super(width, height, drawWidth, drawHeight);
-
-        animManager.loadDirectionalAnimations(generalPath + specificPath,State.WALKING);
-
-    }
 
     // Constructor con valores por defecto
 
@@ -29,22 +23,8 @@ public abstract class NPC extends Entity {
 
         super(32, 32, 1f, 1f);
 
-        animManager.loadDirectionalAnimations(generalPath + specificPath,State.WALKING);
+        animManager.loadDirectionalAnimations(generalPath + specificPath + ".png", State.WALKING);
 
-    }
-
-    public String getName() {
-
-        return name;
-    }
-
-    public void setName(String n) {
-
-        if (n != null) {
-
-            name = n;
-
-        }
     }
 
 

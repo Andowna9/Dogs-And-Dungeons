@@ -35,7 +35,7 @@ public class PfaAgent {
 
     // Destino alcanzado
 
-    private boolean destReached;
+    private boolean destReached = true;
 
     // Creamos un agente con acceso al grafo y las propiedades de la entidad
 

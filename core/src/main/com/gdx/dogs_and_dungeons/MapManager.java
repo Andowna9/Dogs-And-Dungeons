@@ -223,27 +223,52 @@ public class MapManager {
 
     }
 
+    private Entity spawnEntity(MapObject mapObject, String entity) {
+
+        //Cogemos el tipo de enemigos que creará cada spawn
+        String [] types =  mapObject.getProperties().get("type",String.class).split("/");
+        String direction = mapObject.getProperties().get("direction", "Down",String.class).toUpperCase();
+
+        //Cogemos la posicion de los spawns
+        RectangleMapObject spawn = (RectangleMapObject) mapObject;
+        float x = (spawn.getRectangle().getX() - 16) * UNIT_SCALE;
+        float y = (spawn.getRectangle().getY() - 16) * UNIT_SCALE;
+
+        Entity instance = null;
+
+        try {
+
+            instance = EntityFactory.getEntity(entity, types[0], types[1]);
+
+            instance.setInitialPosition(x, y);
+            instance.setName(mapObject.getName());
+            instance.setDirection(Entity.Direction.valueOf(direction));
+            instance.initEntity();
+        }
+
+        catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        return instance;
+    }
+
     // Método para instanciar y posicionar enemigos en el mapa
 
     public void spawnEnemies(List<Enemy> enemies){
+
         //Buscamos cada punto de spawn que hay en el mapa para los enemigos para los enemigos
-        for (MapObject mapObject : enemiesSpawnLayer.getObjects()){
 
-            //Cogemos el tipo de enemigos que creará cada spawn
-            String type =  mapObject.getProperties().get("type",String.class);
+        for (MapObject mapObject : enemiesSpawnLayer.getObjects()) {
 
-            //Cogemos la posicion de los spawns
-            RectangleMapObject spawn = (RectangleMapObject) mapObject;
-            float x = (spawn.getRectangle().getX() - 16) * UNIT_SCALE;
-            float y = (spawn.getRectangle().getY() - 16) * UNIT_SCALE;
-            Gdx.app.debug(TAG,""+ type);
+            Enemy enemy = (Enemy) spawnEntity(mapObject, "Enemy");
 
-            //Creamos los enemigos con el tipo que hemos sacado previamente y los añadimos a la lista de enemigos
-            Enemy enemy = EntityFactory.getEnemy(type);
-            enemy.setInitialPosition(x,y);
-            enemy.initEnemy();
-            enemies.add(enemy);
+            if (enemy != null) {
 
+                enemies.add(enemy);
+            }
         }
 
     }
@@ -254,25 +279,13 @@ public class MapManager {
 
         for (MapObject mapObject : npcsSpawnLayer.getObjects()){
 
-            //Cogemos el tipo de npc que creará cada spawn
-            String type =  mapObject.getProperties().get("type",String.class);
-            String name = mapObject.getName();
+            NPC npc = (NPC) spawnEntity(mapObject,"NPC");
 
-            //Cogemos la posicion de los spawns
-            RectangleMapObject spawn = (RectangleMapObject) mapObject;
-            float x = (spawn.getRectangle().getX() - 16) * UNIT_SCALE;
-            float y = (spawn.getRectangle().getY() - 16) * UNIT_SCALE;
-            Gdx.app.debug(TAG, type + ": " + name);
+            if (npc != null) {
 
-            //Creamos los npcs con el tipo que hemos sacado previamente y los añadimos a la lista de enemigos
-            NPC npc = EntityFactory.getNPC(type);
-            npc.setName(name);
+                npcs.add(npc);
 
-            npc.setInitialPosition(x,y);
-            npc.initNPC();
-
-            npcs.add(npc);
-
+            }
         }
 
     }
@@ -296,6 +309,29 @@ public class MapManager {
         }
 
         return false;
+    }
+
+    // Obtiene la zona a la que pertenece un enemigo con pathfinding
+
+    public String getLocationFor(Enemy enemy) {
+
+        Rectangle rectangle;
+
+        for (RectangleMapObject object: locationsLayer.getObjects().getByType(RectangleMapObject.class)) {
+
+            rectangle = object.getRectangle();
+
+            System.out.println(enemy.getCollisionBox().getX());
+
+            if (rectangle.contains(enemy.getCollisionBox())) {
+
+                return object.getName();
+            }
+
+        }
+
+        return null;
+
     }
 
     public TiledMap getMap() {

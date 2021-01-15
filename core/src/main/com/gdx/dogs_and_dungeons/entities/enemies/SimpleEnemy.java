@@ -8,23 +8,15 @@ public class SimpleEnemy extends Enemy {
 
     private float timer = 0;
 
-    private static final String specificPath = "pumpkin.png";
+    public SimpleEnemy(String subtype) {
 
-    public SimpleEnemy(int width, int height,float drawWidth, float drawHeight) {
-
-        super(width, height, drawWidth, drawHeight, specificPath);
-
-    }
-
-    public SimpleEnemy() {
-
-        super(specificPath);
+        super(subtype);
     }
 
     // Método que representa el comportamiento del enemigo
 
     @Override
-    public void initEnemy() {
+    public void initEntity() {
 
         // Vida
 

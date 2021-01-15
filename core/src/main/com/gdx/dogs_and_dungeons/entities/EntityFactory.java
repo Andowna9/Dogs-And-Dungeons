@@ -1,6 +1,7 @@
 package com.gdx.dogs_and_dungeons.entities;
 
 import com.gdx.dogs_and_dungeons.entities.enemies.*;
+import com.gdx.dogs_and_dungeons.entities.npcs.Cat;
 import com.gdx.dogs_and_dungeons.entities.npcs.Dog;
 import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
 import com.gdx.dogs_and_dungeons.entities.npcs.Villager;
@@ -15,36 +16,46 @@ public class EntityFactory {
         return new Player(64,64,1.3f,1.3f);
     }
 
+    public static Entity getEntity(String entity, String type, String subtype) {
+
+        if (entity.equalsIgnoreCase("Enemy")) {
+
+            return getEnemy(Enemy.Type.valueOf(type.toUpperCase()),subtype);
+
+        }
+
+        else if (entity.equalsIgnoreCase("NPC")) {
+
+            return getNPC(NPC.Type.valueOf(type.toUpperCase()),subtype);
+        }
+
+        return null;
+    }
+
     // Devuelve un enemigo del tipo especificado
 
-    public static Enemy getEnemy(String type) {
+    public static Enemy getEnemy(Enemy.Type type, String subType) {
 
         Enemy e = null;
 
         switch (type) {
 
-            case "Simple":
+            case SIMPLE:
 
-                e = new SimpleEnemy();
+                e = new SimpleEnemy(subType);
 
                 break;
 
-            case "Balanced":
+            case BALANCED:
 
-                 e = new BalancedEnemy();
+                 e = new BalancedEnemy(subType);
 
                  break;
 
 
-            case "Hard":
+            case BOSS:
 
-                e = new HardEnemy();
-
-                break;
-
-            case "Boss":
-
-                e = new BossEnemy();
+                e = new BossEnemy(subType);
 
                 break;
         }
@@ -54,21 +65,27 @@ public class EntityFactory {
 
     // Devuelve un NPC
 
-    public static NPC getNPC(String type) {
+    public static NPC getNPC(NPC.Type type, String subtype) {
 
         NPC npc = null;
 
         switch (type) {
 
-            case "Dog":
+            case DOG:
 
                 npc = new Dog();
 
                 break;
 
-            case "Villager":
+            case CAT:
 
-                npc = new Villager();
+                npc = new Cat(subtype);
+
+                break;
+
+            case VILLAGER:
+
+                npc = new Villager(subtype);
 
                 break;
         }

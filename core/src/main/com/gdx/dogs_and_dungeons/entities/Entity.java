@@ -15,6 +15,8 @@ public abstract class Entity {
 
     private static final String TAG = Entity.class.getSimpleName();
 
+    public abstract void initEntity();
+
     public enum State {
 
         WALKING, ATTACKING, IDLE, DYING
@@ -104,6 +106,10 @@ public abstract class Entity {
 
     private float scaleFactor;
 
+    // Nombre de la entidad
+
+    private String name = "";
+
 
     public Entity(int width, int height, float drawWidth, float drawHeight) {
 
@@ -178,11 +184,11 @@ public abstract class Entity {
 
         }
 
-        // Sumamos un cuarto del sprite a la caja de colisiones para compensar espacio vacío que pueda haber desde la izquierda
 
-        collisionBox.x = nextPosition.x / MapManager.UNIT_SCALE + (tileWidth * scaleFactor)/4;
+        // Actualización caja de colisiones
 
-        collisionBox.y = nextPosition.y / MapManager.UNIT_SCALE;
+        updateCollisionBox();
+
 
         // Actualización del parpadeo
 
@@ -191,6 +197,15 @@ public abstract class Entity {
             blinkingTime += deltaTime;
         }
 
+    }
+
+    private void updateCollisionBox() {
+
+        // Sumamos un cuarto del sprite a la caja de colisiones para compensar espacio vacío que pueda haber desde la izquierda
+
+        collisionBox.x = nextPosition.x / MapManager.UNIT_SCALE + (tileWidth * scaleFactor)/4;
+
+        collisionBox.y = nextPosition.y / MapManager.UNIT_SCALE;
     }
 
 
@@ -212,6 +227,8 @@ public abstract class Entity {
         initialPosition = v.cpy();
 
         setPosition(v.x, v.y);
+
+        updateCollisionBox();
     }
 
     private void setIdleFrame() {
@@ -354,8 +371,8 @@ public abstract class Entity {
 
         // Si la próxima posición se sale de los límites del mapa, no se actualiza la actual
 
-        if (nextPosition.x < 0 || nextPosition.x > MapManager.getCurrentMapWidth()
-            || nextPosition.y < 0 || nextPosition.y > MapManager.getCurrentMapHeight()) return;
+        if (nextPosition.x < 0 || nextPosition.x + drawWidth > MapManager.getCurrentMapWidth()
+            || nextPosition.y < 0 || nextPosition.y + drawHeight > MapManager.getCurrentMapHeight()) return;
 
         currentPosition.x = nextPosition.x;
 
@@ -465,6 +482,8 @@ public abstract class Entity {
 
        setPosition(initialPosition.x,initialPosition.y);
 
+       updateCollisionBox();
+
     }
 
     public boolean isBlinking() {
@@ -500,5 +519,18 @@ public abstract class Entity {
         return Direction.values()[random.nextInt(Direction.values().length)];
     }
 
+    public String getName() {
+
+        return name;
+    }
+
+    public void setName(String n) {
+
+        if (n != null) {
+
+            name = n;
+
+        }
+    }
 
 }

@@ -39,10 +39,8 @@ public class PlayerHUD extends ScreenAdapter {
 
         dialogUI.setVisible(false);
 
-        // La tabla con el diálogo (Dialog UI) no se muestra por defecto
-
         stage.addActor(statusUI);
-        stage.addActor(dialogUI);    // this is just to show the dialog
+        stage.addActor(dialogUI);
         stage.addActor(pauseUI);
 
     }
@@ -56,7 +54,7 @@ public class PlayerHUD extends ScreenAdapter {
 
         //Renderizado manual de UIs para tener un mayor control
 
-        /* stage.getBatch().begin();
+        stage.getBatch().begin();
 
         statusUI.draw(stage.getBatch(), 1f);
 
@@ -78,9 +76,7 @@ public class PlayerHUD extends ScreenAdapter {
             pauseUI.draw(stage.getBatch(), 1f);
 
             stage.getBatch().end();
-        } */
-
-        stage.draw();
+        }
 
     }
 

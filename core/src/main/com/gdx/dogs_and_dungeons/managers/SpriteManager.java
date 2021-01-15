@@ -44,7 +44,7 @@ public class SpriteManager {
 
     // Gestor de efectos de partículas
 
-    ParticleEffectsManager effectsManager;
+    public  static ParticleEffectsManager effectsManager;
 
     // Gestor de audio
 
@@ -107,7 +107,7 @@ public class SpriteManager {
 
     public void init() {
 
-        player.loadPlayerSprites();
+        player.initEntity();
 
         player.setHealth(7);
 

@@ -52,7 +52,7 @@ public class Player extends Entity {
 
     }
 
-    public void loadPlayerSprites() {
+    private void loadPlayerSprites() {
 
         clearAnimations();
 
@@ -70,6 +70,12 @@ public class Player extends Entity {
 
         walkingFrameTime = animManager.getDefaultFrameTime(State.WALKING);
 
+    }
+
+    @Override
+    public void initEntity() {
+
+        loadPlayerSprites();
     }
 
     public void checkAttack(Enemy e) {
