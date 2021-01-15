@@ -96,7 +96,7 @@ public class PfaAgent {
     // Movimiento del agente
 
     public void move() {
-
+        System.out.println(pathQueue);
         if (pathQueue.size > 0) {
 
             Tile targetTile = pathQueue.first();
