@@ -53,41 +53,20 @@ public class HardEnemy extends Enemy {
 
     @Override
     public void behave(float delta) {
-        //Fantasma no esta siguiendo al
+
         if (!isFollowingPlayer) {
 
             if (tileGraph.isPlayerInsideZone()) {
 
                 setPathToPlayer();
-            }else{
-                pfaAgent.returnToInitialTile();
-
             }
-
-        }else{
-            if(!tileGraph.isPlayerInsideZone()){
-
-                stopMoving();
-
-            }else{
-                setPathToPlayer();
-            }
-
-
         }
 
         pfaAgent.move();
     }
 
 
-    public void stopMoving(){
 
-        Tile enemyTile = tileGraph.getTileFrom(this);
-
-        pfaAgent.setPath(enemyTile, enemyTile);
-
-        isFollowingPlayer = false;
-    }
 
 
 }
