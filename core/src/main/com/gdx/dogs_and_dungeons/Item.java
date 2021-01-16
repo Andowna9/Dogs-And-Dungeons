@@ -121,6 +121,8 @@ public class Item {
 
 				StatusUI.incrementLogs();
 
+				SpriteManager.audioManager.playSound("picking_wood");
+
 				break;
 
 			// Las manzanas suman 1 de vida al jugador
@@ -140,6 +142,8 @@ public class Item {
 				SpriteManager.effectsManager.generateEffect(SpriteManager.player.getCurrentPosition().x + 0.5f,
 						SpriteManager.player.getCurrentPosition().y + 0.5f , ParticleEffectsManager.EffectType.ATTACK_UPGRADE);
 
+				SpriteManager.audioManager.playSound("enchanting");
+
 				break;
 
 			// Aumenta la velocidad del jugador temporalmente
@@ -150,6 +154,8 @@ public class Item {
 
 				SpriteManager.effectsManager.generateEffect(SpriteManager.player.getCurrentPosition().x + 0.5f,
 						SpriteManager.player.getCurrentPosition().y + 0.5f , ParticleEffectsManager.EffectType.SPEED_UPGRADE);
+
+				SpriteManager.audioManager.playSound("speed_up");
 
 				break;
 		}

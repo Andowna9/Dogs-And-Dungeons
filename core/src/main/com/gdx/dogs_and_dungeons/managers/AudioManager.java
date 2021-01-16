@@ -36,6 +36,14 @@ public class AudioManager {
 
         loadSound("drawDagger.ogg");
 
+        loadSound("speed_up.ogg");
+
+        loadSound("enchanting.ogg");
+
+        loadSound("magic_sound.ogg");
+
+        loadSound("picking_wood.ogg");
+
         // Music
 
         loadMusic("titlescreen.mp3");
