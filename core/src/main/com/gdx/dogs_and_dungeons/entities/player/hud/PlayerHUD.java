@@ -88,6 +88,7 @@ public class PlayerHUD extends ScreenAdapter {
 
     }
 
+
     // Método para comprobar si el HUD está en modo pausa
 
     public boolean isPaused() {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.entities.Entity;
+import com.gdx.dogs_and_dungeons.entities.player.hud.StatusUI;
 import com.gdx.dogs_and_dungeons.screens.MainGameScreen;
 
 // Clase para gestionar los distintos estados del juego
@@ -17,7 +18,8 @@ public class GameStateManager {
         PLAYING,
         INTERACTING,
         PAUSED,
-        GAME_OVER
+        GAME_OVER,
+        VICTORY
     }
 
     private GameState currentGameState;
@@ -50,6 +52,7 @@ public class GameStateManager {
 
         if ( currentGameState == GameState.PLAYING ) {
 
+
             // FIN DEL JUEGO
 
             if (SpriteManager.player.isDead()) {
@@ -60,6 +63,11 @@ public class GameStateManager {
 
                 setCurrentGameState(GameState.GAME_OVER);
 
+            }
+            //VICTORIA
+
+            else if(StatusUI.getLogs() >= 18){
+                setCurrentGameState(GameState.VICTORY);
             }
 
             // MODO PAUSA
@@ -160,6 +168,12 @@ public class GameStateManager {
 
                     gameScreen.switchScreen(DogsAndDungeons.gameOverScreen, delta);
                 }
+
+                break;
+
+            case VICTORY:
+
+                gameScreen.switchScreen(DogsAndDungeons.victoryScreen, delta);
 
                 break;
 

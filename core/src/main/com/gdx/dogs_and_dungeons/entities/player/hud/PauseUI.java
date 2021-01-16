@@ -71,7 +71,7 @@ public class PauseUI extends Table {
 
                 SpriteManager.game_ref.setScreen(DogsAndDungeons.mainScreen);
 
-
+                setVisible(false);
             }
 
         });

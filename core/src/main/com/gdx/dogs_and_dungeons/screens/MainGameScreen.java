@@ -6,15 +6,18 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.gdx.dogs_and_dungeons.*;
 import com.gdx.dogs_and_dungeons.managers.CameraManager;
 import com.gdx.dogs_and_dungeons.managers.GameStateManager;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.managers.RenderManager;
+import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
+import com.gdx.dogs_and_dungeons.profiles.ProfileObserver;
 
 // Pantalla de juego
 
-public class MainGameScreen implements Screen {
+public class MainGameScreen implements Screen, ProfileObserver {
 
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
@@ -51,6 +54,12 @@ public class MainGameScreen implements Screen {
     private ShapeRenderer shapeRenderer;
 
     private float alpha = 0f;
+
+    //Tiempo de juego
+
+    private long startTime;
+
+    public static long playedTime;
 
     public MainGameScreen(DogsAndDungeons game) {
 
@@ -92,6 +101,7 @@ public class MainGameScreen implements Screen {
 
         Gdx.input.setInputProcessor(spriteManager.getPlayerController());
 
+        startTime = TimeUtils.millis();
     }
 
 
@@ -158,6 +168,12 @@ public class MainGameScreen implements Screen {
 
 
     }
+    private void updatePlayedTime(){
+
+        playedTime +=  TimeUtils.timeSinceMillis(startTime);
+
+
+    }
 
 
     @Override
@@ -172,6 +188,8 @@ public class MainGameScreen implements Screen {
         pauseStart = System.currentTimeMillis();
 
         Gdx.app.debug(TAG, "Juego Pausado");
+
+        updatePlayedTime();
 
     }
 
@@ -196,10 +214,28 @@ public class MainGameScreen implements Screen {
 
             Gdx.graphics.setWindowedMode(800, 500);
         }
+
+        updatePlayedTime();
     }
 
     @Override
     public void dispose() {
 
     }
+
+    @Override
+    public void onNotify(ProfileManager subject, ProfileEvent event) {
+        if (event == ProfileEvent.SAVING_PROFILE) {
+
+            subject.setProperty("Played Time", playedTime);
+
+        }
+
+        else if (event == ProfileEvent.LOADING_PROFILE) {
+
+            playedTime = subject.getProperty("Played Time", Long.class);
+
+        }
+    }
+
 }

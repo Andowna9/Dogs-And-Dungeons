@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.gdx.dogs_and_dungeons.Utility;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.gdx.dogs_and_dungeons.entities.player.Countdown;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
@@ -52,6 +53,8 @@ public class StatusUI extends Table implements ProfileObserver {
 
     public static Countdown damageCountdown;
 
+    public long startTime;
+
     public StatusUI() {
 
         // Prueba de serialización
@@ -59,6 +62,10 @@ public class StatusUI extends Table implements ProfileObserver {
         ProfileManager.getInstance().addObserver(this);
 
         ProfileManager.getInstance().loadProfile();
+
+        // Tiempo inicio
+
+        startTime = TimeUtils.millis();
 
         // Carga de imágenes
 
@@ -214,6 +221,10 @@ public class StatusUI extends Table implements ProfileObserver {
         logCounter++;
 
         Gdx.app.debug(TAG,""+logCounter);
+    }
+    public static int getLogs(){
+
+        return logCounter;
     }
 
     public static boolean startCountdown(Countdown countdown) {

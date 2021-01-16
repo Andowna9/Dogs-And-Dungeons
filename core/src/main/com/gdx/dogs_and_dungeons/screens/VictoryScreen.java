@@ -11,6 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+
 // Pantalla que se muestra al completar el juego
 
 public class VictoryScreen implements Screen {
@@ -18,6 +24,8 @@ public class VictoryScreen implements Screen {
     private DogsAndDungeons game_ref;
 
     private Stage stage;
+
+    private Label timePlayedLabel;
 
     public VictoryScreen(DogsAndDungeons game) {
 
@@ -31,7 +39,7 @@ public class VictoryScreen implements Screen {
 
         Label.LabelStyle titleStyle = new Label.LabelStyle();
         titleStyle.font = Utility.titleFont;
-        titleStyle.fontColor = Color.BLUE;
+        titleStyle.fontColor = Color.GREEN;
 
         // Label de victoria
 
@@ -45,25 +53,41 @@ public class VictoryScreen implements Screen {
 
         Label congratsLabel = new Label(String.format("Felicidades por completar el juego, %s !", UsersScreen.getSelectedUser()),mainStyle);
 
+        timePlayedLabel = new Label("", mainStyle);
+
         // Botones
 
         TextButton backButton = new TextButton("Terminar", Utility.DEFAULT_SKIN);
 
-        table.add(victoryLabel);
+        table.add(victoryLabel).expandY();
 
-        table.row().space(100);
+        table.row();
 
         table.add(congratsLabel);
 
-        table.row().space(100);
+        table.row();
 
-        table.add(backButton);
+        table.add(timePlayedLabel);
+
+        table.row();
+
+        table.add(backButton).expandY();
 
         stage.addActor(table);
     }
 
     @Override
     public void show() {
+
+        DateFormat dateFormat = new SimpleDateFormat("m:ss ");
+
+        String playedTime = dateFormat.format(new Date(MainGameScreen.playedTime));
+
+        timePlayedLabel.setText("Tiempo jugado: " + playedTime );
+
+        stage.getRoot().getColor().a = 0;
+
+        stage.addAction(fadeIn(1f));
 
         Gdx.input.setInputProcessor(stage);
     }
