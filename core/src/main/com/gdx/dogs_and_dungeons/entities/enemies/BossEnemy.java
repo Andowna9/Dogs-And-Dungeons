@@ -80,9 +80,18 @@ public class BossEnemy extends Enemy {
 
             if (tileGraph.isPlayerInsideZone()) {
 
-                Gdx.app.debug(TAG, "El jugador ha entrado en la zona: " + tileGraph.getZoneName());
+                if (pfaAgent.isDestinationReached()) {
 
-                setPathToPlayer();
+                    Gdx.app.debug(TAG, "El jugador ha entrado en la zona: " + tileGraph.getZoneName());
+
+                    SpriteManager.audioManager.playMusic(tileGraph.getZoneName().toLowerCase());
+
+                    // No se busca un nuevo camino hasta que el enemigo haya terminado el anterior
+
+                    setPathToPlayer();
+
+                }
+
             }
 
         }
@@ -95,13 +104,19 @@ public class BossEnemy extends Enemy {
 
                 // El enemigo vuelve a la posición inicial  2 s después que el jugador salga de la zona
 
-                pfaAgent.returnToInitialTile();
+                if (pfaAgent.isDestinationReached()) {
 
-                // Se deja de seguir al jugador
+                    pfaAgent.returnToInitialTile();
 
-                isFollowingPlayer = false;
+                    // Se deja de seguir al jugador
 
-                Gdx.app.debug(TAG, "El jugador ha salido de la zona: " + tileGraph.getZoneName());
+                    isFollowingPlayer = false;
+
+                    Gdx.app.debug(TAG, "El jugador ha salido de la zona: " + tileGraph.getZoneName());
+
+                    SpriteManager.audioManager.stopMusic(tileGraph.getZoneName().toLowerCase());
+
+                }
             }
 
            // Si se ha alcanzado el destino, se vuelve a buscar un destino hacia donde se encuentra el jugador

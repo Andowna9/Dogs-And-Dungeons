@@ -16,6 +16,8 @@ public class EntityFactory {
         return new Player(64,64,1.3f,1.3f);
     }
 
+    // Recibe el nombre de la entidad (Enemigo o Npc), el tipo y el subtipo para devolver la entidad correspondiente
+
     public static Entity getEntity(String entity, String type, String subtype) {
 
         if (entity.equalsIgnoreCase("Enemy")) {
@@ -34,7 +36,7 @@ public class EntityFactory {
 
     // Devuelve un enemigo del tipo especificado
 
-    public static Enemy getEnemy(Enemy.Type type, String subType) {
+    private static Enemy getEnemy(Enemy.Type type, String subType) {
 
         Enemy e = null;
 
@@ -65,7 +67,7 @@ public class EntityFactory {
 
     // Devuelve un NPC
 
-    public static NPC getNPC(NPC.Type type, String subtype) {
+    private static NPC getNPC(NPC.Type type, String subtype) {
 
         NPC npc = null;
 

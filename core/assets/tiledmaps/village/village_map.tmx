@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="247">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="250">
  <tileset firstgid="1" source="[A]Grass_pipo.tsx"/>
  <tileset firstgid="529" source="[A]Water_pipo.tsx"/>
  <tileset firstgid="3601" source="[Base]BaseChip_pipo.tsx"/>
@@ -522,7 +522,7 @@
   <object id="240" type="Speed_Book" gid="4555" x="800" y="1798" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="PLAYER_SPAWN_LAYER">
-  <object id="9" name="START" type="PLAYER" x="959.667" y="1886.67">
+  <object id="249" name="START" type="PLAYER" x="959.333" y="1884.67">
    <properties>
     <property name="activated" type="bool" value="true"/>
    </properties>
@@ -544,12 +544,12 @@
     <property name="direction" value="Right"/>
    </properties>
   </object>
-  <object id="230" name="BOSS1" type="Boss/dark_skeleton" x="1805" y="367">
+  <object id="230" name="BOSS1" type="Boss/dark_skeleton" x="1806.3" y="367.318">
    <properties>
     <property name="direction" value="Left"/>
    </properties>
   </object>
-  <object id="233" name="GHOST" type="Boss/ghost" x="400" y="1133.5"/>
+  <object id="233" name="GHOST" type="Boss/ghost" x="399.659" y="1135.35"/>
  </objectgroup>
  <objectgroup id="12" name="NPCS_SPAWN_LAYER">
   <object id="217" name="NPC1" type="Dog/dog" x="92" y="1569">
@@ -562,7 +562,7 @@
     <property name="subtype" value="old_man"/>
    </properties>
   </object>
-  <object id="242" name="Random NPC" type="Cat/white_cat" x="1743.33" y="1804.67"/>
+  <object id="242" name="Random NPC" type="Cat/white_cat" x="1743.44" y="1807.65"/>
   <object id="243" name="Chico joven" type="Villager/young_boy" x="1135.33" y="1294"/>
   <object id="245" name="Mujer desconocida" type="Villager/woman" x="1073.33" y="1232"/>
   <object id="246" name="Chica joven" type="Villager/young_girl" x="1173.33" y="1232"/>
@@ -738,9 +738,9 @@
   <object id="215" x="1450.5" y="188.333" width="43" height="34"/>
   <object id="216" x="1449.83" y="319.667" width="43" height="34"/>
  </objectgroup>
- <objectgroup id="17" name="LOCATIONS">
+ <objectgroup id="17" name="LOCATIONS" visible="0">
   <object id="226" name="GRAVEYARD" x="1535.33" y="223" width="288.667" height="320.666"/>
-  <object id="234" name="GHOSTZONE" x="285.333" y="1085.33" width="228" height="197"/>
+  <object id="234" name="GHOSTZONE" x="285.333" y="1085.33" width="225.5" height="193"/>
   <object id="241" name="CAT_ZONE" x="1630.67" y="1662" width="258.667" height="226.667"/>
  </objectgroup>
 </map>

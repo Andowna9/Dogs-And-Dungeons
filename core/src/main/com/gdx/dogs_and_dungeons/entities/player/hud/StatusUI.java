@@ -60,8 +60,6 @@ public class StatusUI extends Table implements ProfileObserver {
 
         ProfileManager.getInstance().loadProfile();
 
-
-
         // Carga de imágenes
 
         hpBar = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("healthbar", 7));

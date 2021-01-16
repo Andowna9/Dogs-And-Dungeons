@@ -234,7 +234,7 @@ public class MapManager {
         float x = (spawn.getRectangle().getX() - 16) * UNIT_SCALE;
         float y = (spawn.getRectangle().getY() - 16) * UNIT_SCALE;
 
-        Entity instance = null;
+        Entity instance;
 
         try {
 
@@ -248,7 +248,9 @@ public class MapManager {
 
         catch (Exception e) {
 
-            e.printStackTrace();
+            instance = null;
+
+            Gdx.app.error(TAG,"Error al instanciar entidad!", e);
 
         }
 

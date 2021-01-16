@@ -4,11 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Timer;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 
 import java.util.HashMap;
 
+
 public class AudioManager {
+
+    private static final String TAG = AudioManager.class.getSimpleName();
 
     // Mapas que contienen el audio con su nombre como clave
 
@@ -31,6 +35,12 @@ public class AudioManager {
         loadSound("daggerSlice.ogg");
 
         loadSound("drawDagger.ogg");
+
+        // Music
+
+        loadMusic("graveyard.mp3");
+
+        loadMusic("ghostzone.mp3");
 
     }
 
@@ -84,21 +94,48 @@ public class AudioManager {
 
             // Reproducción en bucle por defecto
 
+            m.setLooping(true);
+
             m.play();
 
             m.setVolume(DogsAndDungeons.GamePreferences.volume);
+
+            Gdx.app.debug(TAG, "Música empezada: " + name);
         }
     }
 
     // Método para parar la reproducción de música (la próxima vez se iniciará desde el principio)
 
-    public void stopMusic(String name) {
+    public void stopMusic(final String name) {
 
-        Music m = music.get(name);
+        final Music m = music.get(name);
 
         if (m != null) {
 
-            m.stop();
+            // Fade (suavizado) al desaparecer la música
+
+            Timer t = new Timer();
+
+            t.scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+
+                    if ( m.getVolume() >= 0.01f) {
+
+                        m.setVolume(m.getVolume() - 0.01f);
+                    }
+
+                    else {
+
+                        m.stop();
+
+                        Gdx.app.debug(TAG,"Música finalizada: " + name);
+
+                        cancel();
+                    }
+                }
+            },0f,0.01f);
+
         }
     }
 
