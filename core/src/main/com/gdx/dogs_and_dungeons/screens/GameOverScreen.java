@@ -10,8 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
+import com.gdx.dogs_and_dungeons.managers.SpriteManager;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
 public class GameOverScreen implements Screen {
@@ -36,13 +39,23 @@ public class GameOverScreen implements Screen {
 
         Label.LabelStyle endStyle = new Label.LabelStyle();
 
-        // Botones para interacción
-
         endStyle.font = Utility.titleFont;
 
         endStyle.fontColor = Color.RED;
 
         Label endText = new Label("Fin del juego",endStyle);
+
+        // Texto de esperanza
+
+        Label.LabelStyle hopeStyle = new Label.LabelStyle();
+
+        hopeStyle.font = Utility.mainFont;
+
+        Label hopeLabel = new Label("No desistas...\nTodavía queda algo de esperanza.", hopeStyle);
+
+        hopeLabel.setAlignment(Align.center);
+
+        // Botones para interacción
 
         TextButton leaveButton = new TextButton("Abandonar",Utility.DEFAULT_SKIN);
 
@@ -72,6 +85,10 @@ public class GameOverScreen implements Screen {
 
         table.row();
 
+        table.add(hopeLabel).colspan(2).expandY();
+
+        table.row();
+
         table.add(resumeButton).expandX().expandY();
 
         table.add(leaveButton).expandX().expandY();
@@ -93,6 +110,8 @@ public class GameOverScreen implements Screen {
         stage.addAction(fadeIn(1f));
 
         Gdx.input.setInputProcessor(stage);
+
+        SpriteManager.audioManager.playMusic("gameover");
 
     }
 
@@ -125,6 +144,7 @@ public class GameOverScreen implements Screen {
     @Override
     public void hide() {
 
+        SpriteManager.audioManager.stopMusic("gameover");
     }
 
     @Override

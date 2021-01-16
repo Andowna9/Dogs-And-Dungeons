@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
+import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 
 public class MainScreen implements Screen {
 
@@ -103,6 +104,8 @@ public class MainScreen implements Screen {
 
         Gdx.input.setInputProcessor(stage);
 
+        SpriteManager.audioManager.playMusic("titlescreen");
+
     }
 
     @Override
@@ -141,6 +144,7 @@ public class MainScreen implements Screen {
     @Override
     public void hide() {
 
+        SpriteManager.audioManager.stopMusic("titlescreen");
     }
 
     @Override

@@ -38,9 +38,13 @@ public class AudioManager {
 
         // Music
 
+        loadMusic("titlescreen.mp3");
+
         loadMusic("graveyard.mp3");
 
         loadMusic("ghostzone.mp3");
+
+        loadMusic("gameover.mp3");
 
     }
 
@@ -52,7 +56,6 @@ public class AudioManager {
 
             sounds.put(soundFile.nameWithoutExtension(), Gdx.audio.newSound(soundFile));
         }
-
 
     }
 
@@ -86,21 +89,36 @@ public class AudioManager {
 
     // Método para reproducir música
 
-    public void playMusic(String name) {
+    public void playMusic(final String name) {
 
-        Music m = music.get(name);
+        if (DogsAndDungeons.GamePreferences.musicOn) {
 
-        if (m != null) {
+            final Music m = music.get(name);
 
-            // Reproducción en bucle por defecto
+            if (m != null) {
 
-            m.setLooping(true);
+                // Iniciamos la música en otro hilo para evitar una disminución de fotogramas, ya que esta se carga directamente de disco
 
-            m.play();
+                Thread musicThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
 
-            m.setVolume(DogsAndDungeons.GamePreferences.volume);
+                        // Reproducción en bucle por defecto
 
-            Gdx.app.debug(TAG, "Música empezada: " + name);
+                        m.setLooping(true);
+
+                        m.play();
+
+                        m.setVolume(DogsAndDungeons.GamePreferences.volume);
+
+                        Gdx.app.debug(TAG, "Música empezada: " + name);
+
+                    }
+                });
+
+                musicThread.start();
+            }
+
         }
     }
 
@@ -136,6 +154,16 @@ public class AudioManager {
                 }
             },0f,0.01f);
 
+        }
+    }
+
+    // Para toda aquella música que se esté reproduciendo
+
+    public void stopAllMusic() {
+
+        for (String music: music.keySet()) {
+
+            stopMusic(music);
         }
     }
 

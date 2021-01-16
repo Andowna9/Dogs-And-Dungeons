@@ -56,6 +56,8 @@ public class GameStateManager {
 
                 Gdx.input.setInputProcessor(null);
 
+                SpriteManager.audioManager.stopAllMusic();
+
                 setCurrentGameState(GameState.GAME_OVER);
 
             }
@@ -155,8 +157,6 @@ public class GameStateManager {
                 }
 
                 if (SpriteManager.player.animationIsFinished(Entity.State.DYING)) {
-
-                    Gdx.app.log(TAG, "La animación de muerte ha terminado!");
 
                     gameScreen.switchScreen(DogsAndDungeons.gameOverScreen, delta);
                 }

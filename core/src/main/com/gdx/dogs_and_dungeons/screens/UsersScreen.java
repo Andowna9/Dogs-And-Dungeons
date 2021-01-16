@@ -23,6 +23,8 @@ public class UsersScreen implements Screen {
 
     private static final String TAG = UsersScreen.class.getSimpleName();
 
+    private static final String DB_PATH = "core/database/user.db";
+
     private Stage stage;
 
     private List<User> userList;
@@ -32,8 +34,6 @@ public class UsersScreen implements Screen {
     private TextButton bCreate;
 
     private TextButton bDelete;
-
-    private TextButton bBack;
 
     private DogsAndDungeons game_ref;
 
@@ -480,6 +480,19 @@ public class UsersScreen implements Screen {
             }
         });
 
+        // Carga de usuarios de la base de datos
+
+        dbManager.connect(DB_PATH);
+
+        for (User user: dbManager.getAllUsers()) {
+
+            // Este método no permite añadir usuarios repetidos a la lista, luego no hace falta comprobar si los usuariso ya están en memoria
+
+            addUser(user);
+        }
+
+        dbManager.disconnect();
+
         bCreate = new TextButton("Crear usuario", Utility.DEFAULT_SKIN);
 
         bCreate.addListener(new ClickListener() {
@@ -601,16 +614,8 @@ public class UsersScreen implements Screen {
 
         // Iniciamos conexión con la base de datos
 
-        dbManager.connect("core/database/user.db");
+        dbManager.connect(DB_PATH);
 
-        // Carga de usuarios de la base de datos
-
-        for (User user: dbManager.getAllUsers()) {
-
-            // Este método no permite añadir usuarios repetidos a la lista, luego no hace falta comprobar si los usuariso ya están en memoria
-
-            addUser(user);
-        }
 
     }
 
