@@ -46,7 +46,7 @@ public class ItemManager {
 
         for(MapObject object: objectsLayer.getObjects()) {
 
-            Item item = new Item(object);
+            Item item = Item.loadItemFromMap(object);
 
             // Si el objeto es de un tipo definido, se añade a la lista
 

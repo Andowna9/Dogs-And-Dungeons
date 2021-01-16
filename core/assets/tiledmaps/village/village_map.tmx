@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="250">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="257">
  <tileset firstgid="1" source="[A]Grass_pipo.tsx"/>
  <tileset firstgid="529" source="[A]Water_pipo.tsx"/>
  <tileset firstgid="3601" source="[Base]BaseChip_pipo.tsx"/>
@@ -516,10 +516,10 @@
 </data>
  </layer>
  <objectgroup id="6" name="OBJECTS_LAYER">
-  <object id="8" type="Wood" gid="3646" x="640" y="1790.67" width="32" height="32"/>
   <object id="237" type="Apple" gid="4582" x="1408" y="1696.33" width="32" height="32"/>
   <object id="239" type="Attack_Book" gid="4553" x="737.333" y="1830.67" width="32" height="32"/>
   <object id="240" type="Speed_Book" gid="4555" x="800" y="1798" width="32" height="32"/>
+  <object id="256" type="Wood" gid="3645" x="640" y="1791.5" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="PLAYER_SPAWN_LAYER">
   <object id="249" name="START" type="PLAYER" x="959.333" y="1884.67">

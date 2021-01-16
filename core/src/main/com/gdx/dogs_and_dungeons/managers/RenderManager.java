@@ -64,6 +64,7 @@ public class RenderManager {
         // Sobreescribimos el método renderOPbject() de la instancia para poder dibujar los objetos del mapa
 
         mapRenderer = new OrthogonalTiledMapRenderer(spriteManager.mapManager.getMap(), MapManager.UNIT_SCALE) {
+
             @Override
             public void renderObject(MapObject object) {
 
@@ -73,7 +74,7 @@ public class RenderManager {
 
                     batch.draw(textureObj.getTextureRegion(),
                             textureObj.getX() * MapManager.UNIT_SCALE,
-                            textureObj.getY()*MapManager.UNIT_SCALE,1,1);
+                            textureObj.getY()* MapManager.UNIT_SCALE,1,1);
                 }
 
             }

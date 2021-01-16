@@ -2,6 +2,7 @@ package com.gdx.dogs_and_dungeons.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
+import com.gdx.dogs_and_dungeons.Item;
 import com.gdx.dogs_and_dungeons.MapManager;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
@@ -160,6 +161,8 @@ public class SpriteManager {
                 it.remove();
 
                 entities.remove(e);
+
+                itemManager.items.add(new Item(e.getCurrentPosition().x, e.getCurrentPosition().y, Item.Type.WOOD));
             }
         }
     }
