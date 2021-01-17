@@ -109,7 +109,7 @@ public class AudioManager {
 
             final Music m = music.get(name);
 
-            if (m != null) {
+            if (m != null && !m.isPlaying()) {
 
                 // Iniciamos la música en otro hilo para evitar una disminución de fotogramas, ya que esta se carga directamente de disco
 
@@ -142,7 +142,7 @@ public class AudioManager {
 
         final Music m = music.get(name);
 
-        if (m != null) {
+        if (m != null && m.isPlaying()) {
 
             // Fade (suavizado) al desaparecer la música
 

@@ -67,7 +67,17 @@ public class BossEnemy extends Enemy {
 
         pfaAgent.setPath(enemyTile, playerTile);
 
-        isFollowingPlayer = true;
+    }
+
+    public void playEnemyMusic() {
+
+        SpriteManager.audioManager.playMusic(tileGraph.getZoneName().toLowerCase());
+
+    }
+
+    public void stopEnemyMusic() {
+
+        SpriteManager.audioManager.stopMusic(tileGraph.getZoneName().toLowerCase());
 
     }
 
@@ -82,48 +92,41 @@ public class BossEnemy extends Enemy {
 
             if (tileGraph.isPlayerInsideZone()) {
 
-                if (pfaAgent.isDestinationReached()) {
+                Gdx.app.debug(TAG, "El jugador ha entrado en la zona: " + tileGraph.getZoneName());
 
-                    Gdx.app.debug(TAG, "El jugador ha entrado en la zona: " + tileGraph.getZoneName());
+                isFollowingPlayer = true;
 
-                    SpriteManager.audioManager.playMusic(tileGraph.getZoneName().toLowerCase());
-
-                    // No se busca un nuevo camino hasta que el enemigo haya terminado el anterior
-
-                    setPathToPlayer();
-
-                }
-
+                playEnemyMusic();
             }
 
-        }
+            // Si ya no está siguiendo al jugador y ha alcanzado su destino, vuelve a la posición inicial
+
+           else if (pfaAgent.isDestinationReached()) {
+
+               pfaAgent.returnToInitialTile();
+           }
+
+       }
+
 
        // Cuando el jugador está siendo perseguido
 
         else {
 
-            if (!tileGraph.isPlayerInsideZone()) {
+            if (!tileGraph.isPlayerInsideZone() || health <= 0) {
 
-                // El enemigo vuelve a la posición inicial  2 s después que el jugador salga de la zona
+                // Se deja de seguir al jugador
 
-                if (pfaAgent.isDestinationReached()) {
+                isFollowingPlayer = false;
 
-                    pfaAgent.returnToInitialTile();
+                Gdx.app.debug(TAG, "El jugador ha salido de la zona: " + tileGraph.getZoneName());
 
-                    // Se deja de seguir al jugador
-
-                    isFollowingPlayer = false;
-
-                    Gdx.app.debug(TAG, "El jugador ha salido de la zona: " + tileGraph.getZoneName());
-
-                    SpriteManager.audioManager.stopMusic(tileGraph.getZoneName().toLowerCase());
-
-                }
+                stopEnemyMusic();
             }
 
            // Si se ha alcanzado el destino, se vuelve a buscar un destino hacia donde se encuentra el jugador
 
-            if (pfaAgent.isDestinationReached()) {
+            else if (pfaAgent.isDestinationReached()) {
 
                 setPathToPlayer();
             }
