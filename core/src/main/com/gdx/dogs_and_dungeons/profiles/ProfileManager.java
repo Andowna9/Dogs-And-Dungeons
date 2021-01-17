@@ -191,10 +191,13 @@ public class ProfileManager extends ProfileSubject {
 
             Gdx.app.log(TAG, String.format("Fichero con perfil %s no encontrado", currentProfile));
 
-            return;
         }
 
-        profileProperties = json.fromJson(ObjectMap.class, profiles.get(currentProfile));
+        else {
+
+            profileProperties = json.fromJson(ObjectMap.class, profiles.get(currentProfile));
+
+        }
 
         // Se avisa a los observadores. En caso de que el mapa no tenga las claves correspondientes, se les devolverán valores por defecto
 
@@ -204,6 +207,12 @@ public class ProfileManager extends ProfileSubject {
     // Método para borrar un perfil
 
     public void deleteProfile(String profile) {
+
+        // Borrado en memoria de la entrada en el mapa de perfiles
+
+        profiles.remove(profile);
+
+        // Borrado en disco
 
         String fullProfileName = DIR + profile + SAVE_SUFFIX;
 
@@ -220,7 +229,13 @@ public class ProfileManager extends ProfileSubject {
         }
     }
 
-    public void deleteCurrentprofile() {
+    public void deleteCurrentProfile() {
+
+        // Se resetea el mapa con las propiedades
+
+        profileProperties.clear();
+
+        // Se borra el perfil actual si existe
 
         deleteProfile(currentProfile);
     }

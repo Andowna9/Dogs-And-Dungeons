@@ -106,7 +106,11 @@ public class SelectionScreen implements Screen {
 		newGameButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 
-				ProfileManager.getInstance().deleteCurrentprofile();
+				// Se borra el perfil y se carga uno nuevo
+
+				ProfileManager.getInstance().deleteCurrentProfile();
+
+				ProfileManager.getInstance().loadProfile();
 
 				game_ref.setScreen(DogsAndDungeons.mainGameScreen);
 			}

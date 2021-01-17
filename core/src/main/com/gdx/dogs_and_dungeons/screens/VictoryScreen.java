@@ -31,6 +31,8 @@ public class VictoryScreen implements Screen {
 
     private Label timePlayedLabel;
 
+    private Label congratsLabel;
+
     public VictoryScreen(DogsAndDungeons game) {
 
         game_ref = game;
@@ -55,7 +57,7 @@ public class VictoryScreen implements Screen {
 
         // Label de felicitación
 
-        Label congratsLabel = new Label(String.format("Felicidades por completar el juego, %s !", UsersScreen.getSelectedUser()),mainStyle);
+        congratsLabel = new Label("",mainStyle);
 
         timePlayedLabel = new Label("", mainStyle);
 
@@ -99,6 +101,8 @@ public class VictoryScreen implements Screen {
 
         timePlayedLabel.setText("Tiempo jugado: " + playedTime );
 
+        congratsLabel.setText(String.format("Felicidades por completar el juego, %s !", UsersScreen.getSelectedUser().getNickname()));
+
         stage.getRoot().getColor().a = 0;
 
         stage.addAction(fadeIn(1f));
@@ -109,7 +113,8 @@ public class VictoryScreen implements Screen {
 
         // Se reinicia el perfil asociado, ya que se ha pasado el juego
 
-        ProfileManager.getInstance().deleteCurrentprofile();
+        ProfileManager.getInstance().deleteCurrentProfile();
+
     }
 
     @Override

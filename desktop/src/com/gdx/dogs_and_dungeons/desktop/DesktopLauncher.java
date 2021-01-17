@@ -10,6 +10,8 @@ public class DesktopLauncher {
 
 	public static void main (String[] arg) {
 
+		System.setProperty("file.encoding","UTF-8");
+
 		// Configuración del back-end de libgdx (Lwjgl)
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
