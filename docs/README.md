@@ -17,12 +17,11 @@ Deberías observar una **estructura de directorios** muy similar a esta:
 **Y listo!** Ya tienes lo que necesitas para disfrutar del juego!
 
 
-### <ins>Installation</ins> (EN)
 
 
 # Game designed for dog lovers!
 
-### <ins>Installation</ins> (ES)
+### <ins>Installation</ins> (EN)
 
 First, download the last version of the file in **ZIP** format, available in the following link:
 
