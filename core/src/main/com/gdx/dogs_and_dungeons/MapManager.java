@@ -323,8 +323,6 @@ public class MapManager {
 
             rectangle = object.getRectangle();
 
-            System.out.println(entity.getCollisionBox().getX());
-
             if (rectangle.contains(entity.getCollisionBox())) {
 
                 return object.getName();

@@ -109,7 +109,7 @@ public class VictoryScreen implements Screen {
 
         // Se reinicia el perfil asociado, ya que se ha pasado el juego
 
-        ProfileManager.getInstance().resetProfile();
+        ProfileManager.getInstance().deleteCurrentprofile();
     }
 
     @Override
