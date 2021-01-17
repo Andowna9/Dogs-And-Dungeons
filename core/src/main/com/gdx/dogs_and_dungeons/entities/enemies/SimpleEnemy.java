@@ -8,6 +8,9 @@ public class SimpleEnemy extends Enemy {
 
     private float timer = 0;
 
+    // Número de items que va a soltar cuando muera
+    private int dropCount = 2;
+
     public SimpleEnemy(String subtype) {
 
         super(subtype);
@@ -44,4 +47,7 @@ public class SimpleEnemy extends Enemy {
 
     }
 
+    public int getDropCount() {
+        return dropCount;
+    }
 }

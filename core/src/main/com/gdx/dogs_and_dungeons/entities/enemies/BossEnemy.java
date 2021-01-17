@@ -24,6 +24,8 @@ public class BossEnemy extends Enemy {
 
     private PfaAgent pfaAgent;
 
+    // Número de items que va a soltar cuando muera
+    private int dropCount = 3;
 
     // Constructor por defecto
 
@@ -132,5 +134,9 @@ public class BossEnemy extends Enemy {
 
         pfaAgent.move();
 
+    }
+
+    public int getDropCount() {
+        return dropCount;
     }
 }

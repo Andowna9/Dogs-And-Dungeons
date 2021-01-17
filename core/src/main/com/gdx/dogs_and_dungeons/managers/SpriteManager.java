@@ -162,10 +162,36 @@ public class SpriteManager {
 
                 entities.remove(e);
 
-                itemManager.items.add(new Item(e.getCurrentPosition().x, e.getCurrentPosition().y, Item.Type.WOOD));
+                System.out.println(e.getClass().getName());
+
+                int counter = 0;
+
+                if (e.getClass().getSimpleName().equals("BalancedEnemy")){
+                    counter = 1;
+                    for (int i = 0; i < counter; i++){
+                        itemManager.items.add(new Item(e.getCurrentPosition().x, e.getCurrentPosition().y, Item.Type.WOOD));
+                    }
+                }
+
+                if (e.getClass().getSimpleName().equals("SimpleEnemy")){
+                    counter = 2;
+                    for (int i = 0; i < counter; i++){
+                        itemManager.items.add(new Item(e.getCurrentPosition().x, e.getCurrentPosition().y, Item.Type.WOOD));
+                    }
+                }
+
+                if (e.getClass().getSimpleName().equals("BossEnemy")){
+                    counter = 3;
+                    for (int i = 0; i < counter; i++){
+                        itemManager.items.add(new Item(e.getCurrentPosition().x, e.getCurrentPosition().y, Item.Type.WOOD));
+                    }
+                }
+
+
+                }
             }
         }
-    }
+
 
     // Actualización jugador
 

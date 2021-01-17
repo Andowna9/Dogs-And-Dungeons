@@ -8,6 +8,8 @@ public class BalancedEnemy extends Enemy {
 
     private float timer = 0;
 
+    // Número de items que va a soltar cuando muera
+    private int dropCount = 1;
 
     public BalancedEnemy(String subtype) {
 
@@ -56,5 +58,11 @@ public class BalancedEnemy extends Enemy {
         }
     }
 
+    public int getDropCount() {
+        return dropCount;
+    }
 
+    public void setDropCount(int dropCount) {
+        this.dropCount = dropCount;
+    }
 }
