@@ -13,6 +13,8 @@ Deberías observar una **estructura de directorios** muy similar a esta:
 
 ![dirCapture](https://github.com/Andowna9/Dogs-And-Dungeons/blob/master/docs/images/dirCapture.png)
 
+Nota: La carpeta "saved_profiles" se generará sola después de jugar por primera vez.
+
 
 **Y listo!** Ya tienes lo que necesitas para disfrutar del juego!
 
@@ -32,6 +34,8 @@ Then, unzip it in a directory (folder), preferably **empty** and of **easy acces
 You should see a **folder structure** similar to the following one:
 
 ![dirCapture](https://github.com/Andowna9/Dogs-And-Dungeons/blob/master/docs/images/dirCapture.png)
+
+Note: The "saved_profiles" folder will automatically be generated after playing the game for the first time.
 
 
 **Done!** You shall now enjoy the game!
