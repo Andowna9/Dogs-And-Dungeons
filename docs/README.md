@@ -1,5 +1,5 @@
 
-# Game designed for dog lovers!
+# Juego diseñado para amantes de los perros!
 
 ### <ins>Instalación</ins> (ES)
 
@@ -18,3 +18,24 @@ Deberías observar una **estructura de directorios** muy similar a esta:
 
 
 ### <ins>Installation</ins> (EN)
+
+
+# Game designed for dog lovers!
+
+### <ins>Installation</ins> (ES)
+
+First, download the last version of the file in **ZIP** format, available in the following link:
+
+[https://github.com/Andowna9/Dogs-And-Dungeons/releases](https://github.com/Andowna9/Dogs-And-Dungeons/releases)
+
+Then, unzip it in a directory (folder), preferably **empty** and of **easy access**, especially if you are not planning on creating a shortcut of the executable.
+
+You should see a **folder structure** similar to the following one:
+
+![dirCapture](https://github.com/Andowna9/Dogs-And-Dungeons/blob/master/docs/images/dirCapture.png)
+
+
+**Done!** You shall now enjoy the game!
+
+
+
