@@ -108,23 +108,23 @@ public class SpriteManager {
 
     public void init() {
 
+        // Inicialización del jugador
+
         player.initEntity();
 
-        player.setHealth(7);
-
-        player.setInitialPosition(mapManager.getPlayerSpawnPosition(player.getCurrentPosition()));
-
-        player.setState(Entity.State.IDLE);
-
-        player.setDirection(Entity.Direction.UP);
+        // Inicialización de enemigos
 
         enemies.clear();
 
         mapManager.spawnEnemies(enemies);
 
+        // Inicialización de NPCs
+
         npcs.clear();
 
         mapManager.spawnNPCs(npcs);
+
+        // Inicialización de lista de entidades para renderizado dinámico
 
         entities.clear();
 
@@ -156,38 +156,21 @@ public class SpriteManager {
 
             if (e.getHealth() <= 0) {
 
-                effectsManager.generateEffect(e.getCurrentPosition().x + 0.5f, e.getCurrentPosition().y + 0.5f, ParticleEffectsManager.EffectType.ENEMY_DEATH);
+                    effectsManager.generateEffect(e.getCurrentPosition().x + 0.5f, e.getCurrentPosition().y + 0.5f, ParticleEffectsManager.EffectType.ENEMY_DEATH);
 
-                Gdx.app.debug(TAG, e.getClass().getSimpleName() + " eliminado por jugador!");
+                    Gdx.app.debug(TAG, e.getClass().getSimpleName() + " eliminado por jugador!");
 
-                it.remove();
+                    it.remove();
 
-                entities.remove(e);
+                    entities.remove(e);
 
-                System.out.println(e.getClass().getName());
+                    // El enemigo suelta cierta cantidad de madera
 
-                int counter = 0;
+                    for (int i = 1; i <= e.getDropCount(); i++) {
 
-                if (e.getClass().getSimpleName().equals("BalancedEnemy")){
-                    counter = 1;
-                    for (int i = 0; i < counter; i++){
                         itemManager.items.add(new Item(e.getCurrentPosition().x, e.getCurrentPosition().y, Item.Type.WOOD));
-                    }
-                }
 
-                if (e.getClass().getSimpleName().equals("SimpleEnemy")){
-                    counter = 2;
-                    for (int i = 0; i < counter; i++){
-                        itemManager.items.add(new Item(e.getCurrentPosition().x, e.getCurrentPosition().y, Item.Type.WOOD));
                     }
-                }
-
-                if (e.getClass().getSimpleName().equals("BossEnemy")){
-                    counter = 3;
-                    for (int i = 0; i < counter; i++){
-                        itemManager.items.add(new Item(e.getCurrentPosition().x, e.getCurrentPosition().y, Item.Type.WOOD));
-                    }
-                }
 
 
                 }

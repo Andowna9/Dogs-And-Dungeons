@@ -495,7 +495,7 @@ public abstract class Entity {
 
         return health;
     }
-    public void setHealth(int health) {
+    protected void setHealth(int health) {
 
         this.health = health;
     }

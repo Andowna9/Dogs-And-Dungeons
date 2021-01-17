@@ -12,8 +12,12 @@ public abstract class Enemy extends Entity {
 
     public enum Type {
 
-        SIMPLE, BALANCED, HARD, BOSS
+        SIMPLE, BALANCED, BOSS
     }
+
+    // Número de items que va a soltar cuando muera
+
+    protected int dropCount;
 
 
     // Método que determinará el comportamiento o lógica del enemigo
@@ -29,4 +33,15 @@ public abstract class Enemy extends Entity {
         animManager.loadDirectionalAnimations(generalPath + specificPath + ".png",State.WALKING);
 
     }
+
+    protected void setDropCount(int count) {
+
+        dropCount = count;
+    }
+
+    public int getDropCount() {
+
+        return dropCount;
+    }
+
 }

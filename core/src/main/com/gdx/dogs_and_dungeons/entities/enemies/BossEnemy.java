@@ -24,8 +24,6 @@ public class BossEnemy extends Enemy {
 
     private PfaAgent pfaAgent;
 
-    // Número de items que va a soltar cuando muera
-    private int dropCount = 3;
 
     // Constructor por defecto
 
@@ -45,6 +43,8 @@ public class BossEnemy extends Enemy {
         setVelocity(2f, 2f);
 
         setState(State.IDLE);
+
+        setDropCount(3);
 
         String location = SpriteManager.mapManager.getLocationFor(this);
 
@@ -136,7 +136,4 @@ public class BossEnemy extends Enemy {
 
     }
 
-    public int getDropCount() {
-        return dropCount;
-    }
 }

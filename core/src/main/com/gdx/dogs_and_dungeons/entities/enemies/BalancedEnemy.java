@@ -8,9 +8,6 @@ public class BalancedEnemy extends Enemy {
 
     private float timer = 0;
 
-    // Número de items que va a soltar cuando muera
-    private int dropCount = 1;
-
     public BalancedEnemy(String subtype) {
 
         super(subtype);
@@ -19,9 +16,13 @@ public class BalancedEnemy extends Enemy {
     @Override
     public void initEntity() {
 
+        setHealth(4);
+
         setVelocity(2f, 2f);
 
         setState(State.WALKING);
+
+        setDropCount(2);
     }
 
     @Override
@@ -56,13 +57,5 @@ public class BalancedEnemy extends Enemy {
         if (currentPosition.y <= horizontalLine1 || currentPosition.y >= horizontalLine2){
             this.setDirection(this.getOppositeDirection());
         }
-    }
-
-    public int getDropCount() {
-        return dropCount;
-    }
-
-    public void setDropCount(int dropCount) {
-        this.dropCount = dropCount;
     }
 }

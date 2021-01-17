@@ -76,6 +76,14 @@ public class Player extends Entity {
     public void initEntity() {
 
         loadPlayerSprites();
+
+        setHealth(7);
+
+        setInitialPosition(SpriteManager.mapManager.getPlayerSpawnPosition(currentPosition));
+
+        setState(Entity.State.IDLE);
+
+        setDirection(Entity.Direction.UP);
     }
 
     public void checkAttack(Enemy e) {
