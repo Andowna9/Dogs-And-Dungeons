@@ -86,7 +86,7 @@ public class RenderManager {
 
         zOrdering = new RenderComparator();
 
-        spriteManager.playerHUD = new PlayerHUD(camera, SpriteManager.player);
+        spriteManager.playerHUD = new PlayerHUD(camera);
 
 
     }

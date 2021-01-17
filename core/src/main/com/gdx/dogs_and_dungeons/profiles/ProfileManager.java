@@ -87,20 +87,17 @@ public class ProfileManager extends ProfileSubject {
 
     // El tipo es necesario para poder hacer un cast de Object correctamente
 
-    public <T extends Object> T getProperty(String key, Class<T> type) {
-
-        if (!profileProperties.containsKey(key)) {
-
-            return null;
-        }
+    public <T extends Object> T getProperty(String key, Class<T> type, T defaultValue) {
 
         T property = (T) profileProperties.get(key);
+
+        if (property == null) return defaultValue;
 
         return property;
 
     }
 
-    private boolean profileExists(String profile) {
+    public boolean profileExists(String profile) {
 
         return profiles.containsKey(profile);
     }
@@ -117,12 +114,11 @@ public class ProfileManager extends ProfileSubject {
         return profiles.get(profile);
     }
 
+    // Método para establecer el perfil actual
+
     public void setCurrentProfile(String profile) {
 
-        if (profileExists(profile)) {
-
-            currentProfile = profile;
-        }
+        currentProfile = profile;
     }
 
     public void loadAllProfiles() {
@@ -179,6 +175,8 @@ public class ProfileManager extends ProfileSubject {
 
         writeProfile(currentProfile,text,true);
 
+        Gdx.app.debug(TAG, "Perfil guardado: " + currentProfile);
+
     }
 
     // Carga perfil
@@ -186,6 +184,8 @@ public class ProfileManager extends ProfileSubject {
     public void loadProfile() {
 
         String fullProfileName = DIR + currentProfile + SAVE_SUFFIX;
+
+        // El fichero de propiedades no existe
 
         if (!Gdx.files.internal(fullProfileName).exists()) {
 
@@ -196,8 +196,33 @@ public class ProfileManager extends ProfileSubject {
 
         profileProperties = json.fromJson(ObjectMap.class, profiles.get(currentProfile));
 
-        notifyObservers(this, ProfileObserver.ProfileEvent.LOADING_PROFILE);
+        // Se avisa a los observadores. En caso de que el mapa no tenga las claves correspondientes, se les devolverán valores por defecto
 
+        notifyObservers(this, ProfileObserver.ProfileEvent.LOADING_PROFILE);
+    }
+
+    // Método para borrar un perfil
+
+    public void deleteProfile(String profile) {
+
+        String fullProfileName = DIR + profile + SAVE_SUFFIX;
+
+        FileHandle file = Gdx.files.local(fullProfileName);
+
+        if (file.exists()) {
+
+            boolean isDeleted = file.delete();
+
+            if (isDeleted) {
+
+                Gdx.app.debug(TAG, "Se ha borrado el perfil: " + profile);
+            }
+        }
+    }
+
+    public void deleteCurrentprofile() {
+
+        deleteProfile(currentProfile);
     }
 
 
