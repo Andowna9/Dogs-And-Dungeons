@@ -3,7 +3,7 @@
 
 ### <ins>Instalación</ins> (ES)
 
-Para empezar, descarga el archivo en formato **ZIP** disponible en el siguiente enlace:
+Para empezar, descarga la última versión del archivo en formato **ZIP** disponible en el siguiente enlace:
 
 [https://github.com/Andowna9/Dogs-And-Dungeons/releases](https://github.com/Andowna9/Dogs-And-Dungeons/releases)
 
