@@ -13,6 +13,10 @@ public class GameStateManager {
 
     private static final String TAG = GameStateManager.class.getSimpleName();
 
+    // Número de troncos para ganar
+
+    private static final int LOGS_AMOUNT = 18;
+
 
     public enum GameState {
         PLAYING,
@@ -66,7 +70,8 @@ public class GameStateManager {
             }
             //VICTORIA
 
-            else if(StatusUI.getLogs() >= 18){
+            else if(StatusUI.getLogs() >= LOGS_AMOUNT){
+
                 setCurrentGameState(GameState.VICTORY);
             }
 

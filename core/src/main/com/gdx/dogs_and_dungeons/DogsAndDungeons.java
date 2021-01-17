@@ -79,7 +79,7 @@ public class DogsAndDungeons extends Game {
 
 		// Por defecto se inicia la pantalla del juego como primera
 
-		setScreen(mainGameScreen);
+		setScreen(mainScreen);
 	}
 
 	@Override

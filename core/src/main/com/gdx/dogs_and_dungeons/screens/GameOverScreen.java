@@ -64,7 +64,7 @@ public class GameOverScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                game_ref.setScreen(DogsAndDungeons.mainScreen);
+                game_ref.setScreen(DogsAndDungeons.selectionScreen);
 
             }
         });

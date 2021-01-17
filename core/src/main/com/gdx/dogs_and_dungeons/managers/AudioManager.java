@@ -9,7 +9,6 @@ import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 
 import java.util.HashMap;
 
-
 public class AudioManager {
 
     private static final String TAG = AudioManager.class.getSimpleName();
@@ -44,6 +43,7 @@ public class AudioManager {
 
         loadSound("picking_wood.ogg");
 
+
         // Music
 
         loadMusic("titlescreen.mp3");
@@ -51,6 +51,8 @@ public class AudioManager {
         loadMusic("graveyard.mp3");
 
         loadMusic("ghostzone.mp3");
+
+        loadMusic("victory.mp3");
 
         loadMusic("gameover.mp3");
 

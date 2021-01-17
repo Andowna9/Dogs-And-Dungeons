@@ -13,8 +13,6 @@ public class Cat extends NPC {
     public Cat(String subtype) {
 
         super("animals/" + subtype);
-
-        tileGraph = new TileGraph(SpriteManager.mapManager.getAStarLayer(), "CAT_ZONE");
     }
 
     @Override
@@ -22,6 +20,11 @@ public class Cat extends NPC {
 
         setVelocity(1,1);
         setState(State.IDLE);
+
+        String location = SpriteManager.mapManager.getLocationFor(this);
+
+        tileGraph = new TileGraph(SpriteManager.mapManager.getAStarLayer(),location);
+
         pfaAgent = new PfaAgent(tileGraph, this);
 
     }
