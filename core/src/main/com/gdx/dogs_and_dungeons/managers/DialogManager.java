@@ -27,7 +27,7 @@ public class DialogManager {
 
         // Obtenemos un buffer de lectura con tamaño máximo de 1024 caracteres (en principio suficiente)
 
-        try(BufferedReader bf = handle.reader(1024)) {
+        try(BufferedReader bf = handle.reader(1024,"UTF-8")) {
 
             String nextLine;
 
