@@ -1,6 +1,5 @@
-package com.gdx.dogs_and_dungeons.entities;
+package com.gdx.dogs_and_dungeons.users;
 
-import com.gdx.dogs_and_dungeons.users.User;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

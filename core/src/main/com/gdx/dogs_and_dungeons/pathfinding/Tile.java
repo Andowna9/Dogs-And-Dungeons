@@ -3,7 +3,7 @@ package com.gdx.dogs_and_dungeons.pathfinding;
 // Clase que representa cada nodo del grafo (en nuestro caso los tiles del mapa o una zona del mapa)
 
 import com.badlogic.gdx.math.Rectangle;
-import com.gdx.dogs_and_dungeons.MapManager;
+import com.gdx.dogs_and_dungeons.managers.MapManager;
 
 public class Tile {
 

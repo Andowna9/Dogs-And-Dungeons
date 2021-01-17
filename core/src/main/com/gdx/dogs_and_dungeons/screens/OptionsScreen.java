@@ -119,7 +119,7 @@ public class OptionsScreen implements Screen {
 
         // Background batch and texture
         batch = new SpriteBatch();
-        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/Background8.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/optionsBackground.png"));
 
         // Grupo horizontal que contiene el slider y el texto que muestra (porcentaje)
 

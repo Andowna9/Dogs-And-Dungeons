@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.gdx.dogs_and_dungeons.MapManager;
+import com.gdx.dogs_and_dungeons.managers.MapManager;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;

@@ -2,8 +2,7 @@ package com.gdx.dogs_and_dungeons.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
-import com.gdx.dogs_and_dungeons.Item;
-import com.gdx.dogs_and_dungeons.MapManager;
+import com.gdx.dogs_and_dungeons.objects.Item;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;

@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gdx.dogs_and_dungeons.MapManager;
+import com.gdx.dogs_and_dungeons.managers.MapManager;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import java.util.Arrays;

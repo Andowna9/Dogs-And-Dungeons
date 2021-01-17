@@ -39,8 +39,6 @@ public class SelectionScreen implements Screen {
 	
 	private TextButton continueButton;
 	
-	private TextButton optionsButton;
-	
 	private TextButton backButton;
 	
 	private TextButton chooseButton;
@@ -87,8 +85,6 @@ public class SelectionScreen implements Screen {
 		
 		continueButton = new TextButton("Continuar", Utility.DEFAULT_SKIN);
 		
-		optionsButton = new TextButton("Opciones", Utility.DEFAULT_SKIN);
-		
 		backButton = new TextButton("Atras", Utility.DEFAULT_SKIN);
 		
 		chooseButton = new TextButton("Elegir", Utility.DEFAULT_SKIN);
@@ -127,20 +123,14 @@ public class SelectionScreen implements Screen {
 			}
 
 		});
-		
-		optionsButton.addListener(new ClickListener() {
-			public void clicked(InputEvent event, float x, float y) {
 
-				game_ref.setScreen(DogsAndDungeons.optionsScreen);
-
-			}
-		});
 		
 		chooseButton.addListener(new ClickListener() {
 
 			@Override
 
 			public void clicked(InputEvent event, float x, float y) {
+
 				if(image.getDrawable() == boy) {
 					image.setDrawable(girl);
 					gender = "girl";
@@ -167,8 +157,6 @@ public class SelectionScreen implements Screen {
 		});
 		
 		verticalGroup.addActor(newGameButton);
-		
-		verticalGroup.addActor(optionsButton);
 		
 		verticalGroup.addActor(backButton);
 		verticalGroup.space(40);

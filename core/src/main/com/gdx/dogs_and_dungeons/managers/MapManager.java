@@ -1,4 +1,4 @@
-package com.gdx.dogs_and_dungeons;
+package com.gdx.dogs_and_dungeons.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.gdx.dogs_and_dungeons.Utility;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
