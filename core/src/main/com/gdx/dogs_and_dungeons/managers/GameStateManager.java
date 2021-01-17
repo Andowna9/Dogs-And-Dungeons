@@ -15,7 +15,7 @@ public class GameStateManager {
 
     // Número de troncos para ganar
 
-    public static final int LOGS_AMOUNT = 18;
+    private static final int LOGS_AMOUNT = 18;
 
 
     public enum GameState {

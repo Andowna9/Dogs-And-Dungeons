@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.gdx.dogs_and_dungeons.Utility;
 import com.gdx.dogs_and_dungeons.entities.player.Countdown;
-import com.gdx.dogs_and_dungeons.managers.GameStateManager;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
 import com.gdx.dogs_and_dungeons.profiles.ProfileObserver;
@@ -246,11 +245,6 @@ public class StatusUI extends Table implements ProfileObserver {
         else if (event == ProfileEvent.LOADING_PROFILE) {
 
             logCounter = subject.getProperty("Log Count", Integer.class, 0);
-
-            // Si por algún casual los troncos son mayores o igules a la cantidad para ganar, estos se reinician para evitar errores
-
-            if (logCounter >= GameStateManager.LOGS_AMOUNT) logCounter = 0;
-
         }
     }
 
