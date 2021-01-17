@@ -131,6 +131,8 @@ public class Item {
 
 				SpriteManager.player.addHealth(1);
 
+				SpriteManager.audioManager.playSound("eating_apple");
+
 				break;
 
 			// Aumenta el ataque del jugador temporalmente

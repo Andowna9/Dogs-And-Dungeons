@@ -43,6 +43,8 @@ public class AudioManager {
 
         loadSound("picking_wood.ogg");
 
+        loadSound("eating_apple.ogg");
+
 
         // Music
 
@@ -55,6 +57,8 @@ public class AudioManager {
         loadMusic("victory.mp3");
 
         loadMusic("gameover.mp3");
+
+        loadMusic("swamp.mp3");
 
     }
 
