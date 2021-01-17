@@ -63,10 +63,6 @@ public class PauseUI extends Table {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                // Se guarda la partida
-
-                ProfileManager.getInstance().saveProfile();
-
                 // Se sale a la pantalla principal
 
                 SpriteManager.game_ref.setScreen(DogsAndDungeons.mainScreen);

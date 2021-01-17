@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
+import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
 import com.gdx.dogs_and_dungeons.users.User;
 
 public class SelectionScreen implements Screen {
@@ -109,9 +110,22 @@ public class SelectionScreen implements Screen {
 		newGameButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 
-				game_ref.setScreen(DogsAndDungeons.mainGameScreen);
+				ProfileManager.getInstance().deleteCurrentprofile();
 
+				game_ref.setScreen(DogsAndDungeons.mainGameScreen);
 			}
+		});
+
+		continueButton.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+
+				ProfileManager.getInstance().loadProfile();
+
+				game_ref.setScreen(DogsAndDungeons.mainGameScreen);
+			}
+
 		});
 		
 		optionsButton.addListener(new ClickListener() {
@@ -154,8 +168,6 @@ public class SelectionScreen implements Screen {
 		
 		verticalGroup.addActor(newGameButton);
 		
-		verticalGroup.addActor(continueButton);
-		
 		verticalGroup.addActor(optionsButton);
 		
 		verticalGroup.addActor(backButton);
@@ -188,9 +200,25 @@ public class SelectionScreen implements Screen {
 
 		user = UsersScreen.getSelectedUser();
 
+		// Usuario cargado
+
 		if (user != null) {
 
 			userLabel.setText("Usuario: " + user.getNickname());
+
+			ProfileManager.getInstance().setCurrentProfile(user.getNickname());
+
+			// Solo se permite continuar si existe un perfil guardado
+
+			if (ProfileManager.getInstance().profileExists(user.getNickname())) {
+
+				verticalGroup.addActorAt(1,continueButton);
+			}
+
+			else {
+
+				continueButton.remove();
+			}
 
 		}
 
@@ -198,6 +226,7 @@ public class SelectionScreen implements Screen {
 
 			userLabel.setText("Sin Usuario");
 		}
+
 
 	}
 

@@ -21,7 +21,7 @@ public class PlayerHUD extends ScreenAdapter {
 
     private PauseUI pauseUI;
 
-    public PlayerHUD(Camera camera, Player player) {
+    public PlayerHUD(Camera camera) {
 
         Viewport viewport = new ScreenViewport(camera);
 

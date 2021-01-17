@@ -17,6 +17,7 @@ import com.gdx.dogs_and_dungeons.DBManager;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.Utility;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
 import com.gdx.dogs_and_dungeons.users.User;
 
 public class UsersScreen implements Screen {
@@ -86,7 +87,11 @@ public class UsersScreen implements Screen {
 
                     dbManager.deleteUser(userList.getSelected());
 
-                    // Eliminamos al usuario de memoria
+                    // Eliminamos el perfil asociado, si existía
+
+                    ProfileManager.getInstance().deleteProfile(userList.getSelected().getNickname());
+
+                    // Por último, eliminamos al usuario de memoria
 
                     removeUser(userList.getSelected());
 
@@ -480,9 +485,17 @@ public class UsersScreen implements Screen {
             }
         });
 
-        // Carga de usuarios de la base de datos
+        // Preparación de base de datos y usuarios al crear la pantalla
 
         dbManager.connect(DB_PATH);
+
+        // Creación de tablas/vistas si todavía no existen
+
+        dbManager.createUserTable();
+
+        dbManager.createUserView();
+
+        // Carga de usuarios de la base de datos
 
         for (User user: dbManager.getAllUsers()) {
 

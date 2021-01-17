@@ -313,9 +313,9 @@ public class MapManager {
         return false;
     }
 
-    // Obtiene la zona a la que pertenece un enemigo con pathfinding
+    // Obtiene la zona a la que pertenece un agente con pathfinding
 
-    public String getLocationFor(Enemy enemy) {
+    public String getLocationFor(Entity entity) {
 
         Rectangle rectangle;
 
@@ -323,9 +323,9 @@ public class MapManager {
 
             rectangle = object.getRectangle();
 
-            System.out.println(enemy.getCollisionBox().getX());
+            System.out.println(entity.getCollisionBox().getX());
 
-            if (rectangle.contains(enemy.getCollisionBox())) {
+            if (rectangle.contains(entity.getCollisionBox())) {
 
                 return object.getName();
             }

@@ -122,6 +122,8 @@ public class SpriteManager {
 
         mapManager.spawnEnemies(enemies);
 
+        npcs.clear();
+
         mapManager.spawnNPCs(npcs);
 
         entities.clear();

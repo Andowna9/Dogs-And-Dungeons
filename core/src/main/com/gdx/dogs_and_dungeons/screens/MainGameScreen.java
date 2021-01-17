@@ -57,11 +57,13 @@ public class MainGameScreen implements Screen, ProfileObserver {
 
     //Tiempo de juego
 
-    private long startTime;
+    private long startTime = 0;
 
-    public static long playedTime;
+    public static long playedTime = 0;
 
     public MainGameScreen(DogsAndDungeons game) {
+
+        ProfileManager.getInstance().addObserver(this);
 
         game_ref = game;
 
@@ -78,7 +80,6 @@ public class MainGameScreen implements Screen, ProfileObserver {
         gameStateManager = new GameStateManager(this,spriteManager);
 
         cameraManager = new CameraManager(renderManager, spriteManager);
-
 
     }
 
@@ -100,6 +101,8 @@ public class MainGameScreen implements Screen, ProfileObserver {
         spriteManager.init();
 
         Gdx.input.setInputProcessor(spriteManager.getPlayerController());
+
+        // Comenzamos a contar el tiempo de juego
 
         startTime = TimeUtils.millis();
     }
@@ -168,6 +171,9 @@ public class MainGameScreen implements Screen, ProfileObserver {
 
 
     }
+
+    // Actualiza el tiempo jugado en memoria
+
     private void updatePlayedTime(){
 
         playedTime +=  TimeUtils.timeSinceMillis(startTime);
@@ -202,6 +208,10 @@ public class MainGameScreen implements Screen, ProfileObserver {
 
         pauseStart = 0;
 
+        // Reiniciamos el tiempo inicial para seguir contando el tiempo jugado
+
+        startTime = TimeUtils.millis();
+
     }
 
     // Cuando el juego está en pantalla completa y se oculta (se pasa a otra pantalla), se vuelve
@@ -215,17 +225,25 @@ public class MainGameScreen implements Screen, ProfileObserver {
             Gdx.graphics.setWindowedMode(800, 500);
         }
 
-        updatePlayedTime();
+        // Por defecto, se guarda al ocultar la mainGameScreen
+
+        ProfileManager.getInstance().saveProfile();
     }
 
     @Override
     public void dispose() {
 
+        // También guardamos en caso de cierre
+
+        ProfileManager.getInstance().saveProfile();
     }
 
     @Override
     public void onNotify(ProfileManager subject, ProfileEvent event) {
+
         if (event == ProfileEvent.SAVING_PROFILE) {
+
+            updatePlayedTime();
 
             subject.setProperty("Played Time", playedTime);
 
@@ -233,7 +251,7 @@ public class MainGameScreen implements Screen, ProfileObserver {
 
         else if (event == ProfileEvent.LOADING_PROFILE) {
 
-            playedTime = subject.getProperty("Played Time", Long.class);
+            playedTime = subject.getProperty("Played Time", Long.class,0L);
 
         }
     }
