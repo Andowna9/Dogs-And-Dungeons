@@ -11,7 +11,7 @@ A continuación, descomprímelo en un directorio (carpeta), preferiblemente **va
 
 Deberías observar una **estructura de directorios** muy similar a esta:
 
-![dirCapture](/images/dirCapture.png)
+![dirCapture](https://github.com/Andowna9/Dogs-And-Dungeons/blob/master/docs/images/dirCapture.png)
 
 
 **Y listo!** Ya tienes lo que necesitas para disfrutar del juego!
