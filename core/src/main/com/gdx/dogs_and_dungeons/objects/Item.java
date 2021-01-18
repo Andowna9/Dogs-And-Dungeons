@@ -26,7 +26,6 @@ public class Item {
 	// Referencia a mapObject, tipo de objeto y caja de colisiones
 
 	private Rectangle box;	//Hitbox del objeto que sera un rectangulo
-	private MapObject mapObject; //Objeto del mapa asociado
 	private Type itemType;
 
 	// HashMap que contiene las texturas correspondientes a objetos cargados directamente del mapa
@@ -56,10 +55,6 @@ public class Item {
 
 		textureMapObject.setY(y);
 
-		// Asignación de MapObject
-
-		mapObject = textureMapObject;
-
 		// Creación de caja de colisiones
 
 		box = new Rectangle(x, y, 32, 32);
@@ -70,8 +65,6 @@ public class Item {
 	public static Item loadItemFromMap(MapObject object) {
 
 		Item item = new Item();
-
-		item.mapObject = object;
 
 		MapProperties properties = object.getProperties();
 
@@ -88,7 +81,7 @@ public class Item {
 		try {
 
 			item.itemType = Type.valueOf(type.toUpperCase());
-			textures.put(item.itemType, ((TextureMapObject) item.mapObject).getTextureRegion());
+			textures.put(item.itemType, ((TextureMapObject) object).getTextureRegion());
 		}
 
 		catch (IllegalArgumentException e) {
@@ -170,10 +163,21 @@ public class Item {
 		return itemType;
 	}
 
+	public float getX() {
 
-	public MapObject getMapObject() {
+		return box.getX() * MapManager.UNIT_SCALE;
+	}
 
-	    return mapObject;
-    }
+	public float getY() {
+
+		return box.getY() * MapManager.UNIT_SCALE;
+	}
+
+	public TextureRegion getTexture() {
+
+		return textures.get(itemType);
+	}
+
+
 	
 }
