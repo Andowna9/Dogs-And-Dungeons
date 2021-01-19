@@ -102,7 +102,7 @@ public class Player extends Entity {
             isCoolingDown = false;
         }
 
-        if (!isCoolingDown && !e.isBlinking() && currentState == State.ATTACKING && currentPosition.dst(e.getCurrentPosition()) <= 1.5f) {
+        if (!isCoolingDown && !e.isBlinking() && currentState == State.ATTACKING && currentPosition.dst(e.getCurrentPosition()) <= 1.2f) {
 
             e.receiveDamageFrom(this);
 
