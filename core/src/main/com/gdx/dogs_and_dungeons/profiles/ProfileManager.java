@@ -118,6 +118,10 @@ public class ProfileManager extends ProfileSubject {
 
     public void setCurrentProfile(String profile) {
 
+        // Se resetea el mapa con las propiedades
+
+        profileProperties.clear();
+
         currentProfile = profile;
     }
 
@@ -230,10 +234,6 @@ public class ProfileManager extends ProfileSubject {
     }
 
     public void deleteCurrentProfile() {
-
-        // Se resetea el mapa con las propiedades
-
-        profileProperties.clear();
 
         // Se borra el perfil actual si existe
 
