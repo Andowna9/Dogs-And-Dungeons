@@ -1,6 +1,8 @@
-package com.gdx.dogs_and_dungeons.entities.npcs;
+package com.gdx.dogs_and_dungeons.entities.npcs.types;
 
-public class Villager extends NPC{
+import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
+
+public class Villager extends NPC {
 
 
     public Villager(String subtype) {
