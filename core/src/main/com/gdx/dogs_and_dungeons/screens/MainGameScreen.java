@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.gdx.dogs_and_dungeons.*;
 import com.gdx.dogs_and_dungeons.entities.player.hud.ui.StatusUI;
@@ -45,12 +46,6 @@ public class MainGameScreen implements Screen, ProfileObserver {
     // Gestor de estados del juegi
 
     private GameStateManager gameStateManager;
-
-    // Tiempos de pausa
-
-    private long pauseTime;
-
-    private long pauseStart;
 
     private ShapeRenderer shapeRenderer;
 
@@ -116,9 +111,9 @@ public class MainGameScreen implements Screen, ProfileObserver {
     @Override
     public void render(float delta) {
 
-        delta = delta - pauseTime / 1000f;
+        // Limitación de la variable delta para evitar comportamintos extraños si su valor es muy grande en un momento dado
 
-        pauseTime = 0;
+        delta = MathUtils.clamp(delta,0,1/30f);
 
         // *LIMPIANDO PANTALLA*
 
@@ -196,8 +191,6 @@ public class MainGameScreen implements Screen, ProfileObserver {
     @Override
     public void pause() {
 
-        pauseStart = System.currentTimeMillis();
-
         Gdx.app.debug(TAG, "Juego Pausado");
 
         updatePlayedTime();
@@ -208,10 +201,6 @@ public class MainGameScreen implements Screen, ProfileObserver {
     public void resume() {
 
         Gdx.app.debug(TAG, "Juego Reanudado");
-
-        pauseTime = System.currentTimeMillis() - pauseStart;
-
-        pauseStart = 0;
 
         // Reiniciamos el tiempo inicial para seguir contando el tiempo jugado
 

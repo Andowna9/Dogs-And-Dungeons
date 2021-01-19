@@ -5,11 +5,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import com.gdx.dogs_and_dungeons.managers.MapManager;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public abstract class Entity {
 
@@ -148,9 +147,7 @@ public abstract class Entity {
 
         collisionBox = new Rectangle(0,0,(tileWidth * scaleFactor)/2,(tileHeight * scaleFactor)/2);
 
-        // El timer es daemon, por lo que no se espera al hilo asociado para finalizar la ejecución del programa
-
-        blinkingTimer = new Timer(true);
+        blinkingTimer = new Timer();
 
     }
 
@@ -388,7 +385,7 @@ public abstract class Entity {
 
         // El timer ejecuta la tarea en un hilo distinto, luego es muy importante cancelarlo una vez terminado un tiempo
 
-        blinkingTimer.scheduleAtFixedRate(new TimerTask() {
+        blinkingTimer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
 
@@ -412,7 +409,7 @@ public abstract class Entity {
 
                 }
             }
-        }, 0, 100);
+        }, 0, 0.1f);
 
 
     }
