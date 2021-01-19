@@ -232,6 +232,13 @@ public class StatusUI extends Table implements ProfileObserver {
 
     }
 
+    public static void stopCountdowns() {
+
+        speedCountdown.stop();
+
+        damageCountdown.stop();
+    }
+
 
     @Override
     public void onNotify(ProfileManager subject, ProfileEvent event) {

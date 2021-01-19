@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.gdx.dogs_and_dungeons.*;
+import com.gdx.dogs_and_dungeons.entities.player.hud.ui.StatusUI;
 import com.gdx.dogs_and_dungeons.managers.CameraManager;
 import com.gdx.dogs_and_dungeons.managers.GameStateManager;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
@@ -86,6 +87,10 @@ public class MainGameScreen implements Screen, ProfileObserver {
 
     @Override
     public void show() {
+
+        // Carga de perfil guardado
+
+        ProfileManager.getInstance().loadProfile();
 
         // Se establece pantalla completa dependiendo de las preferencias
 
@@ -224,6 +229,10 @@ public class MainGameScreen implements Screen, ProfileObserver {
 
             Gdx.graphics.setWindowedMode(800, 500);
         }
+
+        // Paramos los contadores si había
+
+        StatusUI.stopCountdowns();
 
         // Por defecto, se guarda al ocultar la mainGameScreen
 

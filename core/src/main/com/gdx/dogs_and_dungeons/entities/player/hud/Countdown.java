@@ -72,13 +72,7 @@ public class Countdown {
 
                 if (seconds < 0) {
 
-                    endAction.run();
-
-                    label.remove();
-
-                    img.remove();
-
-                    cancel();
+                    stop();
                 }
 
             }
@@ -92,11 +86,15 @@ public class Countdown {
         seconds += initSeconds;
     }
 
-    // Devuelve los segundos restantes
+    public void stop() {
 
-    public int getSecondsLeft() {
+        endAction.run();
 
-        return seconds;
+        label.remove();
+
+        img.remove();
+
+        timer.clear();
     }
 
     // Devuelve el estado de la tarea

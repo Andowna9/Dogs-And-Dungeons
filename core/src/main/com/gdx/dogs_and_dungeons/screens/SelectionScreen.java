@@ -110,8 +110,6 @@ public class SelectionScreen implements Screen {
 
 				ProfileManager.getInstance().deleteCurrentProfile();
 
-				ProfileManager.getInstance().loadProfile();
-
 				game_ref.setScreen(DogsAndDungeons.mainGameScreen);
 			}
 		});
@@ -120,8 +118,6 @@ public class SelectionScreen implements Screen {
 
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-
-				ProfileManager.getInstance().loadProfile();
 
 				game_ref.setScreen(DogsAndDungeons.mainGameScreen);
 			}
