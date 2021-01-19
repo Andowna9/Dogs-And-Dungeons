@@ -1,6 +1,7 @@
-package com.gdx.dogs_and_dungeons.entities.enemies;
+package com.gdx.dogs_and_dungeons.entities.enemies.types;
 
 import com.badlogic.gdx.Gdx;
+import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
 
 public class SimpleEnemy extends Enemy {
 
@@ -11,6 +12,8 @@ public class SimpleEnemy extends Enemy {
     public SimpleEnemy(String subtype) {
 
         super(subtype);
+
+        type = Type.SIMPLE;
     }
 
     // Método que representa el comportamiento del enemigo

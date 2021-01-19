@@ -1,4 +1,4 @@
-package com.gdx.dogs_and_dungeons.entities.player.hud;
+package com.gdx.dogs_and_dungeons.entities.player.hud.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

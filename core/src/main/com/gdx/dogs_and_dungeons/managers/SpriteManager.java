@@ -1,24 +1,26 @@
 package com.gdx.dogs_and_dungeons.managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
+import com.gdx.dogs_and_dungeons.entities.enemies.EnemyProperties;
 import com.gdx.dogs_and_dungeons.objects.Item;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
 import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
-import com.gdx.dogs_and_dungeons.entities.npcs.Villager;
+import com.gdx.dogs_and_dungeons.entities.npcs.types.Villager;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
 import com.gdx.dogs_and_dungeons.entities.player.PlayerController;
 import com.gdx.dogs_and_dungeons.entities.player.hud.PlayerHUD;
+import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
+import com.gdx.dogs_and_dungeons.profiles.ProfileObserver;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 // Clase para gestionar las interacciones entre entidades
 
-public class SpriteManager {
+public class SpriteManager implements ProfileObserver {
 
     private static final String TAG = SpriteManager.class.getSimpleName();
 
@@ -28,11 +30,11 @@ public class SpriteManager {
 
     // Lista de enemigos
 
-    List<Enemy> enemies;
+    Array<Enemy> enemies;
 
     // Lista de NPCs
 
-    List<NPC> npcs;
+    Array<NPC> npcs;
 
     // Gestor de mapa
 
@@ -52,11 +54,11 @@ public class SpriteManager {
 
     // Npc con el que se esá interactuando, solo 1 simultáneamente
 
-   Villager interactingNPC;
+    Villager interactingNPC;
 
     // Orden de renderizado de entidades dependiendo del punto medio del sprite
 
-    List<Entity> entities;
+    Array<Entity> entities;
 
     // HUD del jugador
 
@@ -69,6 +71,8 @@ public class SpriteManager {
     DialogManager dialogManager;
 
     public SpriteManager(DogsAndDungeons game) {
+
+        ProfileManager.getInstance().addObserver(this);
 
         game_ref = game;
 
@@ -86,11 +90,11 @@ public class SpriteManager {
 
         // Inicialización de lista de enemigos
 
-        enemies = new ArrayList<>();
+        enemies = new Array<>();
 
         // Inicialización de lista de npcs
 
-        npcs = new ArrayList<>();
+        npcs = new Array<>();
 
         // Creación del jugador
 
@@ -100,7 +104,7 @@ public class SpriteManager {
 
         playerController = new PlayerController(player);
 
-        entities = new ArrayList<>();
+        entities = new Array<>();
     }
 
     // Inicialización en caso de reanudar la partida (más adelante con puntos de spawn)
@@ -111,11 +115,6 @@ public class SpriteManager {
 
         player.initEntity();
 
-        // Inicialización de enemigos
-
-        enemies.clear();
-
-        mapManager.spawnEnemies(enemies);
 
         // Inicialización de NPCs
 
@@ -161,7 +160,7 @@ public class SpriteManager {
 
                     it.remove();
 
-                    entities.remove(e);
+                    entities.removeValue(e,false);
 
                     // El enemigo suelta cierta cantidad de madera
 
@@ -296,5 +295,57 @@ public class SpriteManager {
         return player;
     }
 
+    // Inicialización de enemigos
 
+    @Override
+    public void onNotify(ProfileManager subject, ProfileEvent event) {
+
+        if (event == ProfileEvent.SAVING_PROFILE) {
+
+             Array<EnemyProperties> properties = new Array<>();
+
+            for (Enemy e: enemies) {
+
+                properties.add(e.getProperties());
+            }
+
+            subject.setProperty("Enemies Properties", properties);
+
+        }
+
+        else if (event == ProfileEvent.LOADING_PROFILE) {
+
+            enemies.clear();
+
+            Array<EnemyProperties> properties = subject.getProperty("Enemies Properties",Array.class,new Array());
+
+            if (properties.isEmpty()) {
+
+                // Inicialización a partir de información del mapa
+
+                mapManager.spawnEnemies(enemies);
+            }
+
+            else {
+
+
+                for (EnemyProperties p: properties) {
+
+                    Enemy e = EntityFactory.getEnemy(p.type, p.subtype);
+
+                    // Inicialización a partir de propiedades serializadass
+
+                    e.setInitialPosition(p.initialPosition);
+
+                    e.setDirection(p.direction);
+
+                    e.initEntity();
+
+                    enemies.add(e);
+
+                }
+            }
+
+        }
+    }
 }

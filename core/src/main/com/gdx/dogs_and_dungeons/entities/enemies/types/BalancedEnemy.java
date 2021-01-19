@@ -1,6 +1,8 @@
-package com.gdx.dogs_and_dungeons.entities.enemies;
+package com.gdx.dogs_and_dungeons.entities.enemies.types;
 
 import com.badlogic.gdx.Gdx;
+import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
+import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 
 public class BalancedEnemy extends Enemy {
 
@@ -11,6 +13,8 @@ public class BalancedEnemy extends Enemy {
     public BalancedEnemy(String subtype) {
 
         super(subtype);
+
+        type = Type.BALANCED;
     }
 
     @Override
@@ -40,6 +44,11 @@ public class BalancedEnemy extends Enemy {
             timer = 0;
 
             setDirection(getRandomDirection());
+        }
+
+        if (SpriteManager.mapManager.isCollidingWithMap(this)) {
+
+            setDirection(getOppositeDirection());
         }
 
     }

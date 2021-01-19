@@ -1,4 +1,4 @@
-package com.gdx.dogs_and_dungeons.entities.player.hud;
+package com.gdx.dogs_and_dungeons.entities.player.hud.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.gdx.dogs_and_dungeons.Utility;
-import com.gdx.dogs_and_dungeons.entities.player.Countdown;
+import com.gdx.dogs_and_dungeons.entities.player.hud.Countdown;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.profiles.ProfileManager;
 import com.gdx.dogs_and_dungeons.profiles.ProfileObserver;

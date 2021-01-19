@@ -3,7 +3,7 @@ package com.gdx.dogs_and_dungeons.entities.player;
 import com.badlogic.gdx.Gdx;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
-import com.gdx.dogs_and_dungeons.entities.player.hud.StatusUI;
+import com.gdx.dogs_and_dungeons.entities.player.hud.ui.StatusUI;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.screens.SelectionScreen;
 

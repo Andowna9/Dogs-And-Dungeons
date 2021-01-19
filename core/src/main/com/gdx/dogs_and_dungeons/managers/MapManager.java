@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.gdx.dogs_and_dungeons.Utility;
 import com.gdx.dogs_and_dungeons.entities.Entity;
 import com.gdx.dogs_and_dungeons.entities.EntityFactory;
@@ -15,7 +16,6 @@ import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
 import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
 
 import java.util.Hashtable;
-import java.util.List;
 
 public class MapManager {
 
@@ -260,7 +260,7 @@ public class MapManager {
 
     // Método para instanciar y posicionar enemigos en el mapa
 
-    public void spawnEnemies(List<Enemy> enemies){
+    public void spawnEnemies(Array<Enemy> enemies){
 
         //Buscamos cada punto de spawn que hay en el mapa para los enemigos para los enemigos
 
@@ -278,7 +278,7 @@ public class MapManager {
 
     // Método para instanciar y posicionar npcs en el mapa
 
-    public void spawnNPCs(List<NPC> npcs) {
+    public void spawnNPCs(Array<NPC> npcs) {
 
         for (MapObject mapObject : npcsSpawnLayer.getObjects()){
 

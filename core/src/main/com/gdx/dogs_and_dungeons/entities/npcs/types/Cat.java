@@ -1,5 +1,6 @@
-package com.gdx.dogs_and_dungeons.entities.npcs;
+package com.gdx.dogs_and_dungeons.entities.npcs.types;
 
+import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.pathfinding.PfaAgent;
 import com.gdx.dogs_and_dungeons.pathfinding.TileGraph;

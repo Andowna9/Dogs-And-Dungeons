@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.Rectangle;
-import com.gdx.dogs_and_dungeons.entities.player.hud.StatusUI;
+import com.gdx.dogs_and_dungeons.entities.player.hud.ui.StatusUI;
 import com.gdx.dogs_and_dungeons.managers.MapManager;
 import com.gdx.dogs_and_dungeons.managers.ParticleEffectsManager;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;

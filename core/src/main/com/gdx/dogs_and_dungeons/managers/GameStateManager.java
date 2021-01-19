@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.gdx.dogs_and_dungeons.DogsAndDungeons;
 import com.gdx.dogs_and_dungeons.entities.Entity;
-import com.gdx.dogs_and_dungeons.entities.player.hud.StatusUI;
+import com.gdx.dogs_and_dungeons.entities.player.hud.ui.StatusUI;
 import com.gdx.dogs_and_dungeons.screens.MainGameScreen;
 
 // Clase para gestionar los distintos estados del juego

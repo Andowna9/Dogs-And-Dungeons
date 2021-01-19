@@ -1,6 +1,7 @@
-package com.gdx.dogs_and_dungeons.entities.enemies;
+package com.gdx.dogs_and_dungeons.entities.enemies.types;
 
 import com.badlogic.gdx.Gdx;
+import com.gdx.dogs_and_dungeons.entities.enemies.Enemy;
 import com.gdx.dogs_and_dungeons.managers.SpriteManager;
 import com.gdx.dogs_and_dungeons.pathfinding.PfaAgent;
 import com.gdx.dogs_and_dungeons.pathfinding.Tile;
@@ -30,6 +31,8 @@ public class BossEnemy extends Enemy {
     public BossEnemy(String subtype) {
 
         super(subtype);
+
+        type = Type.BOSS;
     }
 
 
@@ -48,9 +51,9 @@ public class BossEnemy extends Enemy {
 
         String location = SpriteManager.mapManager.getLocationFor(this);
 
-        tileGraph = new TileGraph(SpriteManager.mapManager.getAStarLayer(),location);
+        tileGraph = new TileGraph(SpriteManager.mapManager.getAStarLayer(), location);
 
-        pfaAgent = new PfaAgent(tileGraph,this);
+        pfaAgent = new PfaAgent(tileGraph, this);
 
     }
 
@@ -86,7 +89,7 @@ public class BossEnemy extends Enemy {
 
         // Cuando el jugador no es perseguido
 
-       if (!isFollowingPlayer) {
+        if (!isFollowingPlayer) {
 
             // Entra en la zona el jugador
 
@@ -101,15 +104,15 @@ public class BossEnemy extends Enemy {
 
             // Si ya no está siguiendo al jugador y ha alcanzado su destino, vuelve a la posición inicial
 
-           else if (pfaAgent.isDestinationReached()) {
+            else if (pfaAgent.isDestinationReached()) {
 
-               pfaAgent.returnToInitialTile();
-           }
+                pfaAgent.returnToInitialTile();
+            }
 
-       }
+        }
 
 
-       // Cuando el jugador está siendo perseguido
+        // Cuando el jugador está siendo perseguido
 
         else {
 
@@ -124,7 +127,7 @@ public class BossEnemy extends Enemy {
                 stopEnemyMusic();
             }
 
-           // Si se ha alcanzado el destino, se vuelve a buscar un destino hacia donde se encuentra el jugador
+            // Si se ha alcanzado el destino, se vuelve a buscar un destino hacia donde se encuentra el jugador
 
             else if (pfaAgent.isDestinationReached()) {
 

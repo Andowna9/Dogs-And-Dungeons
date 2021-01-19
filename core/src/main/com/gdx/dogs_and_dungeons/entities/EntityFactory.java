@@ -1,10 +1,13 @@
 package com.gdx.dogs_and_dungeons.entities;
 
 import com.gdx.dogs_and_dungeons.entities.enemies.*;
-import com.gdx.dogs_and_dungeons.entities.npcs.Cat;
-import com.gdx.dogs_and_dungeons.entities.npcs.Dog;
+import com.gdx.dogs_and_dungeons.entities.enemies.types.BalancedEnemy;
+import com.gdx.dogs_and_dungeons.entities.enemies.types.BossEnemy;
+import com.gdx.dogs_and_dungeons.entities.enemies.types.SimpleEnemy;
+import com.gdx.dogs_and_dungeons.entities.npcs.types.Cat;
+import com.gdx.dogs_and_dungeons.entities.npcs.types.Dog;
 import com.gdx.dogs_and_dungeons.entities.npcs.NPC;
-import com.gdx.dogs_and_dungeons.entities.npcs.Villager;
+import com.gdx.dogs_and_dungeons.entities.npcs.types.Villager;
 import com.gdx.dogs_and_dungeons.entities.player.Player;
 
 public class EntityFactory {
@@ -36,7 +39,7 @@ public class EntityFactory {
 
     // Devuelve un enemigo del tipo especificado
 
-    private static Enemy getEnemy(Enemy.Type type, String subType) {
+    public static Enemy getEnemy(Enemy.Type type, String subType) {
 
         Enemy e = null;
 
@@ -67,7 +70,7 @@ public class EntityFactory {
 
     // Devuelve un NPC
 
-    private static NPC getNPC(NPC.Type type, String subtype) {
+    public static NPC getNPC(NPC.Type type, String subtype) {
 
         NPC npc = null;
 

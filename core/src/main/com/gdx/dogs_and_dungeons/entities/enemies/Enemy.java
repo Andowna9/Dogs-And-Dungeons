@@ -19,6 +19,13 @@ public abstract class Enemy extends Entity {
 
     protected int dropCount;
 
+    // Tipo del enemigo
+
+    protected Type type;
+
+    // Subtipo del enemigo
+
+    protected String subtype;
 
     // Método que determinará el comportamiento o lógica del enemigo
 
@@ -29,6 +36,8 @@ public abstract class Enemy extends Entity {
     public Enemy(String specificPath) {
 
         super(32,32,1f,1f);
+
+        subtype = specificPath;
 
         animManager.loadDirectionalAnimations(generalPath + specificPath + ".png",State.WALKING);
 
@@ -43,5 +52,13 @@ public abstract class Enemy extends Entity {
 
         return dropCount;
     }
+
+    // Devuelve un objeto simple y fácil de serializar con atributos básicos
+
+    public EnemyProperties getProperties() {
+
+        return new EnemyProperties(this);
+    }
+
 
 }

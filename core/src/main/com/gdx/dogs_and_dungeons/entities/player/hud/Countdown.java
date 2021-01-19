@@ -1,4 +1,4 @@
-package com.gdx.dogs_and_dungeons.entities.player;
+package com.gdx.dogs_and_dungeons.entities.player.hud;
 
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;

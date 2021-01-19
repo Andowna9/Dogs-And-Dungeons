@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.gdx.dogs_and_dungeons.entities.player.Player;
+import com.gdx.dogs_and_dungeons.entities.player.hud.ui.DialogUI;
+import com.gdx.dogs_and_dungeons.entities.player.hud.ui.PauseUI;
+import com.gdx.dogs_and_dungeons.entities.player.hud.ui.StatusUI;
 
 public class PlayerHUD extends ScreenAdapter {
 
