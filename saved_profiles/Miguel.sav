@@ -1,0 +1,274 @@
+{
+Played Time: {
+	class: java.lang.Long
+	value: 296318
+}
+Enemies Properties: [
+	{
+		class: com.gdx.dogs_and_dungeons.entities.enemies.EnemyProperties
+		type: BALANCED
+		subtype: skeleton
+		initialPosition: {
+			x: 14.0625
+			y: 6.46875
+		}
+		direction: DOWN
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.entities.enemies.EnemyProperties
+		type: SIMPLE
+		subtype: pumpkin
+		initialPosition: {
+			x: 33.15625
+			y: 9.875
+		}
+		direction: RIGHT
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.entities.enemies.EnemyProperties
+		type: SIMPLE
+		subtype: pumpkin
+		initialPosition: {
+			x: 16.875
+			y: 2.4375
+		}
+		direction: RIGHT
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.entities.enemies.EnemyProperties
+		type: BOSS
+		subtype: dark_skeleton
+		initialPosition: {
+			x: 55.946877
+			y: 48.021313
+		}
+		direction: LEFT
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.entities.enemies.EnemyProperties
+		type: BOSS
+		subtype: ghost
+		initialPosition: {
+			x: 11.90625
+			y: 24.114689
+		}
+		direction: DOWN
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.entities.enemies.EnemyProperties
+		type: BOSS
+		subtype: monster_king
+		initialPosition: {
+			x: 50.984375
+			y: 33.125
+		}
+		direction: UP
+	}
+]
+Items: [
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 1270
+			y: 430.17004
+			width: 32
+			height: 32
+		}
+		itemType: APPLE
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 358
+			y: 125
+			width: 32
+			height: 32
+		}
+		itemType: SPEED_BOOK
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 898.167
+			y: 102
+			width: 32
+			height: 32
+		}
+		itemType: WOOD
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 1259.5
+			y: 266.5
+			width: 32
+			height: 32
+		}
+		itemType: SPEED_BOOK
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 1764.5
+			y: 1647.5
+			width: 32
+			height: 32
+		}
+		itemType: APPLE
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 1792
+			y: 1385.333
+			width: 32
+			height: 32
+		}
+		itemType: SPEED_BOOK
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 1550
+			y: 1631.333
+			width: 32
+			height: 32
+		}
+		itemType: ATTACK_BOOK
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 516
+			y: 146.67004
+			width: 32
+			height: 32
+		}
+		itemType: WOOD
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 1185.33
+			y: 1311.333
+			width: 32
+			height: 32
+		}
+		itemType: WOOD
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 802
+			y: 1501.333
+			width: 32
+			height: 32
+		}
+		itemType: WOOD
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 639.333
+			y: 1410
+			width: 32
+			height: 32
+		}
+		itemType: WOOD
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 512.667
+			y: 1218
+			width: 32
+			height: 32
+		}
+		itemType: WOOD
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 640.667
+			y: 1086.667
+			width: 32
+			height: 32
+		}
+		itemType: WOOD
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 1254.67
+			y: 160.67004
+			width: 32
+			height: 32
+		}
+		itemType: WOOD
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 1478.5
+			y: 1068
+			width: 32
+			height: 32
+		}
+		itemType: APPLE
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 1824
+			y: 1067.5
+			width: 32
+			height: 32
+		}
+		itemType: APPLE
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 1810
+			y: 734
+			width: 32
+			height: 32
+		}
+		itemType: ATTACK_BOOK
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 904.667
+			y: 465.32996
+			width: 32
+			height: 32
+		}
+		itemType: APPLE
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 646
+			y: 393.32996
+			width: 32
+			height: 32
+		}
+		itemType: APPLE
+	}
+	{
+		class: com.gdx.dogs_and_dungeons.objects.Item
+		box: {
+			x: 626
+			y: 392.67004
+			width: 32
+			height: 32
+		}
+		itemType: APPLE
+	}
+]
+Log Count: {
+	class: java.lang.Integer
+	value: 0
+}
+}

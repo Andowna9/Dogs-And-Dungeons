@@ -86,7 +86,7 @@ public class User implements Comparable<User> {
             return nickname;
         }
 
-        return String.format("%s %s (alias %s)",nickname,name,surname);
+        return String.format("%s (%s %s)",nickname,name,surname);
     }
 
     // Dos usuarios son iguales si tienen el mismo id
